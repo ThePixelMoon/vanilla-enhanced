@@ -55,9 +55,14 @@ public:
 	static UNDECORATESYMBOLNAMEPROC mUnDecorateSymbolName;
 	static SYMCLEANUPPROC	mSymCleanup;
 	static STACKWALKPROC	mStackWalk;
-	static SYMFUNCTIONTABLEACCESSPROC mSymFunctionTableAccess;
-	static SYMGETMODULEBASEPROC mSymGetModuleBase;
 	static SYMGETSYMFROMADDRPROC mSymGetSymFromAddr;
+#ifndef _WIN64
+	static SYMGETMODULEBASEPROC mSymGetModuleBase;
+	static SYMFUNCTIONTABLEACCESSPROC mSymFunctionTableAccess;
+#else
+	static PGET_MODULE_BASE_ROUTINE64 mSymGetModuleBase;
+	static PFUNCTION_TABLE_ACCESS_ROUTINE64 mSymFunctionTableAccess;
+#endif
 	static HTTPTransfer		mSubmitReportTransfer;
 	static bool				mExiting;
 	static bool				mShowUI;

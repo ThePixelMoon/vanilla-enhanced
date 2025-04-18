@@ -324,12 +324,20 @@ void Reanimation::ReanimationInitializeType(float theX, float theY, ReanimationT
 	TOD_ASSERT(theReanimType >= 0 && theReanimType < gReanimatorDefCount);
 	ReanimatorEnsureDefinitionLoaded(theReanimType, false);
 	mReanimationType = theReanimType;
+#ifndef _WIN64
 	ReanimationInitialize(theX, theY, &gReanimatorDefArray[(int)theReanimType]);
+#else
+	ReanimationInitialize(theX, theY, &gReanimatorDefArray[(uintptr_t)theReanimType]);
+#endif
 }
 
 void ReanimationCreateAtlas(ReanimatorDefinition* theDefinition, ReanimationType theReanimationType)
 {
+#ifndef _WIN64
 	ReanimationParams& aParam = gReanimationParamArray[(int)theReanimationType];
+#else
+	ReanimationParams& aParam = gReanimationParamArray[(uintptr_t)theReanimationType];
+#endif
 	if (theDefinition->mReanimAtlas != nullptr || TestBit(aParam.mReanimParamFlags, ReanimFlags::REANIM_NO_ATLAS))
 		return;  
 
@@ -1070,10 +1078,18 @@ Reanimation* ReanimationHolder::AllocReanimation(float theX, float theY, int the
 void ReanimatorEnsureDefinitionLoaded(ReanimationType theReanimType, bool theIsPreloading)
 {
 	TOD_ASSERT(theReanimType >= 0 && theReanimType < gReanimatorDefCount);
-	ReanimatorDefinition* aReanimDef = &gReanimatorDefArray[(int)theReanimType];
+#ifdef _WIN64
+	ReanimatorDefinition *aReanimDef = &gReanimatorDefArray[(uintptr_t)theReanimType];
+#else
+	ReanimatorDefinition *aReanimDef = &gReanimatorDefArray[(int)theReanimType];
+#endif
 	if (aReanimDef->mTracks != nullptr)  
 		return;
-	ReanimationParams* aReanimParams = &gReanimationParamArray[(int)theReanimType];
+#ifdef _WIN64
+	ReanimationParams* aReanimParams = &gReanimationParamArray[(uintptr_t)theReanimType];
+#else
+	ReanimationParams *aReanimParams = &gReanimationParamArray[(int)theReanimType];
+#endif
 	if (theIsPreloading)
 	{
 		if (gSexyAppBase->mShutdown || gAppCloseRequest())  
@@ -1114,7 +1130,7 @@ void ReanimatorLoadDefinitions(ReanimationParams* theReanimationParamArray, int 
 	{
 		ReanimationParams* aReanimationParams = &theReanimationParamArray[i];
 		TOD_ASSERT(aReanimationParams->mReanimationType == i);
-		if (DefinitionIsCompiled(StringToSexyString(aReanimationParams->mReanimFileName)))
+		if (DefinitionIsCompiled(aReanimationParams->mReanimFileName))
 			ReanimatorEnsureDefinitionLoaded(aReanimationParams->mReanimationType, true);
 	}
 }

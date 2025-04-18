@@ -1,5 +1,8 @@
 #include "PerfTimer.h"
 #include <map>
+#ifdef _WIN64
+#include <intrin.h>
+#endif
 
 using namespace Sexy;
 
@@ -7,6 +10,7 @@ using namespace Sexy;
 ///////////////////////////////////////////////////////////////////////////////
 inline int QueryCounters(__int64 *lpPerformanceCount)
 {
+#ifndef _WIN64
 	/* returns TSC only */
 	_asm
 	{
@@ -15,6 +19,10 @@ inline int QueryCounters(__int64 *lpPerformanceCount)
 			mov dword ptr [ebx], eax
 			mov dword ptr [ebx+4], edx
 	}
+#else
+	unsigned long long tsc = __rdtsc();
+	*lpPerformanceCount = tsc;
+#endif
 	return 1;
 }
 
@@ -22,6 +30,7 @@ inline int QueryCounters(__int64 *lpPerformanceCount)
 ///////////////////////////////////////////////////////////////////////////////
 inline int DeltaCounters(__int64 *lpPerformanceCount)
 {
+#ifndef _WIN64
 	_asm
 	{
 		mov ebx, dword ptr [lpPerformanceCount]
@@ -31,6 +40,10 @@ inline int DeltaCounters(__int64 *lpPerformanceCount)
 			mov dword ptr [ebx],   eax
 				mov dword ptr [ebx+4], edx
 	}
+#else
+	unsigned __int64 currentTSC = __rdtsc();
+	*lpPerformanceCount = currentTSC - *lpPerformanceCount;
+#endif
 	return 1;
 }
 

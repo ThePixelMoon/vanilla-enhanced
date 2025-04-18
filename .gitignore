@@ -24,3 +24,4 @@ LawnProject.exe
 *.pdb
 
 savefiles/
+crash.txt

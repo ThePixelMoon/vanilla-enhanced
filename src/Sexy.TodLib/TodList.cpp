@@ -21,22 +21,45 @@ void TodAllocator::Dispose()
 
 void TodAllocator::Grow()
 {
-	TOD_ASSERT(mGrowCount > 0);
-	TOD_ASSERT(mItemSize >= sizeof(void*));
+    TOD_ASSERT(mGrowCount > 0);
+    TOD_ASSERT(mItemSize >= sizeof(void*));
 
-	void* aBlock = TodMalloc(mGrowCount * mItemSize + 4);
-	*(void**)aBlock = mBlockList;
-	mBlockList = aBlock;
+#ifdef _WIN64
+    constexpr size_t headerSize = sizeof(void*);
+    size_t allocSize = mGrowCount * mItemSize + headerSize;
 
-	void* aFreeList = mFreeList;
-	void* aItem = (void*)((uint)aBlock + 4);
-	for (int i = 0; i < mGrowCount; i++)
-	{
-		*(void**)aItem = aFreeList;
-		aFreeList = aItem;
-		aItem = (void*)((uint)aItem + mItemSize);
-	}
-	mFreeList = aFreeList;
+    void* aBlock = TodMalloc(allocSize);
+    *(void**)aBlock = mBlockList;
+    mBlockList = aBlock;
+
+    uintptr_t aItemPtr = (uintptr_t)aBlock + headerSize;
+    void* aFreeList = mFreeList;
+
+    for (int i = 0; i < mGrowCount; i++)
+    {
+        void* aItem = (void*)aItemPtr;
+        *(void**)aItem = aFreeList;
+        aFreeList = aItem;
+        aItemPtr += mItemSize;
+    }
+
+    mFreeList = aFreeList;
+#else
+    void* aBlock = TodMalloc(mGrowCount * mItemSize + 4);
+    *(void**)aBlock = mBlockList;
+    mBlockList = aBlock;
+
+    void* aFreeList = mFreeList;
+    void* aItem = (void*)((uint)aBlock + 4);
+    for (int i = 0; i < mGrowCount; i++)
+    {
+        *(void**)aItem = aFreeList;
+        aFreeList = aItem;
+        aItem = (void*)((uint)aItem + mItemSize);
+    }
+
+    mFreeList = aFreeList;
+#endif
 }
 
 bool TodAllocator::IsPointerFromAllocator(void* theItem)

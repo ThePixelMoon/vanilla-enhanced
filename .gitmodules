@@ -1,3 +1,6 @@
 [submodule "external/discord-rpc"]
 	path = external/discord-rpc
 	url = https://github.com/discord/discord-rpc.git
+[submodule "src/ImageLib/zlib"]
+	path = src/ImageLib/zlib
+	url = https://github.com/madler/zlib.git

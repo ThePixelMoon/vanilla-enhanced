@@ -408,7 +408,11 @@ uint DefinitionCalcHashSymbolMap(int aSchemaHash, DefSymbol* theSymbolMap)
     while (theSymbolMap->mSymbolName != nullptr)
     {
         aSchemaHash = crc32(aSchemaHash, (const Bytef*)theSymbolMap->mSymbolName, strlen(theSymbolMap->mSymbolName));
+#ifndef _WIN64
         aSchemaHash = crc32(aSchemaHash, (const Bytef*)&theSymbolMap->mSymbolValue, sizeof(int));
+#else
+        aSchemaHash = crc32(aSchemaHash, (const Bytef*)&theSymbolMap->mSymbolValue, sizeof(uintptr_t));
+#endif
         theSymbolMap++;
     }
     return aSchemaHash;
@@ -421,11 +425,19 @@ uint DefinitionCalcHashDefMap(int aSchemaHash, DefMap* theDefMap, TodList<DefMap
             return aSchemaHash;
     theProgressMaps.AddTail(theDefMap);
 
+#ifndef _WIN64
     aSchemaHash = crc32(aSchemaHash, (Bytef*)&theDefMap->mDefSize, sizeof(int));
+#else
+    aSchemaHash = crc32(aSchemaHash, (Bytef*)&theDefMap->mDefSize, sizeof(int64));
+#endif
     for (DefField* aField = theDefMap->mMapFields; *aField->mFieldName != '\0'; aField++)
     {
         aSchemaHash = crc32(aSchemaHash, (Bytef*)&aField->mFieldType, sizeof(DefFieldType));
+#ifndef _WIN64
         aSchemaHash = crc32(aSchemaHash, (Bytef*)&aField->mFieldOffset, sizeof(int));
+#else
+        aSchemaHash = crc32(aSchemaHash, (Bytef*)&aField->mFieldOffset, sizeof(uintptr_t));
+#endif
         switch (aField->mFieldType)
         {
         case DefFieldType::DT_ENUM:
@@ -464,7 +476,11 @@ void* DefinitionUncompressCompiledBuffer(void* theCompressedBuffer, size_t theCo
     }
     Bytef* aUncompressedBuffer = (Bytef*)DefinitionAlloc(aHeader->mUncompressedSize);
     theCompressedBufferSize=aHeader->mUncompressedSize; //my addition
-    Bytef* aSrc = (Bytef*)((int)theCompressedBuffer + sizeof(CompressedDefinitionHeader));  
+#ifndef _WIN64
+    Bytef* aSrc = (Bytef*)((int)theCompressedBuffer + sizeof(CompressedDefinitionHeader));
+#else
+    Bytef *aSrc = (Bytef *)((uintptr_t)theCompressedBuffer + sizeof(CompressedDefinitionHeader));
+#endif
     int aResult = uncompress(aUncompressedBuffer, (uLongf*)&theCompressedBufferSize, aSrc, sz - sizeof(CompressedDefinitionHeader));
     TOD_ASSERT(aResult == Z_OK);
     TOD_ASSERT(theCompressedBufferSize == aHeader->mUncompressedSize);
@@ -505,8 +521,13 @@ bool DefinitionReadCompiledFile(const SexyString& theCompiledFilePath, DefMap* t
                 {
                     // A pointer to copy a copy of the decompressed data is used to move when reading, and the original pointer will be used to calculate the size of the read area and delete[] operations in the future.
                     void* aBufferPtr = aUncompressedBuffer;
+#ifndef _WIN64
                     uint aCashHash;
                     SMemR(aBufferPtr, &aCashHash, sizeof(uint));  //Read the CRC check value of the record
+#else
+                    uintptr_t aCashHash;
+                    SMemR(aBufferPtr, &aCashHash, sizeof(uintptr_t));  //Read the CRC check value of the record
+#endif
                     if (aCashHash != aDefHash)  // Determine whether the check value is consistent, if it is inconsistent, the data is wrong
                         TodTrace(_S("Compiled file schema wrong: %s\n"), theCompiledFilePath.c_str());
                     else
@@ -518,7 +539,11 @@ bool DefinitionReadCompiledFile(const SexyString& theCompiledFilePath, DefMap* t
                         SMemR(aBufferPtr, theDefinition, theDefMap->mDefSize);
                         // Repair the wild pointer and flag data, and save the result of whether it is successful, and use it as the return value later
                         bool aResult = DefMapReadFromCache(aBufferPtr, theDefMap, theDefinition);
+#ifndef _WIN64
                         size_t aReadMemSize = (uint)aBufferPtr - (uint)aUncompressedBuffer;
+#else
+                        size_t aReadMemSize = (uintptr_t)aBufferPtr - (uintptr_t)aUncompressedBuffer;
+#endif
                         delete[] aUncompressedBuffer;
                         if (aResult && aReadMemSize != aUncompressedSize)
                             TodTrace(_S("Compiled file wrong size: %s\n"), theCompiledFilePath.c_str());
@@ -574,7 +599,11 @@ void DefinitionFillWithDefaults(DefMap* theDefMap, void* theDefinition)
     memset(theDefinition, NULL, theDefMap->mDefSize);  
     for (DefField* aField = theDefMap->mMapFields; *aField->mFieldName != '\0'; aField++)  
         if (aField->mFieldType == DefFieldType::DT_STRING)
+#ifndef _WIN64
             *(char**)((uint)theDefinition + aField->mFieldOffset) = "";  
+#else
+            *(char**)((uintptr_t)theDefinition + aField->mFieldOffset) = "";
+#endif
 }
 
 void DefinitionXmlError(XMLParser* theXmlParser, const char* theFormat, ...)

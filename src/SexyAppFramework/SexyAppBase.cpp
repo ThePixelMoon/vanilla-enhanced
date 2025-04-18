@@ -449,7 +449,11 @@ SexyAppBase::~SexyAppBase()
 	{
 		HWND aWindow = mInvisHWnd;
 		mInvisHWnd = NULL;
+#ifdef _WIN64
+		SetWindowLongPtr(aWindow, GWLP_USERDATA, NULL);
+#else
 		SetWindowLong(aWindow, GWL_USERDATA, NULL);
+#endif
 		DestroyWindow(aWindow);
 	}	
 	
@@ -476,7 +480,11 @@ SexyAppBase::~SexyAppBase()
 		HWND aWindow = mHWnd;
 		mHWnd = NULL;
 		
+#ifdef _WIN64
+		SetWindowLongPtr(aWindow, GWLP_USERDATA, NULL);
+#else
 		SetWindowLong(aWindow, GWL_USERDATA, NULL);
+#endif
 
 		/*char aStr[256];
 		sprintf(aStr, "HWND: %d\r\n", aWindow);
@@ -1916,8 +1924,13 @@ void SexyAppBase::ReadFromRegistry()
 	if (RegistryReadInteger("Muted", &anInt))
 		mMuteCount = anInt;
 
+#ifndef _DEBUG
 	if (RegistryReadInteger("ScreenMode", &anInt))
 		mIsWindowed = anInt == 0;
+#else
+	// Moon: force windowed for easier debug
+	mIsWindowed = true;
+#endif
 
 	if (RegistryReadInteger("MouseSensitivity", &anInt))
 		mMouseSensitivity = anInt / 100.0f;
@@ -3377,6 +3390,24 @@ static bool ScreenSaverWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 
 LRESULT CALLBACK SexyAppBase::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+#ifdef _WIN64
+	if ( uMsg == WM_NCCREATE )
+	{
+        CREATESTRUCT* cs = reinterpret_cast<CREATESTRUCT*>(lParam);
+		SetWindowLongPtr( hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(cs->lpCreateParams) );
+		// fall through so we can process WM_NCCREATE normally if needed
+
+		return TRUE;
+	}
+
+	SexyAppBase *aSexyApp = reinterpret_cast<SexyAppBase *>(
+		GetWindowLongPtr( hWnd, GWLP_USERDATA )
+		);
+
+	if ( !aSexyApp )
+		return DefWindowProc( hWnd, uMsg, wParam, lParam );
+#endif
+
 	if (gSexyAppBase!=NULL && gSexyAppBase->IsScreenSaver())
 	{
 		LRESULT aResult;
@@ -3384,7 +3415,9 @@ LRESULT CALLBACK SexyAppBase::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LP
 			return aResult;
 	}
 
-	SexyAppBase* aSexyApp = (SexyAppBase*) GetWindowLong(hWnd, GWL_USERDATA);	
+#ifndef _WIN64
+	SexyAppBase *aSexyApp = (SexyAppBase *)GetWindowLong(hWnd, GWL_USERDATA);
+#endif
 	switch (uMsg)
 	{		
 //  TODO: switch to killfocus/setfocus?
@@ -3405,7 +3438,7 @@ LRESULT CALLBACK SexyAppBase::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LP
 				aSexyApp->mActive = wParam != 0;
 			}
 		}
-		//Fallthrough	
+		//Fallthrough
 
 	case WM_SIZE:
 	case WM_MOVE:
@@ -4690,7 +4723,11 @@ void SexyAppBase::MakeWindow()
 
 	if (mHWnd != NULL)
 	{
+#ifdef _WIN64
+		SetWindowLongPtr(mHWnd, GWLP_USERDATA, NULL);
+#else
 		SetWindowLong(mHWnd, GWL_USERDATA, NULL);
+#endif	
 		HWND anOldWindow = mHWnd;
 		mHWnd = NULL;		
 		DestroyWindow(anOldWindow);	
@@ -4756,7 +4793,11 @@ void SexyAppBase::MakeWindow()
 				NULL,
 				NULL,
 				gHInstance,
+#ifndef _WIN64
 				0);
+#else
+				this);
+#endif
 		}
 		else
 		{
@@ -4772,7 +4813,11 @@ void SexyAppBase::MakeWindow()
 				NULL,
 				NULL,
 				gHInstance,
-				0);	
+#ifndef _WIN64
+				0);
+#else
+				this);
+#endif
 		}
 		
 		if (mPreferredX == -1)
@@ -4801,7 +4846,11 @@ void SexyAppBase::MakeWindow()
 				NULL,
 				NULL,
 				gHInstance,
+#ifndef _WIN64
 				0);
+#else
+				this);
+#endif
 		}
 		else
 		{
@@ -4817,7 +4866,11 @@ void SexyAppBase::MakeWindow()
 				NULL,
 				NULL,
 				gHInstance,
+#ifndef _WIN64
 				0);
+#else
+				this);
+#endif
 		}
 
 		mIsPhysWindowed = false;
@@ -4827,7 +4880,11 @@ void SexyAppBase::MakeWindow()
 	sprintf(aStr, "HWND: %d\r\n", mHWnd);
 	OutputDebugString(aStr);*/
 
+#ifdef _WIN64
+	SetWindowLongPtr(mHWnd, GWLP_USERDATA, (LONG_PTR) this);
+#else
 	SetWindowLong(mHWnd, GWL_USERDATA, (LONG) this);	
+#endif
 
 	if (mDDInterface == NULL)
 	{
@@ -6242,8 +6299,16 @@ void SexyAppBase::Init()
 				NULL,
 				NULL,
 				gHInstance,
-				0);	
+#ifndef _WIN64
+				0);
+#else
+				this);
+#endif
+#ifdef _WIN64
+		SetWindowLongPtr(mInvisHWnd, GWLP_USERDATA, (LONG_PTR) this);
+#else
 		SetWindowLong(mInvisHWnd, GWL_USERDATA, (LONG) this);
+#endif
 	}
 	else
 	{
@@ -6288,8 +6353,16 @@ void SexyAppBase::Init()
 				NULL,
 				NULL,
 				gHInstance,
-				0);	
+#ifndef _WIN64
+				0);
+#else
+				this);
+#endif
+#ifdef _WIN64
+		SetWindowLongPtr(mInvisHWnd, GWLP_USERDATA, (LONG_PTR) this);
+#else
 		SetWindowLong(mInvisHWnd, GWL_USERDATA, (LONG) this);
+#endif
 	}
 		
 	mHandCursor = CreateCursor(gHInstance, 11, 4, 32, 32, gFingerCursorData, gFingerCursorData+sizeof(gFingerCursorData)/2); 

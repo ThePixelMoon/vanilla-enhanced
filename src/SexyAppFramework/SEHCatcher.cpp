@@ -30,9 +30,14 @@ SYMSETOPTIONSPROC			SEHCatcher::mSymSetOptions = NULL;
 UNDECORATESYMBOLNAMEPROC	SEHCatcher::mUnDecorateSymbolName = NULL;
 SYMCLEANUPPROC				SEHCatcher::mSymCleanup = NULL;
 STACKWALKPROC				SEHCatcher::mStackWalk = NULL;
-SYMFUNCTIONTABLEACCESSPROC	SEHCatcher::mSymFunctionTableAccess = NULL;
-SYMGETMODULEBASEPROC		SEHCatcher::mSymGetModuleBase = NULL;
 SYMGETSYMFROMADDRPROC		SEHCatcher::mSymGetSymFromAddr = NULL;
+#ifndef _WIN64
+SYMGETMODULEBASEPROC		SEHCatcher::mSymGetModuleBase = NULL;
+SYMFUNCTIONTABLEACCESSPROC	SEHCatcher::mSymFunctionTableAccess = NULL;
+#else
+PGET_MODULE_BASE_ROUTINE64				SEHCatcher::mSymGetModuleBase = NULL;
+PFUNCTION_TABLE_ACCESS_ROUTINE64		SEHCatcher::mSymFunctionTableAccess = NULL;
+#endif
 HTTPTransfer				SEHCatcher::mSubmitReportTransfer;
 bool						SEHCatcher::mExiting = false;
 bool						SEHCatcher::mShowUI = true;
@@ -132,15 +137,23 @@ bool SEHCatcher::LoadImageHelp()
     if (!mStackWalk)
         return false;
 
-    mSymFunctionTableAccess = (SYMFUNCTIONTABLEACCESSPROC) GetProcAddress(mImageHelpLib, "SymFunctionTableAccess");
+#ifdef _WIN64
+	mSymFunctionTableAccess = (PFUNCTION_TABLE_ACCESS_ROUTINE64)GetProcAddress(mImageHelpLib, "SymFunctionTableAccess");
+#else
+	mSymFunctionTableAccess = (SYMFUNCTIONTABLEACCESSPROC)GetProcAddress(mImageHelpLib, "SymFunctionTableAccess");
+#endif
     if (!mSymFunctionTableAccess)
         return false;
 
-    mSymGetModuleBase = (SYMGETMODULEBASEPROC) GetProcAddress(mImageHelpLib, "SymGetModuleBase");
-    if (!mSymGetModuleBase)
+#ifdef _WIN64
+	mSymGetModuleBase = (PGET_MODULE_BASE_ROUTINE64)GetProcAddress(mImageHelpLib, "SymGetModuleBase");
+#else
+	mSymGetModuleBase = (SYMGETMODULEBASEPROC)GetProcAddress(mImageHelpLib, "SymGetModuleBase");
+#endif
+	if (!mSymGetModuleBase)
         return false;
 
-    mSymGetSymFromAddr = (SYMGETSYMFROMADDRPROC) GetProcAddress(mImageHelpLib, "SymGetSymFromAddr" );
+	mSymGetSymFromAddr = (SYMGETSYMFROMADDRPROC)GetProcAddress(mImageHelpLib, "SymGetSymFromAddr");
     if (!mSymGetSymFromAddr)
         return false;    
 
@@ -402,10 +415,19 @@ void SEHCatcher::DoHandleDebugEvent(LPEXCEPTION_POINTERS lpEP)
     aDebugDump += aWalkString;
 
 	aDebugDump += "\r\n";
+#ifdef _WIN64
+	sprintf(aBuffer, ("EAX:%08X EBX:%08X ECX:%08X EDX:%08X ESI:%08X EDI:%08X\r\n"),
+            lpEP->ContextRecord->Rax, lpEP->ContextRecord->Rbx, lpEP->ContextRecord->Rcx, lpEP->ContextRecord->Rdx, lpEP->ContextRecord->Rsi, lpEP->ContextRecord->Rdi);
+#else
 	sprintf(aBuffer, ("EAX:%08X EBX:%08X ECX:%08X EDX:%08X ESI:%08X EDI:%08X\r\n"),
             lpEP->ContextRecord->Eax, lpEP->ContextRecord->Ebx, lpEP->ContextRecord->Ecx, lpEP->ContextRecord->Edx, lpEP->ContextRecord->Esi, lpEP->ContextRecord->Edi);
+#endif
 	aDebugDump += aBuffer;
-    sprintf(aBuffer, "EIP:%08X ESP:%08X  EBP:%08X\r\n", lpEP->ContextRecord->Eip, lpEP->ContextRecord->Esp, lpEP->ContextRecord->Ebp);	
+#ifdef _WIN64
+	sprintf(aBuffer, "EIP:%08X ESP:%08X  EBP:%08X\r\n", lpEP->ContextRecord->Rip, lpEP->ContextRecord->Rsp, lpEP->ContextRecord->Rbp);	
+#else
+	sprintf(aBuffer, "EIP:%08X ESP:%08X  EBP:%08X\r\n", lpEP->ContextRecord->Eip, lpEP->ContextRecord->Esp, lpEP->ContextRecord->Ebp);
+#endif
 	aDebugDump += aBuffer;
     sprintf(aBuffer, "CS:%04X SS:%04X DS:%04X ES:%04X FS:%04X GS:%04X\r\n", lpEP->ContextRecord->SegCs, lpEP->ContextRecord->SegSs, lpEP->ContextRecord->SegDs, lpEP->ContextRecord->SegEs, lpEP->ContextRecord->SegFs, lpEP->ContextRecord->SegGs );
 	aDebugDump += aBuffer;
@@ -479,10 +501,18 @@ std::string SEHCatcher::IntelWalk(PCONTEXT theContext, int theSkipCount)
 	std::string aDebugDump;
 	char aBuffer[2048];
 
+#ifdef _WIN64
+	DWORD pc = theContext->Rip;
+#else
 	DWORD pc = theContext->Eip;
+#endif
     PDWORD pFrame, pPrevFrame;
     
-    pFrame = (PDWORD)theContext->Ebp;
+#ifdef _WIN64
+	pFrame = (PDWORD)theContext->Rbp;
+#else
+	pFrame = (PDWORD)theContext->Ebp;
+#endif
 
     for (;;)
     {
@@ -525,11 +555,23 @@ std::string SEHCatcher::ImageHelpWalk(PCONTEXT theContext, int theSkipCount)
 
 	// Initialize the STACKFRAME structure for the first call.  This is only
 	// necessary for Intel CPUs, and isn't mentioned in the documentation.
-	sf.AddrPC.Offset       = theContext->Eip;
+#ifdef _WIN64
+	sf.AddrPC.Offset = theContext->Rip;
+#else
+	sf.AddrPC.Offset = theContext->Eip;
+#endif
 	sf.AddrPC.Mode         = AddrModeFlat;
-	sf.AddrStack.Offset    = theContext->Esp;
+#ifdef _WIN64
+	sf.AddrStack.Offset = theContext->Rsp;
+#else
+	sf.AddrStack.Offset = theContext->Esp;
+#endif
 	sf.AddrStack.Mode      = AddrModeFlat;
-	sf.AddrFrame.Offset    = theContext->Ebp;
+#ifdef _WIN64
+	sf.AddrFrame.Offset = theContext->Rbp;
+#else
+	sf.AddrFrame.Offset = theContext->Ebp;
+#endif
 	sf.AddrFrame.Mode      = AddrModeFlat;
 	
 	int aLevelCount = 0;

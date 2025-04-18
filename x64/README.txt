@@ -1,0 +1,1 @@
+if you want to compile this for x64, replace the bass.lib with the one provided in the folder and replace the dll in your out directory with the one provided in the folder

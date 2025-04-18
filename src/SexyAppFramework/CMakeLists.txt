@@ -202,35 +202,6 @@ set(ImageLib__PNG
 )
 source_group("ImageLib\\PNG" FILES ${ImageLib__PNG})
 
-set(ImageLib__ZLIB
-    "../ImageLib/zlib/adler32.c"
-    "../ImageLib/zlib/compress.c"
-    "../ImageLib/zlib/crc32.c"
-    "../ImageLib/zlib/deflate.c"
-    "../ImageLib/zlib/deflate.h"
-    "../ImageLib/zlib/gzio.c"
-    "../ImageLib/zlib/infblock.c"
-    "../ImageLib/zlib/infblock.h"
-    "../ImageLib/zlib/infcodes.c"
-    "../ImageLib/zlib/infcodes.h"
-    "../ImageLib/zlib/inffast.c"
-    "../ImageLib/zlib/inffast.h"
-    "../ImageLib/zlib/inffixed.h"
-    "../ImageLib/zlib/inflate.c"
-    "../ImageLib/zlib/inftrees.c"
-    "../ImageLib/zlib/inftrees.h"
-    "../ImageLib/zlib/infutil.c"
-    "../ImageLib/zlib/infutil.h"
-    "../ImageLib/zlib/trees.c"
-    "../ImageLib/zlib/trees.h"
-    "../ImageLib/zlib/uncompr.c"
-    "../ImageLib/zlib/zconf.h"
-    "../ImageLib/zlib/zlib.h"
-    "../ImageLib/zlib/zutil.c"
-    "../ImageLib/zlib/zutil.h"
-)
-source_group("ImageLib\\ZLIB" FILES ${ImageLib__ZLIB})
-
 set(Lawn__Board__Board_Include
     "../Lawn/Achievements.h"
     "../Lawn/Board.h"
@@ -640,7 +611,6 @@ set(ALL_FILES
     ${ImageLib__JPEG}
     ${ImageLib__JPEG2000}
     ${ImageLib__PNG}
-    ${ImageLib__ZLIB}
     ${Lawn__Board__Board_Include}
     ${Lawn__Board__Board_Source}
     ${Lawn__Common__Common_Include}
@@ -691,19 +661,12 @@ set(ROOT_NAMESPACE SexyAppBase)
 # Compile definitions
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    "$<$<CONFIG:Debug>:"
-        "_DEBUG;"
-        "_CRT_SECURE_NO_WARNINGS"
-    ">"
-    "$<$<CONFIG:Release>:"
-        "NDEBUG"
-    ">"
-    "WIN32;"
-    "_LIB;"
-    "_WINDOWS;"
-    "_VISUALC_;"
-    "_JPEGLIB_;"
-    "_MBCS"
+    _LIB
+    _WINDOWS
+    _VISUALC_
+    _JPEGLIB_
+    _MBCS
+    NOBASSOVERLOADS
 )
 
 # dependencies
@@ -724,4 +687,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Ws2_32
     # Moon: discord rpc and other crap
     discord-rpc
+    ZLIB::ZLIB
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../bass.lib
 )

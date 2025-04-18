@@ -91,9 +91,7 @@ void PlayerInfo::LoadDetails()
 		Buffer aBuffer;
 		std::string aFileName = GetAppDataFolder() + StrFormat("userdata/user%d.dat", mId);
 		if (!gSexyAppBase->ReadBufferFromFile(aFileName, &aBuffer, false))
-		{
 			return;
-		}
 
 		DataReader aReader;
 		aReader.OpenMemory(aBuffer.GetDataPtr(), aBuffer.GetDataLen(), false);
@@ -168,14 +166,13 @@ void PlayerInfo::Reset()
 void PlayerInfo::AddCoins(int theAmount)
 {
 	mCoins += theAmount;
+
 	if (mCoins > 99999)
-	{
 		mCoins = 99999;
-	}
 	else if (mCoins < 0)
-	{
 		mCoins = 0;
-	}
+	else
+		mCoins = 0;
 }
 
 void PlayerInfo::ResetChallengeRecord(GameMode theGameMode)
