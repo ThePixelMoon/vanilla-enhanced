@@ -1,0 +1,41 @@
+name: Build PvZ
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up CMake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: '3.16.x'
+
+      - name: Configure CMake project
+        run: |
+          cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build project
+        run: cmake --build build --config Release
+
+      - name: Install project
+        run: cmake --install build --prefix out
+
+      - name: Create artifact
+        run: Compress-Archive -Path out\* -DestinationPath LawnProject.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: LawnProject
+          path: LawnProject.zip
