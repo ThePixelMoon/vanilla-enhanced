@@ -20,6 +20,8 @@ jobs:
 
       - name: Set up CMake
         uses: lukka/get-cmake@latest
+        with:
+            cmakeVersion: latestrc
 
       - name: Configure CMake project
         run: |
