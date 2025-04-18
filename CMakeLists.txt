@@ -45,6 +45,9 @@ set(ZLIB_ROOT src/ImageLib/zlib)
 set(ZLIB_LIBRARY ZLIB::ZLIB)
 set(ZLIB_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/ImageLib/zlib")
 
+# Moon: i hate this but it's smart
+configure_file(${CMAKE_SOURCE_DIR}/src/ImageLib/jpeg/jconfig.txt ${CMAKE_SOURCE_DIR}/src/ImageLib/jpeg/jconfig.h)
+
 add_subdirectory(src/ImageLib/jpeg EXCLUDE_FROM_ALL)
 add_subdirectory(src/ImageLib/png)
 

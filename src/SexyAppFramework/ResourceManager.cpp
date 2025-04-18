@@ -637,7 +637,7 @@ bool ResourceManager::LoadAlphaGridImage(ImageRes *theRes, DDImage *theImage)
 	if (anAlphaImage==NULL)
 		return Fail(StrFormat("Failed to load image: %s",theRes->mAlphaGridImage.c_str()));
 
-	std::auto_ptr<ImageLib::Image> aDelAlphaImage(anAlphaImage);
+	std::unique_ptr<ImageLib::Image> aDelAlphaImage(anAlphaImage);
 
 	int aNumRows = theRes->mRows;
 	int aNumCols = theRes->mCols;
@@ -689,7 +689,7 @@ bool ResourceManager::LoadAlphaImage(ImageRes *theRes, DDImage *theImage)
 	if (anAlphaImage==NULL)
 		return Fail(StrFormat("Failed to load image: %s",theRes->mAlphaImage.c_str()));
 
-	std::auto_ptr<ImageLib::Image> aDelAlphaImage(anAlphaImage);
+	std::unique_ptr<ImageLib::Image> aDelAlphaImage(anAlphaImage);
 
 	if (anAlphaImage->mWidth!=theImage->mWidth || anAlphaImage->mHeight!=theImage->mHeight)
 		return Fail(StrFormat("AlphaImage size mismatch between %s and %s",theRes->mPath.c_str(),theRes->mAlphaImage.c_str()));
