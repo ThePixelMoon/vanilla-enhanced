@@ -22,3 +22,5 @@ build/
 PopcapTools/projects.txt
 LawnProject.exe
 *.pdb
+
+savefiles/
