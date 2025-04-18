@@ -8,9 +8,14 @@ bool (*gAppCloseRequest)();
 bool (*gAppHasUsedCheatKeys)();			
 SexyString (*gGetCurrentLevelName)();
 
-int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
+int main( int argc, char *argv[] )
 {
-	//gHInstance = hInstance;
+#ifdef _WIN32
+	HWND hwnd = GetConsoleWindow();
+	if ( hwnd != nullptr )
+		ShowWindow( hwnd, SW_HIDE );
+#endif
+
 #ifdef _DEBUG
 	FILE* fDummy;
 	freopen_s(&fDummy, "CONIN$", "r", stdin);

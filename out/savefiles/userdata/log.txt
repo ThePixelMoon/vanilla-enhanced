@@ -118,3 +118,16 @@ LOADING:Long reanim 'reanim\Credits_Main.reanim' 152 ms on Game Loading
 First Draw Time: 3250 ms
 LOADED: 'LoaderBar' 77 ms on Game Loading
 Discord: connected to user
+Started Fri Apr 18 11:43:15 2025
+
+session id: 1744965794
+3d recommended: 1
+3d supported: 1
+LOADING:Long reanim 'reanim\Zombie_boss.reanim' 171 ms on Game Loading
+LOADING:Long reanim 'reanim\CrazyDave.reanim' 113 ms on Game Loading
+LOADING:Long reanim 'reanim\SelectorScreen.reanim' 147 ms on Game Loading
+LOADING:Long reanim 'reanim\TreeOfWisdom.reanim' 195 ms on Game Loading
+LOADING:Long reanim 'reanim\Credits_Main.reanim' 142 ms on Game Loading
+First Draw Time: 3093 ms
+LOADED: 'LoaderBar' 68 ms on Game Loading
+Discord: connected to user

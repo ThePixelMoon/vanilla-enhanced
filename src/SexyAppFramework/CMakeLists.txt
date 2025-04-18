@@ -706,20 +706,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "_MBCS"
 )
 
-################################################################################
-# Compile and link options
-################################################################################
-if(MSVC)
-    set(CMAKE_CXX_FLAGS_DEBUG "/Od /Ob0 /ZI ${CMAKE_CXX_FLAGS_DEBUG}")
-
-    set(CMAKE_CXX_FLAGS_RELEASE "/GL /GF /Gy /Zi /Oy- ${CMAKE_CXX_FLAGS_RELEASE}")
-
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 /GR /wd4996 ${DEFAULT_CXX_EXCEPTION_HANDLING}")
-
-    set(CMAKE_EXE_LINKER_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /INCREMENTAL ${CMAKE_EXE_LINKER_FLAGS_DEBUG}")
-    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/NOLOGO /DEBUG:FULL ${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
-endif()
-
 # dependencies
 target_link_libraries(${PROJECT_NAME} PRIVATE
     kernel32
