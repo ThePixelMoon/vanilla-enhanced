@@ -25,7 +25,7 @@ jobs:
 
       - name: Configure CMake project
         run: |
-            cmake -S . -B build -DCMAKE_INSTALL_PREFIX="./" -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -A Win32
+            cmake -S . -B build -DCMAKE_INSTALL_PREFIX="./out" -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -A Win32
 
       - name: Build project
         run: cmake --build build --config Release
@@ -34,10 +34,12 @@ jobs:
         run: cmake --install build --prefix out
 
       - name: Create artifact
-        run: Compress-Archive -Path out\* -DestinationPath LawnProject.zip
+        run: |
+          mkdir package
+          Compress-Archive -Path out\* -DestinationPath package\LawnProject.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4.6.2
         with:
-            name: LawnProject
-            path: LawnProject.zip
+          name: LawnProject
+          path: package/LawnProject.zip
