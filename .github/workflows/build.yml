@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: Set up CMake
-        uses: jwlawson/actions-setup-cmake@v2
+        uses: jwlawson/actions-setup-cmake@v2.0.2
         with:
           cmake-version: '3.16.x'
 
@@ -35,7 +35,7 @@ jobs:
         run: Compress-Archive -Path out\* -DestinationPath LawnProject.zip
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: LawnProject
           path: LawnProject.zip
