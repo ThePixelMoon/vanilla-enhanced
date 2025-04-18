@@ -2,7 +2,7 @@
 #define __SEEDPACKET_H__
 
 #include "GameObject.h"
-#include "../GameConstants.h"
+#include "GameConstants.h"
 
 constexpr const int SLOT_MACHINE_TIME = 400;
 constexpr const int CONVEYOR_SPEED = 4;

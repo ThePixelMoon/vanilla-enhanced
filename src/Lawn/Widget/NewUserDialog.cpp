@@ -1,7 +1,7 @@
 #include "NewUserDialog.h"
-#include "../../LawnApp.h"
-#include "../../Resources.h"
-#include "../../SexyAppFramework/WidgetManager.h"
+#include "LawnApp.h"
+#include "Resources.h"
+#include "SexyAppFramework/WidgetManager.h"
 
 NewUserDialog::NewUserDialog(LawnApp* theApp, bool isRename) : LawnDialog(
 	theApp, 

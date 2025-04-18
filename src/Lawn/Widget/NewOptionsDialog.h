@@ -1,10 +1,10 @@
 #ifndef __NEWOPTIONSDIALOG_H__
 #define __NEWOPTIONSDIALOG_H__
 
-#include "../../SexyAppFramework/Dialog.h"
-#include "../../SexyAppFramework/SliderListener.h"
-#include "../../SexyAppFramework/CheckboxListener.h"
-#include "../../SexyAppFramework/EditListener.h"
+#include "SexyAppFramework/Dialog.h"
+#include "SexyAppFramework/SliderListener.h"
+#include "SexyAppFramework/CheckboxListener.h"
+#include "SexyAppFramework/EditListener.h"
 
 const int ADVANCED_PAGE_Y = 355;
 const int ADVANCED_MAX_PAGES = 3;

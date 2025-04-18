@@ -1,10 +1,10 @@
 #ifndef __CHALLENGE_H__
 #define __CHALLENGE_H__
 
-#include "../ConstEnums.h"
-#include "../GameConstants.h"
-#include "../Sexy.TodLib/FilterEffect.h"
-#include "../SexyAppFramework/Graphics.h"
+#include "ConstEnums.h"
+#include "GameConstants.h"
+#include "Sexy.TodLib/FilterEffect.h"
+#include "SexyAppFramework/Graphics.h"
 
 #define BEGHOULED_MAX_GRIDSIZEX 8
 #define BEGHOULED_MAX_GRIDSIZEY 5

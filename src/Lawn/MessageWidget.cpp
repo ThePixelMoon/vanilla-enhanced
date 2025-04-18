@@ -1,12 +1,12 @@
 #include "Board.h"
 #include "Challenge.h"
-#include "../LawnApp.h"
-#include "../Resources.h"
+#include "LawnApp.h"
+#include "Resources.h"
 #include "MessageWidget.h"
-#include "../SexyAppFramework/Font.h"
-#include "../Sexy.TodLib/TodCommon.h"
-#include "../Sexy.TodLib/Reanimator.h"
-#include "../Sexy.TodLib/TodStringFile.h"
+#include "SexyAppFramework/Font.h"
+#include "Sexy.TodLib/TodCommon.h"
+#include "Sexy.TodLib/Reanimator.h"
+#include "Sexy.TodLib/TodStringFile.h"
 
 MessageWidget::MessageWidget(LawnApp* theApp)
 {

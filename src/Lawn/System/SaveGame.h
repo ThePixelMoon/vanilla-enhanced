@@ -2,8 +2,8 @@
 #define __SAVEGAMECONTEXT_H__
 
 #include <string>
-#include "../../Sexy.TodLib/TodList.h"
-#include "../../SexyAppFramework/Buffer.h"
+#include "Sexy.TodLib/TodList.h"
+#include "SexyAppFramework/Buffer.h"
 
 class Board;
 class Trail;

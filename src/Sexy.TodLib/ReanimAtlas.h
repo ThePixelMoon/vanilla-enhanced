@@ -1,7 +1,8 @@
 #ifndef __REANIMATLAS_H__
 #define __REANIMATLAS_H__
 
-#include "../SexyAppFramework/Rect.h"
+#include "SexyAppFramework/Rect.h"
+
 using namespace Sexy;
 
 #define MAX_REANIM_IMAGES 64

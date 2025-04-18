@@ -2,9 +2,9 @@
 #define __ALMANACDIALOG_H__
 
 #include "LawnDialog.h"
-#include "../../ConstEnums.h"
-#include "../../SexyAppFramework/SliderListener.h"
-#include "../../SexyAppFramework/Slider.h"
+#include "ConstEnums.h"
+#include "SexyAppFramework/SliderListener.h"
+#include "SexyAppFramework/Slider.h"
 
 constexpr const float			ALMANAC_PLANT_POSITION_X		= 578.0f;
 constexpr const float			ALMANAC_PLANT_POSITION_Y		= 140.0f;

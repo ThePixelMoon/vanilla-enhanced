@@ -1,10 +1,10 @@
 #ifndef __QUICKPLAYSCREEN_H__
 #define __QUICKPLAYSCREEN_H__
 
-#include "../../ConstEnums.h"
-#include "../../SexyAppFramework/Widget.h"
-#include "../../SexyAppFramework/ButtonListener.h"
-#include "../../SexyAppFramework/CheckboxListener.h"
+#include "ConstEnums.h"
+#include "SexyAppFramework/Widget.h"
+#include "SexyAppFramework/ButtonListener.h"
+#include "SexyAppFramework/CheckboxListener.h"
 
 using namespace Sexy;
 

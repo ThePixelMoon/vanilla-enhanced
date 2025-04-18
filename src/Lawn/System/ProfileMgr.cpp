@@ -1,7 +1,7 @@
 #include "DataSync.h"
 #include "ProfileMgr.h"
 #include "PlayerInfo.h"
-#include "../../SexyAppFramework/SexyAppBase.h"
+#include "SexyAppFramework/SexyAppBase.h"
 
 using namespace Sexy;
 static int gProfileVersion = 14;

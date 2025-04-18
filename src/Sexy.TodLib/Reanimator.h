@@ -3,7 +3,8 @@
 
 #include "DataArray.h"
 #include "FilterEffect.h"
-#include "../SexyAppFramework/SexyMatrix.h"
+#include "SexyAppFramework/SexyMatrix.h"
+
 using namespace std;
 using namespace Sexy;
 

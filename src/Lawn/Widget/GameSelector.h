@@ -1,9 +1,9 @@
 #ifndef __GAMESELECTOR_H__
 #define __GAMESELECTOR_H__
 
-#include "../../ConstEnums.h"
-#include "../../SexyAppFramework/Widget.h"
-#include "../../SexyAppFramework/ButtonListener.h"
+#include "ConstEnums.h"
+#include "SexyAppFramework/Widget.h"
+#include "SexyAppFramework/ButtonListener.h"
 
 class LawnApp;
 class ToolTipWidget;

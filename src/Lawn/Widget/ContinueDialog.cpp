@@ -1,11 +1,11 @@
-#include "../Board.h"
-#include "../Zombie.h"
+#include "Lawn/Board.h"
+#include "Lawn/Zombie.h"
 #include "GameButton.h"
-#include "../../LawnApp.h"
+#include "LawnApp.h"
 #include "ContinueDialog.h"
-#include "../../Resources.h"
-#include "../../Sexy.TodLib/TodFoley.h"
-#include "../../Sexy.TodLib/TodStringFile.h"
+#include "Resources.h"
+#include "Sexy.TodLib/TodFoley.h"
+#include "Sexy.TodLib/TodStringFile.h"
 
 ContinueDialog::ContinueDialog(LawnApp* theApp) : LawnDialog(
 	theApp, 

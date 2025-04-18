@@ -4,7 +4,7 @@
 #define MAX_POTTED_PLANTS 200
 #define PURCHASE_COUNT_OFFSET 1000
 
-#include "../../ConstEnums.h"
+#include "ConstEnums.h"
 
 class PottedPlant
 {

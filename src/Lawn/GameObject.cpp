@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "../LawnApp.h"
+#include "LawnApp.h"
 
 GameObject::GameObject()
 {

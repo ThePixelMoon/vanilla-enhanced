@@ -3,7 +3,7 @@
 
 #include <map>
 #include <string>
-#include "../../SexyAppFramework/Common.h"
+#include "SexyAppFramework/Common.h"
 
 class DataSync;
 class PlayerInfo;

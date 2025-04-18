@@ -2,8 +2,8 @@
 #define __CHALLENGEPAGESDIALOG_H__
 
 #include "LawnDialog.h"
-#include "../../SexyAppFramework/SliderListener.h"
-#include "../../SexyAppFramework/Slider.h"
+#include "SexyAppFramework/SliderListener.h"
+#include "SexyAppFramework/Slider.h"
 
 //Made by BULLETBOT
 

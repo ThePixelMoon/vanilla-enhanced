@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
+
+set(CMAKE_SYSTEM_VERSION 10.0 CACHE STRING "" FORCE)
+
+project(PlantsVsZombies C CXX)
+
+set(CMAKE_CONFIGURATION_TYPES
+    "Debug"
+    "Release"
+    CACHE STRING "" FORCE
+)
+
+include(CMake/Utils.cmake)
+include(CMake/GlobalSettingsInclude.cmake OPTIONAL)
+
+# Moon: disable discord rpc examples and stuff
+set(BUILD_EXAMPLES OFF CACHE BOOL "disable building examples in discord-rpc" FORCE)
+set(CLANG_FORMAT_CMD OFF CACHE BOOL "disable clang-format" FORCE)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+add_subdirectory(external/discord-rpc EXCLUDE_FROM_ALL)
+
+target_include_directories(discord-rpc
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/external/discord-rpc/thirdparty/rapidjson-1.1.0/include
+)
+
+add_subdirectory(src/SexyAppFramework)
+
+# Moon: installing
+install(TARGETS LawnProject RUNTIME DESTINATION out)

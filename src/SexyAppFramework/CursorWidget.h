@@ -3,7 +3,7 @@
 
 #include "Widget.h"
 #include "Point.h"
-#include "../ConstEnums.h"
+#include "ConstEnums.h"
 
 namespace Sexy
 {

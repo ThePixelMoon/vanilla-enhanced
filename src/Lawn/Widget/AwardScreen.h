@@ -1,10 +1,10 @@
 #ifndef __AWARDSCREEN_H__
 #define __AWARDSCREEN_H__
 
-#include "../../ConstEnums.h"
-#include "../../SexyAppFramework/Widget.h"
-#include "../../SexyAppFramework/SliderListener.h"
-#include "../../SexyAppFramework/Slider.h"
+#include "ConstEnums.h"
+#include "SexyAppFramework/Widget.h"
+#include "SexyAppFramework/SliderListener.h"
+#include "SexyAppFramework/Slider.h"
 
 using namespace Sexy;
 

@@ -1,8 +1,8 @@
 #ifndef __GAMEBUTTON_H__
 #define __GAMEBUTTON_H__
 
-#include "../../SexyAppFramework/SexyVector.h"
-#include "../../SexyAppFramework/DialogButton.h"
+#include "SexyAppFramework/SexyVector.h"
+#include "SexyAppFramework/DialogButton.h"
 
 using namespace std;
 using namespace Sexy;

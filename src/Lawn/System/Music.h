@@ -2,7 +2,7 @@
 #define __MUSIC_H__
 
 #include <string>
-#include "../../SexyAppFramework/bass.h"
+#include "SexyAppFramework/bass.h"
 
 class LawnApp;
 namespace Sexy

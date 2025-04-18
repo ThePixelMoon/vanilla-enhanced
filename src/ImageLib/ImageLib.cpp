@@ -5,7 +5,7 @@
 #include "png\png.h"
 #include <math.h>
 #include <tchar.h>
-#include "..\PakLib\PakInterface.h"
+#include "PakInterface.h"
 
 extern "C"
 {

@@ -1,7 +1,7 @@
 #ifndef __TOOLTIPWIDGET_H__ 
 #define __TOOLTIPWIDGET_H__
 
-#include "../SexyAppFramework/Common.h"
+#include "SexyAppFramework/Common.h"
 namespace Sexy
 {
     class Graphics;

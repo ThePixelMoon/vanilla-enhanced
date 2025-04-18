@@ -1,8 +1,8 @@
 #ifndef __LAWNMOWER_H__
 #define __LAWNMOWER_H__
 
-#include "../ConstEnums.h"
-#include "../SexyAppFramework/Rect.h"
+#include "ConstEnums.h"
+#include "SexyAppFramework/Rect.h"
 
 class LawnApp;
 class Board;

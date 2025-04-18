@@ -1,13 +1,13 @@
-#include "../Plant.h"
-#include "../Zombie.h"
-#include "../../LawnApp.h"
+#include "Lawn/Plant.h"
+#include "Lawn/Zombie.h"
+#include "LawnApp.h"
 #include "ReanimationLawn.h"
-#include "../../Sexy.TodLib/TodDebug.h"
-#include "../../SexyAppFramework/Color.h"
-#include "../../Sexy.TodLib/Reanimator.h"
-#include "../../Sexy.TodLib/Attachment.h"
-#include "../../SexyAppFramework/MemoryImage.h"
-#include "../../Resources.h"
+#include "Sexy.TodLib/TodDebug.h"
+#include "SexyAppFramework/Color.h"
+#include "Sexy.TodLib/Reanimator.h"
+#include "Sexy.TodLib/Attachment.h"
+#include "SexyAppFramework/MemoryImage.h"
+#include "Resources.h"
 
 void ReanimatorCache::UpdateReanimationForVariation(Reanimation* theReanim, DrawVariation theDrawVariation)
 {

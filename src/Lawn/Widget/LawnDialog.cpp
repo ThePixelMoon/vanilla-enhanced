@@ -1,16 +1,15 @@
-#include "../Board.h"
+#include "Lawn/Board.h"
 #include "LawnDialog.h"
 #include "GameButton.h"
-#include "../../LawnApp.h"
-#include "../LawnCommon.h"
-#include "../../Resources.h"
+#include "LawnApp.h"
+#include "LawnCommon.h"
+#include "Resources.h"
 #include "ChallengeScreen.h"
-#include "../../Sexy.TodLib/TodDebug.h"
-#include "../../Sexy.TodLib/Reanimator.h"
-#include "../../Sexy.TodLib/EffectSystem.h"
-#include "../../Sexy.TodLib/TodStringFile.h"
-#include "../../SexyAppFramework/ImageFont.h"
-
+#include "Sexy.TodLib/TodDebug.h"
+#include "Sexy.TodLib/Reanimator.h"
+#include "Sexy.TodLib/EffectSystem.h"
+#include "Sexy.TodLib/TodStringFile.h"
+#include "SexyAppFramework/ImageFont.h"
 
 LawnDialog::LawnDialog(LawnApp* theApp, int theId, bool isModal, const SexyString& theDialogHeader, const SexyString& theDialogLines, const SexyString& theDialogFooter, int theButtonMode) :
 	Dialog(nullptr, nullptr, theId, isModal, theDialogHeader, theDialogLines, _S(""), BUTTONS_NONE)

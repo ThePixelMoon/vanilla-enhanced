@@ -1,7 +1,7 @@
 #include "CursorWidget.h"
 #include "WidgetManager.h"
-#include "../GameConstants.h"
-#include "../LawnApp.h"
+#include "GameConstants.h"
+#include "LawnApp.h"
 #include "Image.h"
 
 using namespace Sexy;

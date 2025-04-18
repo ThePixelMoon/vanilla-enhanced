@@ -6,10 +6,10 @@
 #include "Reanimator.h"
 #include "TodParticle.h"
 #include "EffectSystem.h"
-#include "../GameConstants.h"
-#include "../SexyAppFramework/DDImage.h"
-#include "../SexyAppFramework/DDInterface.h"
-#include "../SexyAppFramework/D3DInterface.h"
+#include "GameConstants.h"
+#include "SexyAppFramework/DDImage.h"
+#include "SexyAppFramework/DDInterface.h"
+#include "SexyAppFramework/D3DInterface.h"
 
 EffectSystem* gEffectSystem = nullptr;  
 

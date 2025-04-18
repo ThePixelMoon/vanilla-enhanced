@@ -1,11 +1,11 @@
 #include "UserDialog.h"
 #include "GameButton.h"
-#include "../../LawnApp.h"
-#include "../../Resources.h"
-#include "../System/ProfileMgr.h"
-#include "../System/PlayerInfo.h"
-#include "../../Sexy.TodLib/TodStringFile.h"
-#include "../../SexyAppFramework/ListWidget.h"
+#include "LawnApp.h"
+#include "Resources.h"
+#include "System/ProfileMgr.h"
+#include "System/PlayerInfo.h"
+#include "Sexy.TodLib/TodStringFile.h"
+#include "SexyAppFramework/ListWidget.h"
 
 static int gUserListWidgetColors[][3] = {  
     {  23,  24,  35 },

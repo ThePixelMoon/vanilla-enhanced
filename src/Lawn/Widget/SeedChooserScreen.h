@@ -1,12 +1,12 @@
 #ifndef __SEEDCHOOSERSCREEN_H__
 #define __SEEDCHOOSERSCREEN_H__
 
-#include "../../ConstEnums.h"
-#include "../../SexyAppFramework/Widget.h"
-#include "../../SexyAppFramework/ScrollListener.h"
-#include "../../SexyAppFramework/ScrollbarWidget.h"
-#include "../../SexyAppFramework/SliderListener.h"
-#include "../../SexyAppFramework/Slider.h"
+#include "ConstEnums.h"
+#include "SexyAppFramework/Widget.h"
+#include "SexyAppFramework/ScrollListener.h"
+#include "SexyAppFramework/ScrollbarWidget.h"
+#include "SexyAppFramework/SliderListener.h"
+#include "SexyAppFramework/Slider.h"
 
 const int IMITATER_POS_X = 459;
 const int IMITATER_POS_Y = 503;

@@ -1,11 +1,11 @@
 #include "Board.h"
 #include "Cutscene.h"
 #include "ZenGarden.h"
-#include "../LawnApp.h"
+#include "LawnApp.h"
 #include "CursorObject.h"
-#include "../Resources.h"
-#include "../Sexy.TodLib/Reanimator.h"
-#include "../SexyAppFramework/WidgetManager.h"
+#include "Resources.h"
+#include "Sexy.TodLib/Reanimator.h"
+#include "SexyAppFramework/WidgetManager.h"
 
 CursorObject::CursorObject()
 {

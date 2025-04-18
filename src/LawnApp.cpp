@@ -48,7 +48,7 @@
 #include "SexyAppFramework/ResourceManager.h"
 #include "Lawn/Achievements.h"
 
-#include "Lawn/System/discord_rpc.h"
+#include "discord_rpc.h"
 #include "SexyAppFramework/Checkbox.h"
 #include "SexyAppFramework/BassMusicInterface.h"
 #include "SexyAppFramework/Dialog.h"

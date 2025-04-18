@@ -15,7 +15,7 @@
 #include "MemoryImage.h"
 #include "HTTPTransfer.h"
 #include "Dialog.h"
-#include "..\ImageLib\ImageLib.h"
+#include "ImageLib\ImageLib.h"
 #include "DSoundManager.h"
 #include "DSoundInstance.h"
 #include "Rect.h"
@@ -35,10 +35,10 @@
 #include "BassMusicInterface.h"
 #include "AutoCrit.h"
 #include "Debug.h"
-#include "../PakLib/PakInterface.h"
+#include "PakLib/PakInterface.h"
 #include <string>
 #include <shlobj.h>
-#include <../../GameConstants.h>
+#include "GameConstants.h"
 
 #include "memmgr.h"
 

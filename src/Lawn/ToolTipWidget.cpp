@@ -1,9 +1,9 @@
-#include "../Resources.h"
+#include "Resources.h"
 #include "ToolTipWidget.h"
-#include "../GameConstants.h"
-#include "../Sexy.TodLib/TodCommon.h"
-#include "../SexyAppFramework/Font.h"
-#include "../Sexy.TodLib/TodStringFile.h"
+#include "GameConstants.h"
+#include "Sexy.TodLib/TodCommon.h"
+#include "SexyAppFramework/Font.h"
+#include "Sexy.TodLib/TodStringFile.h"
 
 using namespace Sexy;
 

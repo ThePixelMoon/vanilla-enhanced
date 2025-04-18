@@ -16,8 +16,9 @@
 
 [Dd]ebug
 [Rr]elease
-
+build/
 .vs/
-
 /enc_temp_folder
 PopcapTools/projects.txt
+LawnProject.exe
+*.pdb

@@ -2,16 +2,16 @@
 #include "GridItem.h"
 #include "Challenge.h"
 #include "ZenGarden.h"
-#include "../LawnApp.h"
+#include "LawnApp.h"
 #include "SeedPacket.h"
 #include "CursorObject.h"
-#include "../Resources.h"
+#include "Resources.h"
 #include "MessageWidget.h"
 #include "System/ReanimationLawn.h"
-#include "../Sexy.TodLib/TodFoley.h"
-#include "../Sexy.TodLib/Reanimator.h"
-#include "../Sexy.TodLib/TodParticle.h"
-#include "../SexyAppFramework/WidgetManager.h"
+#include "Sexy.TodLib/TodFoley.h"
+#include "Sexy.TodLib/Reanimator.h"
+#include "Sexy.TodLib/TodParticle.h"
+#include "SexyAppFramework/WidgetManager.h"
 
 using namespace Sexy;
 

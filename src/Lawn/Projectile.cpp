@@ -3,13 +3,13 @@
 #include "Zombie.h"
 #include "Cutscene.h"
 #include "Projectile.h"
-#include "../LawnApp.h"
-#include "../Resources.h"
-#include "../GameConstants.h"
-#include "../Sexy.TodLib/TodFoley.h"
-#include "../Sexy.TodLib/TodDebug.h"
-#include "../Sexy.TodLib/Reanimator.h"
-#include "../Sexy.TodLib/Attachment.h"
+#include "LawnApp.h"
+#include "Resources.h"
+#include "GameConstants.h"
+#include "Sexy.TodLib/TodFoley.h"
+#include "Sexy.TodLib/TodDebug.h"
+#include "Sexy.TodLib/Reanimator.h"
+#include "Sexy.TodLib/Attachment.h"
 
 ProjectileDefinition gProjectileDefinition[] = {  
 	{ ProjectileType::PROJECTILE_PEA,           0,  20  },

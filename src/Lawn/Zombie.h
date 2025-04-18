@@ -2,7 +2,7 @@
 #define __ZOMBIE_H__
 
 #include "GameObject.h"
-#include "../GameConstants.h"
+#include "GameConstants.h"
 
 #define MAX_ZOMBIE_FOLLOWERS 4
 #define NUM_BOBSLED_FOLLOWERS 3

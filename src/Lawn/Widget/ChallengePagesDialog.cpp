@@ -1,10 +1,10 @@
 #include "ChallengePagesDialog.h"
-#include "../../LawnApp.h"
+#include "LawnApp.h"
 #include "ChallengeScreen.h"
-#include "../../Resources.h"
-#include "../../GameConstants.h"
-#include "../../SexyAppFramework/WidgetManager.h"
-#include "../System/PlayerInfo.h"
+#include "Resources.h"
+#include "GameConstants.h"
+#include "SexyAppFramework/WidgetManager.h"
+#include "System/PlayerInfo.h"
 #include "GameButton.h"
 
 ChallengePagesDialog::ChallengePagesDialog(LawnApp* theApp) : LawnDialog(theApp, Dialogs::DIALOG_CHALLENGE_PAGES, true, _S("Page Selection"), _S(""), _S("Close Page Selection"), Dialog::BUTTONS_FOOTER)

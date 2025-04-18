@@ -1,15 +1,15 @@
 #include <time.h>
 #include "Board.h"
 #include "Plant.h"
-#include "../LawnApp.h"
+#include "LawnApp.h"
 #include "LawnCommon.h"
-#include "../Resources.h"
-#include "../GameConstants.h"
-#include "../Sexy.TodLib/TodCommon.h"
-#include "../SexyAppFramework/Font.h"
-#include "../../SexyAppFramework/Dialog.h"
-#include "../SexyAppFramework/SexyMatrix.h"
-#include "../../SexyAppFramework/Checkbox.h"
+#include "Resources.h"
+#include "GameConstants.h"
+#include "Sexy.TodLib/TodCommon.h"
+#include "SexyAppFramework/Font.h"
+#include "SexyAppFramework/Dialog.h"
+#include "SexyAppFramework/SexyMatrix.h"
+#include "SexyAppFramework/Checkbox.h"
 
 int gLawnEditWidgetColors[][4] = {
     { 0,   0,   0,   0 },

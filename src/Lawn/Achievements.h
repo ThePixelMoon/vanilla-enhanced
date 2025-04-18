@@ -1,8 +1,8 @@
 #ifndef __ACHIVEMENTS_H__
 #define __ACHIVEMENTS_H__
 
-#include "../ConstEnums.h"
-#include "../SexyAppFramework/Graphics.h"
+#include "ConstEnums.h"
+#include "SexyAppFramework/Graphics.h"
 
 using namespace Sexy;
 

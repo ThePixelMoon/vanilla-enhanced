@@ -1,10 +1,11 @@
 #ifndef __STORESCREEN_H__
 #define __STORESCREEN_H__
 
-#include "../../ConstEnums.h"
-#include "../System/PlayerInfo.h"
-#include "../../Sexy.TodLib/DataArray.h"
-#include "../../SexyAppFramework/Dialog.h"
+#include "ConstEnums.h"
+#include "System/PlayerInfo.h"
+#include "Sexy.TodLib/DataArray.h"
+#include "SexyAppFramework/Dialog.h"
+
 using namespace std;
 using namespace Sexy;
 

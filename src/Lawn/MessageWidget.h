@@ -1,8 +1,8 @@
 #ifndef __MESSAGEWIDGET_H__
 #define __MESSAGEWIDGET_H__
 
-#include "../ConstEnums.h"
-#include "../SexyAppFramework/Common.h"
+#include "ConstEnums.h"
+#include "SexyAppFramework/Common.h"
 
 #define MAX_MESSAGE_LENGTH 128
 #define MAX_REANIM_LINES 5

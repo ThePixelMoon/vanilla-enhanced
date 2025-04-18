@@ -2,13 +2,13 @@
 #include "Cutscene.h"
 #include "Challenge.h"
 #include "SeedPacket.h"
-#include "../LawnApp.h"
+#include "LawnApp.h"
 #include "CursorObject.h"
-#include "../Resources.h"
+#include "Resources.h"
 #include "MessageWidget.h"
-#include "../SexyAppFramework/Font.h"
-#include "../Sexy.TodLib/FilterEffect.h"
-#include "../SexyAppFramework/SexyMatrix.h"
+#include "SexyAppFramework/Font.h"
+#include "Sexy.TodLib/FilterEffect.h"
+#include "SexyAppFramework/SexyMatrix.h"
 
 SeedPacket::SeedPacket()
 {
