@@ -8,6 +8,10 @@
 #include "SexyAppFramework/BassLoader.h"
 #include "SexyAppFramework/BassMusicInterface.h"
 
+#include <codecvt>
+#include <vector>
+#include <fstream>
+
 using namespace Sexy;
 
 Music::Music()
@@ -34,63 +38,73 @@ Music::Music()
 
 MusicFileData gMusicFileData[MusicFile::NUM_MUSIC_FILES];  
 
-bool Music::TodLoadMusic(MusicFile theMusicFile, const std::string& theFileName)
+bool Music::TodLoadMusic(MusicFile theMusicFile, const std::wstring& theFileName)
 {
 	HMUSIC aHMusic = NULL;
-	HSTREAM aStream = NULL;
-	BassMusicInterface* aBass = (BassMusicInterface*)mApp->mMusicInterface;
+    HSTREAM aStream = NULL;
+    BassMusicInterface* aBass = (BassMusicInterface*)mApp->mMusicInterface;
+    
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	std::string utf8FileName = conv.to_bytes(theFileName);
 	std::string anExt;
 
-	int aDot = theFileName.rfind('.');
-	if (aDot != std::string::npos)  
-		anExt = StringToLower(theFileName.substr(aDot + 1));  
+	auto dot = utf8FileName.find_last_of('.');
+	if (dot != std::string::npos)
+		anExt = utf8FileName.substr(dot + 1);
 
-	if (anExt.compare("wav") && anExt.compare("ogg") && anExt.compare("mp3"))  
-	{
-		PFILE* pFile = p_fopen(theFileName.c_str(), "rb");
-		if (pFile == nullptr)
+	TodTraceAndLog( "file name: %s", utf8FileName.c_str() );
+
+    if (anExt != "wav" && anExt != "ogg" && anExt != "mp3")
+    {
+		std::ifstream file( utf8FileName, std::ios::binary | std::ios::ate );
+		if ( !file )
 			return false;
 
-		p_fseek(pFile, 0, SEEK_END);  
-		int aSize = p_ftell(pFile);  
-		p_fseek(pFile, 0, SEEK_SET);  
-		void* aData = operator new[](aSize);
-		p_fread(aData, sizeof(char), aSize, pFile);  
-		p_fclose(pFile);  
+		int aSize = static_cast<int>(file.tellg());
+		file.seekg(0, std::ios::beg);
 
-		aHMusic = BASS_MusicLoad(true, aData, 0, 0, aBass->mMusicLoadFlags, 0);
+		std::vector<char> aData(aSize);
+		file.read(aData.data(), aSize);
 
-		delete[] aData;
+		aHMusic = BASS_MusicLoad(TRUE, aData.data(), 0, aSize, BASS_MUSIC_RAMP, 0);
 
-		if (aHMusic == NULL)
-			return false;
+        if (!aHMusic)
+        {
+            TodTraceAndLog("error code: %d", BASS_ErrorGetCode());
+            return false;
+        }
+
+        TOD_ASSERT(gMusicFileData[theMusicFile].mFileData == nullptr);
+		gMusicFileData[theMusicFile].mFileData = reinterpret_cast<unsigned int *>(aData.data());
 	}
-	else
-	{
-		PFILE* pFile = p_fopen(theFileName.c_str(), "rb");
-		if (pFile == nullptr)
+    else
+    {
+		std::ifstream file( utf8FileName, std::ios::binary | std::ios::ate );
+		if ( !file )
 			return false;
 
-		p_fseek(pFile, 0, SEEK_END);  
-		int aSize = p_ftell(pFile);  
-		p_fseek(pFile, 0, SEEK_SET);  
-		void* aData = operator new[](aSize);
-		p_fread(aData, sizeof(char), aSize, pFile);  
-		p_fclose(pFile);  
-		
-		aStream = BASS_StreamCreateFile(true, aData, 0, aSize, 0);
-		TOD_ASSERT(gMusicFileData[theMusicFile].mFileData == nullptr);
-		gMusicFileData[theMusicFile].mFileData = (unsigned int*)aData;
+		int aSize = static_cast<int>(file.tellg());
+		file.seekg(0, std::ios::beg);
 
-		if (aStream == NULL)
-			return false;
+		std::vector<char> aData(aSize);
+		file.read(aData.data(), aSize);
+
+		aStream = BASS_StreamCreateFile(TRUE, aData.data(), 0, aSize, BASS_STREAM_AUTOFREE);
+        if (!aStream)
+        {
+			TodTraceAndLog( "error code: %d", BASS_ErrorGetCode() );
+            return false;
+        }
+
+        TOD_ASSERT(gMusicFileData[theMusicFile].mFileData == nullptr);
+		gMusicFileData[theMusicFile].mFileData = reinterpret_cast<unsigned int *>(aData.data());
 	}
-	
-	BassMusicInfo aMusicInfo;
-	aMusicInfo.mHStream = aStream;
-	aMusicInfo.mHMusic = aHMusic;
-	aBass->mMusicMap.insert(BassMusicMap::value_type(theMusicFile, aMusicInfo));  
-	return true;
+
+    BassMusicInfo aMusicInfo;
+    aMusicInfo.mHStream = aStream;
+    aMusicInfo.mHMusic = aHMusic;
+    aBass->mMusicMap.insert(BassMusicMap::value_type(theMusicFile, aMusicInfo));
+    return true;
 }
 
 void Music::SetupMusicFileForTune(MusicFile theMusicFile, MusicTune theMusicTune)
@@ -139,19 +153,23 @@ void Music::SetupMusicFileForTune(MusicFile theMusicFile, MusicTune theMusicTune
 	{
 		int aVolume;
 		if (aTrack >= aTrackStart1 && aTrack <= aTrackEnd1)
-			aVolume = 100;
+			aVolume = 150;
 		else if (aTrack >= aTrackStart2 && aTrack <= aTrackEnd2)
-			aVolume = 100;
+			aVolume = 150;
 		else
 			aVolume = 0;
 
-		BASS_ChannelSetAttribute(aHMusic, BASS_ATTRIB_MUSIC_VOL_CHAN + aTrack, aVolume);
+		BASS_ChannelSetAttribute(aHMusic, BASS_ATTRIB_VOL, aVolume/100);
 	}
 }
 
-void Music::LoadSong(MusicFile theMusicFile, const std::string& theFileName)
+void Music::LoadSong(MusicFile theMusicFile, const std::wstring& theFileName)
 {
-	TodHesitationTrace("preloadsong");
+	TodTrace("preloadsong");
+
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    std::string utf8FileName = conv.to_bytes(theFileName);
+
 	if (!TodLoadMusic(theMusicFile, theFileName))
 	{
 		TodTrace("music failed to load\n");
@@ -159,14 +177,14 @@ void Music::LoadSong(MusicFile theMusicFile, const std::string& theFileName)
 	}
 	else
 	{
-		BASS_ChannelSetAttribute(GetBassMusicHandle(theMusicFile), BASS_ATTRIB_MUSIC_PSCALER, 4);
-		TodHesitationTrace("song '%s'", theFileName.c_str());
+//		BASS_ChannelSetAttribute(GetBassMusicHandle(theMusicFile), BASS_ATTRIB_MUSIC_PSCALER, 4);
+		TodTrace("song '%s'", utf8FileName.c_str());
 	}
 }
 
 void Music::MusicTitleScreenInit()
 {
-	LoadSong(MusicFile::MUSIC_FILE_MAIN_MUSIC, "sounds\\mainmusic.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_MAIN_MUSIC, L"sounds\\mainmusic.mo3");
 	MakeSureMusicIsPlaying(MusicTune::MUSIC_TUNE_TITLE_CRAZY_DAVE_MAIN_THEME);
 }
 
@@ -176,13 +194,13 @@ void Music::MusicInit()
 	int aNumLoadingTasks = mApp->mCompletedLoadingThreadTasks + GetNumLoadingTasks();
 #endif
 
-	LoadSong(MusicFile::MUSIC_FILE_DRUMS, "sounds\\mainmusic.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_DRUMS, L"sounds\\mainmusic.mo3");
 	mApp->mCompletedLoadingThreadTasks += 3500;
-	LoadSong(MusicFile::MUSIC_FILE_HIHATS, "sounds\\mainmusic_hihats.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_HIHATS, L"sounds\\mainmusic_hihats.mo3");
 	mApp->mCompletedLoadingThreadTasks += 3500;
 
 #ifdef _DEBUG
-	LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, "sounds\\ZombiesOnYourLawn.ogg");
+	LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, L"sounds\\ZombiesOnYourLawn.ogg");
 	mApp->mCompletedLoadingThreadTasks += 3500;
 	if (mApp->mCompletedLoadingThreadTasks != aNumLoadingTasks)
 		TodTrace("Didn't calculate loading task count correctly!!!!");
@@ -194,7 +212,7 @@ void Music::MusicCreditScreenInit()
 #ifndef _DEBUG
 	BassMusicInterface* aBass = (BassMusicInterface*)mApp->mMusicInterface;
 	if (aBass->mMusicMap.find((int)MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN) == aBass->mMusicMap.end())  
-		LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, "sounds\\ZombiesOnYourLawn.ogg");
+		LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, L"sounds\\ZombiesOnYourLawn.ogg");
 #endif
 }
 
@@ -233,7 +251,7 @@ HMUSIC Music::GetBassMusicHandle(MusicFile theMusicFile)
 
 void Music::PlayFromOffset(MusicFile theMusicFile, int theOffset, double theVolume)
 {
-	if (mApp == nullptr) mApp = (LawnApp*)gSexyApp;
+	if (!mApp) mApp = (LawnApp*)gSexyApp;
 	BassMusicInterface* aBass = (BassMusicInterface*)mApp->mMusicInterface;
 	auto anItr = aBass->mMusicMap.find((int)theMusicFile);
 	TOD_ASSERT(anItr != aBass->mMusicMap.end());
@@ -241,20 +259,21 @@ void Music::PlayFromOffset(MusicFile theMusicFile, int theOffset, double theVolu
 
 	if (aMusicInfo->mHStream)
 	{
-		bool aNoLoop = theMusicFile == MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN;  
+		bool aNoLoop = theMusicFile == MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN;
 		mMusicInterface->PlayMusic(theMusicFile, theOffset, aNoLoop);
 	}
 	else
 	{
-		BASS_ChannelStop(aMusicInfo->mHMusic);  
-		SetupMusicFileForTune(theMusicFile, mCurMusicTune);  
+		BASS_ChannelStop(aMusicInfo->mHMusic);
+		SetupMusicFileForTune(theMusicFile, mCurMusicTune);
 		aMusicInfo->mStopOnFade = false;
 		aMusicInfo->mVolume = aMusicInfo->mVolumeCap * theVolume;
 		aMusicInfo->mVolumeAdd = 0.0;
-		BASS_ChannelSetAttribute(aMusicInfo->mHMusic, BASS_ATTRIB_MUSIC_VOL_GLOBAL, aMusicInfo->mVolume * 100.0);  
+		//gBass->BASS_ChannelSetAttribute(aMusicInfo->mHMusic, -1, aMusicInfo->mVolume * 100.0, -101);
+		BASS_ChannelSetAttribute(aMusicInfo->mHMusic, BASS_ATTRIB_VOL, aMusicInfo->mVolume);
 		BASS_ChannelFlags(aMusicInfo->mHMusic, BASS_MUSIC_POSRESET | BASS_MUSIC_RAMP | BASS_MUSIC_LOOP, -1);
-		BASS_ChannelSetPosition(aMusicInfo->mHMusic, theOffset | 0x80000000, -1);  
-		BASS_ChannelPlay(aMusicInfo->mHMusic, false);  
+		BASS_ChannelSetPosition(aMusicInfo->mHMusic, MAKELONG(theOffset, 0) /**/, BASS_POS_MUSIC_ORDER);
+		BASS_ChannelPlay(aMusicInfo->mHMusic, false);
 	}
 }
 
@@ -420,41 +439,40 @@ void Music::PlayMusic(MusicTune theMusicTune, int theOffset, int theDrumsOffset)
 unsigned long Music::GetMusicOrder(MusicFile theMusicFile)
 {
 	TOD_ASSERT(theMusicFile != MusicFile::MUSIC_FILE_NONE);
-	return ((BassMusicInterface*)mApp->mMusicInterface)->GetMusicOrder((int)theMusicFile);
+    HCHANNEL hChannel = GetBassMusicHandle(theMusicFile);
+    QWORD packedPos = BASS_ChannelGetPosition(hChannel, BASS_POS_MUSIC_ORDER);
+    return packedPos;
 }
 
 void Music::MusicResyncChannel(MusicFile theMusicFileToMatch, MusicFile theMusicFileToSync)
 {
-	unsigned int aPosToMatch = GetMusicOrder(theMusicFileToMatch);
-	unsigned int aPosToSync = GetMusicOrder(theMusicFileToSync);
-	int aDiff = (aPosToSync >> 16) - (aPosToMatch >> 16);  
-	if (abs(aDiff) <= 128)  
-	{
-		HMUSIC aHMusic = GetBassMusicHandle(theMusicFileToSync);
+	QWORD posMatch = GetMusicOrder(theMusicFileToMatch);
+    QWORD posSync = GetMusicOrder(theMusicFileToSync);
+    int orderMatch = static_cast<int>(posMatch >> 16);
+    int orderSync  = static_cast<int>(posSync  >> 16);
+    int diff = orderSync - orderMatch;
+    if (std::abs(diff) <= 128)
+    {
+        HCHANNEL hSync = GetBassMusicHandle(theMusicFileToSync);
+        int adjustedBPM = mBaseBPM;
+        if      (diff >  2) adjustedBPM -= 2;
+        else if (diff >  0) adjustedBPM -= 1;
+        else if (diff < -2) adjustedBPM += 2;
+        else if (diff <  0) adjustedBPM += 1;
 
-		int aBPM = mBaseBPM;
-		if (aDiff > 2)
-			aBPM -= 2;
-		else if (aDiff > 0)
-			aBPM -= 1;
-		else if (aDiff < -2)
-			aBPM += 2;
-		else if (aDiff < 0)
-			aBPM -= 1;
-
-		BASS_ChannelSetAttribute(aHMusic, BASS_ATTRIB_MUSIC_BPM, aBPM);
-	}
+        BASS_ChannelSetAttribute(hSync, BASS_ATTRIB_MUSIC_BPM, static_cast<float>(adjustedBPM));
+    }
 }
 
 void Music::MusicResync()
 {
-	if (mCurMusicFileMain != MusicFile::MUSIC_FILE_NONE)
-	{
-		if (mCurMusicFileDrums != MusicFile::MUSIC_FILE_NONE)
-			MusicResyncChannel(mCurMusicFileMain, mCurMusicFileDrums);
-		if (mCurMusicFileHihats != MusicFile::MUSIC_FILE_NONE)
-			MusicResyncChannel(mCurMusicFileMain, mCurMusicFileHihats);
-	}
+	if (mCurMusicFileMain == MusicFile::MUSIC_FILE_NONE)
+        return;
+
+    if (mCurMusicFileDrums  != MusicFile::MUSIC_FILE_NONE)
+        MusicResyncChannel(mCurMusicFileMain, mCurMusicFileDrums);
+    if (mCurMusicFileHihats != MusicFile::MUSIC_FILE_NONE)
+        MusicResyncChannel(mCurMusicFileMain, mCurMusicFileHihats);
 }
 
 void Music::StartBurst()
@@ -469,10 +487,10 @@ void Music::StartBurst()
 void Music::FadeOut(int theFadeOutDuration)
 { 
 	if (mCurMusicTune != MusicTune::MUSIC_TUNE_NONE)
-	{
-		mFadeOutCounter = theFadeOutDuration;
-		mFadeOutDuration = theFadeOutDuration;
-	}
+    {
+        mFadeOutCounter = theFadeOutDuration;
+        mFadeOutDuration = theFadeOutDuration;
+    }
 }
 
 void Music::UpdateMusicBurst()
@@ -638,22 +656,25 @@ void Music::UpdateMusicBurst()
 void Music::MusicUpdate()
 {
 	if (mFadeOutCounter > 0)
-	{
-		mFadeOutCounter--;
-		if (mFadeOutCounter == 0)
-			StopAllMusic();
-		else
-		{
-			float aFadeLevel = TodAnimateCurveFloat(mFadeOutDuration, 0, mFadeOutCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
-			mMusicInterface->SetSongVolume(mCurMusicFileMain, aFadeLevel);
-		}
-	}
+    {
+        --mFadeOutCounter;
+        if (mFadeOutCounter == 0)
+            StopAllMusic();
+        else
+        {
+            float fadeLevel = TodAnimateCurveFloat(
+                mFadeOutDuration, 0, mFadeOutCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
+            BASS_ChannelSetAttribute(
+                GetBassMusicHandle(mCurMusicFileMain),
+                BASS_ATTRIB_VOL, fadeLevel);
+        }
+    }
 
-	if (mApp->mBoard == nullptr || !mApp->mBoard->mPaused)
-	{
-		UpdateMusicBurst();
-		MusicResync();
-	}
+    if (mApp->mBoard == nullptr || mApp->mBoard->mPaused)
+        return;
+
+    UpdateMusicBurst();
+    MusicResync();
 }
 
 void Music::MakeSureMusicIsPlaying(MusicTune theMusicTune)

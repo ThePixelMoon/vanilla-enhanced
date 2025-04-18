@@ -7071,7 +7071,7 @@ void SexyAppBase::SetMusicVolume(double theVolume)
 	mMusicVolume = theVolume;
 
 	if (mMusicInterface != NULL)
-		mMusicInterface->SetVolume((mMuteCount > 0) ? 0.0 : mMusicVolume);
+		mMusicInterface->SetVolume((mMuteCount > 0) ? 0.0 : mMusicVolume*100);
 }
 
 double SexyAppBase::GetSfxVolume()

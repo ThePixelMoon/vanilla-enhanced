@@ -581,13 +581,13 @@ bool DefinitionIsCompiled(const SexyString& theXMLFilePath)
 
     _WIN32_FILE_ATTRIBUTE_DATA lpFileData;
     _FILETIME aCompiledFileTime;
-    bool aSucceed = GetFileAttributesEx(aCompiledFilePath.c_str(), _GET_FILEEX_INFO_LEVELS::GetFileExInfoStandard, &lpFileData);
+    bool aSucceed = GetFileAttributesExA(aCompiledFilePath.c_str(), _GET_FILEEX_INFO_LEVELS::GetFileExInfoStandard, &lpFileData);
     if (aSucceed)
         aCompiledFileTime = lpFileData.ftLastWriteTime;
-    
-    if (!GetFileAttributesEx(theXMLFilePath.c_str(), _GET_FILEEX_INFO_LEVELS::GetFileExInfoStandard, &lpFileData))
+
+    if (!GetFileAttributesA(theXMLFilePath.c_str()))
     {
-        TodTrace(_S("Can't file source file to compile '%s'"), theXMLFilePath);
+        TodTrace(_S("Can't find source file to compile '%s'"), theXMLFilePath.c_str());
         return true;
     }
     else
