@@ -522,7 +522,7 @@ void NewOptionsDialog::Update()
             {
                 num = stoi(mSpeedEditWidget->mString);
             }
-            catch (exception)
+            catch (std::exception)
             {
                 mSpeedEditWidget->mString = mSpeedEditPrevText;
                 return;

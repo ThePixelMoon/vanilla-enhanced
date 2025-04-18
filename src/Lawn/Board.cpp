@@ -340,7 +340,7 @@ bool Board::NeedSaveGame()
 		mApp->mGameScene == GameScenes::SCENE_PLAYING;
 }
 
-void Board::SaveGame(const string& theFileName)
+void Board::SaveGame(const std::string& theFileName)
 { 
 	LawnSaveGame(this, theFileName);
 }
@@ -354,7 +354,7 @@ void Board::ResetFPSStats()
 	mIntervalDrawCountStart = 1;
 }
 
-bool Board::LoadGame(const string& theFileName)
+bool Board::LoadGame(const std::string& theFileName)
 {
 	if (!LawnLoadGame(this, theFileName))
 		return false;
@@ -9802,15 +9802,3 @@ void Board::DrawHealthbar(Graphics* g, Rect rect, Color maxColor, int maxNumber,
 	}
 	g->SetColor(lastColor);
 }
-
-
-
-
-
-
-
-
-
-
-
-

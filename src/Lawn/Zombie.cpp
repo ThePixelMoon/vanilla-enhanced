@@ -9335,31 +9335,22 @@ bool Zombie::IsFlying()
 int Zombie::GetBobsledPosition()
 {
     if (mZombieType != ZombieType::ZOMBIE_BOBSLED)
-    {
         return -1;
-    }
 
     if (mRelatedZombieID == ZombieID::ZOMBIEID_NULL && mFollowerZombieID[0] == ZombieID::ZOMBIEID_NULL)
-    {
         return -1;
-    }
 
     if (mRelatedZombieID == ZombieID::ZOMBIEID_NULL)
-    {
         return 0;
-    }
 
     ZombieID anId = mBoard->ZombieGetID(this);
     Zombie* aLeaderZombie = mBoard->ZombieGet(mRelatedZombieID);
     for (int i = 0; i < NUM_BOBSLED_FOLLOWERS; i++)
-    {
         if (aLeaderZombie->mFollowerZombieID[i] == anId)
-        {
             return i + 1;
-        }
-    }
 
     TOD_ASSERT();
+    return -1;
 }
 
 bool Zombie::IsBobsledTeamWithSled()

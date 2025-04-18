@@ -726,7 +726,7 @@ bool DefinitionReadVector2Field(XMLParser* theXmlParser, SexyVector2* theValue)
     if (!DefinitionReadXMLString(theXmlParser, aStringValue))
         return false;
 
-    if (sexysscanf(aStringValue.c_str(), _S("%f %f"), theValue) == 1)
+    if (sexysscanf(aStringValue.c_str(), _S("%f %f"), &theValue->x, &theValue->y) == 2)
         return true;
 
     DefinitionXmlError(theXmlParser, "Can't parse vector2 value '%s'", aStringValue.c_str());
@@ -789,20 +789,17 @@ bool DefinitionReadFlagField(XMLParser* theXmlParser, const SexyString& theEleme
         return false;
 
     int aFlag;
-    if (sexysscanf(aStringValue.c_str(), _S("%f %f"), &aFlag) != 1)
+    if (sexysscanf(aStringValue.c_str(), _S("%d"), &aFlag) != 1)
     {
         DefinitionXmlError(theXmlParser, "Can't parse int value '%s'", aStringValue.c_str());
         return false;
     }
 
     if (aFlag)
-    {
         *theResultValue |= 1 << aValue;
-    }
     else
-    {
         *theResultValue &= ~(1 << aValue);
-    }
+
     return true;
 }
 
@@ -830,6 +827,7 @@ bool DefinitionReadFontField(XMLParser* theXmlParser, Font** theFont)
 
     std::string aMessgae = StrFormat("Failed to find font '%s' in %s", SexyStringToStringFast(aStringValue).c_str(), theXmlParser->GetFileName());
     TodErrorMessageBox(aMessgae.c_str(), "Missing font");
+    return false;
 }
 
 bool DefinitionReadField(XMLParser* theXmlParser, DefMap* theDefMap, void* theDefinition, bool* theDone)
@@ -891,6 +889,7 @@ bool DefinitionReadField(XMLParser* theXmlParser, DefMap* theDefMap, void* theDe
                 TOD_ASSERT(false);
                 break;
             }
+
             if (aSuccess)
                 return true;
 
@@ -898,6 +897,7 @@ bool DefinitionReadField(XMLParser* theXmlParser, DefMap* theDefMap, void* theDe
             return false;
         }
     }
+
     DefinitionXmlError(theXmlParser, "Ignoring unknown element '%s'", aXMLElement.mValue.c_str());  
     return false;
 }
@@ -951,8 +951,7 @@ bool DefinitionCompileFile(const SexyString theXMLFilePath, const SexyString& th
 bool DefinitionCompileAndLoad(const SexyString& theXMLFilePath, DefMap* theDefMap, void* theDefinition)
 {
     //Changed to compile from in debug to this preprocessor
-#ifdef _COMPILEXML  
-
+#ifdef _COMPILEXML
     TodHesitationTrace(_S("predef"));
     SexyString aCompiledFilePath = DefinitionGetCompiledFilePathFromXMLFilePath(theXMLFilePath);
     if (DefinitionIsCompiled(theXMLFilePath) && DefinitionReadCompiledFile(aCompiledFilePath, theDefMap, theDefinition))
@@ -969,16 +968,13 @@ bool DefinitionCompileAndLoad(const SexyString& theXMLFilePath, DefMap* theDefMa
         TodHesitationTrace(_S("compiled %s"), aCompiledFilePath.c_str());
         return aResult;
     }
-
-#else  
-
+#else
     SexyString aCompiledFilePath = DefinitionGetCompiledFilePathFromXMLFilePath(theXMLFilePath);
     if (DefinitionReadCompiledFile(aCompiledFilePath, theDefMap, theDefinition))
         return true;
 
     TodErrorMessageBox(StrFormat(_S("missing resource %s"), aCompiledFilePath.c_str()).c_str(), _S("Error"));
     exit(0);
-    
 #endif
 }
 

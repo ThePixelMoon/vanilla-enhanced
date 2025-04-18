@@ -1,12 +1,15 @@
 #ifndef __KEYCODES_INCLUDED__
 #define __KEYCODES_INCLUDED__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Common.h"
 
 namespace Sexy
 {
 
-typedef enum KeyCode
+/*typedef*/ enum KeyCode
 {
 	KEYCODE_UNKNOWN		  = 0x00,
 	KEYCODE_LBUTTON		  = 0x01,

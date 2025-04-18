@@ -130,7 +130,7 @@ LawnApp::LawnApp()
 	isFastMode = false;
 	mProdName = "PlantsVsZombies";
 	mVersion = "v2.1";
-	mReconVersion = "PvZ: QoTL " + mVersion;
+	mReconVersion = "PvZ: VE " + mVersion;
 	std::string aTitleName = "Plants vs. Zombies";
 #ifdef _DEBUG
 	aTitleName += " DEBUG";
@@ -1203,7 +1203,7 @@ bool LawnApp::KillNewOptionsDialog()
 		mDiscordPresence = aNewOptionsDialog->mDiscordBox->IsChecked();
 		mBankKeybinds = aNewOptionsDialog->mBankKeybindsBox->IsChecked();
 		mZeroNineBankFormat = aNewOptionsDialog->m09FormatBox->IsChecked();
-		mSpeedModifier = stoi(aNewOptionsDialog->mSpeedEditWidget->mString.c_str());
+		mSpeedModifier = std::stoi(aNewOptionsDialog->mSpeedEditWidget->mString.c_str());
 		mAutoCollectSuns = aNewOptionsDialog->mAutoCollectSunsBox->IsChecked();
 		mAutoCollectCoins = aNewOptionsDialog->mAutoCollectCoinsBox->IsChecked();
 		mZombieHealthbars = aNewOptionsDialog->mZombieHealthbarsBox->IsChecked();

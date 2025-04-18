@@ -68,7 +68,7 @@ bool TodStringListReadName(const char*& thePtr, std::string& theName)
 		}
 
 		int aCount = aNameEnd - aNameStart - 1;
-		theName = Sexy::Trim(string(aNameStart + 1, aCount));  
+		theName = Sexy::Trim(std::string(aNameStart + 1, aCount));  
 		if (theName.size() == 0)
 		{
 			TodTrace("Name Too Short");
@@ -95,7 +95,7 @@ bool TodStringListReadValue(const char*& thePtr, std::string& theValue)
 {
 	const char* aValueEnd = strchr(thePtr, '[');
 	int aLen = aValueEnd ? aValueEnd - thePtr : strlen(thePtr);
-	theValue = Sexy::Trim(string(thePtr, aLen));  
+	theValue = Sexy::Trim(std::string(thePtr, aLen));  
 	TodStringRemoveReturnChars(theValue);  
 	thePtr += aLen;  
 	return true;

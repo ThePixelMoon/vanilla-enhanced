@@ -1010,7 +1010,7 @@ Color ColorsMultiply(const Color& theColor1, const Color& theColor2)
 	);  
 }
 
-bool TodLoadResources(const string& theGroup)
+bool TodLoadResources(const std::string& theGroup)
 {
 	return ((TodResourceManager*)gSexyAppBase->mResourceManager)->TodLoadResources(theGroup);
 }
@@ -1034,7 +1034,7 @@ bool TodResourceManager::TodLoadResources(const std::string& theGroup)
 		return false;
 	}
 
-	if (ExtractResourcesByName && !ExtractResourcesByName(this, theGroup.c_str()))
+	if (!ExtractResourcesByName(this, theGroup.c_str()))
 	{
 		gSexyAppBase->ShowResourceError(true);
 		return false;
@@ -1044,9 +1044,7 @@ bool TodResourceManager::TodLoadResources(const std::string& theGroup)
 
 	int aDuration = max(aTimer.GetDuration(), 0);
 	if (aDuration > 20)
-	{
 		TodTraceAndLog("LOADED: '%s' %d ms on %s", theGroup.c_str(), aDuration, gGetCurrentLevelName().c_str());
-	}
 
 	return true;
 }

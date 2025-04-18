@@ -380,44 +380,32 @@ int ZenGarden::GetPlantSellPrice(Plant* thePlant)
     if (aPottedPlant->mSeedType == SeedType::SEED_MARIGOLD)
     {
         if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SPROUT)
-        {
             return 150;
-        }
-        if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SMALL)
-        {
+        else if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SMALL)
             return 200;
-        }
-        if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_MEDIUM)
-        {
+        else if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_MEDIUM)
             return 250;
-        }
-        if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_FULL)
-        {
+        else if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_FULL)
             return 300;
-        }
+
         TOD_ASSERT();
     }
-    if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SPROUT)
-    {
+    else if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SPROUT)
         return 150;
-    }
-    if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SMALL)
-    {
+    else if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SMALL)
         return 300;
-    }
-    if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_MEDIUM)
-    {
+    else if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_MEDIUM)
         return 500;
-    }
-    if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_FULL)
+    else if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_FULL)
     {
         if (Plant::IsNocturnal(aPottedPlant->mSeedType) || Plant::IsAquatic(aPottedPlant->mSeedType))
-        {
             return 1000;
-        }
+
         return 800;
     }
+
     TOD_ASSERT();
+    return -1;
 }
 
 void ZenGarden::MouseDownWithMoneySign(Plant* thePlant)

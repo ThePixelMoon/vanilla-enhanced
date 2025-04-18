@@ -11,7 +11,6 @@ namespace Sexy
 	class Graphics;
 };
 
-using namespace std;
 using namespace Sexy;
 
 #define MAX_PARTICLES_SIZE 900

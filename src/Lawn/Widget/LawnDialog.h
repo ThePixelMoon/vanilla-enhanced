@@ -18,7 +18,6 @@ namespace Sexy
 	class CheckboxListener;
 }
 
-using namespace std;
 using namespace Sexy;
 
 class ReanimationWidget : public Widget

@@ -40,6 +40,11 @@
 #include <shlobj.h>
 #include "GameConstants.h"
 
+#ifdef _WIN32
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+#endif
+
 #include "memmgr.h"
 
 using namespace Sexy;
@@ -145,7 +150,7 @@ SexyAppBase::SexyAppBase()
 	gDSoundDLL = LoadLibraryA("dsound.dll");
 	gGetLastInputInfoFunc = (GetLastInputInfoFunc) GetProcAddress(GetModuleHandleA("user32.dll"),"GetLastInputInfo");
 
-	ImageLib::InitJPEG2000();
+//	ImageLib::InitJPEG2000();
 
 	mMutex = NULL;
 	mNotifyGameMessage = 0;
@@ -2222,7 +2227,7 @@ void SexyAppBase::Shutdown()
 		if (mReadFromRegistry)
 			WriteToRegistry();
 
-		ImageLib::CloseJPEG2000();
+//		ImageLib::CloseJPEG2000();
 	}
 }
 
@@ -3761,7 +3766,7 @@ LRESULT CALLBACK SexyAppBase::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LP
 	case WM_DESTROY:
 		{
 			char aStr[256];
-			sprintf(aStr, "DESTROYED HWND: %d\r\n", hWnd);
+			sprintf(aStr, "DESTROYED HWND: %p\r\n", hWnd);
 			OutputDebugStringA(aStr);
 		}
 		break;	
@@ -4819,6 +4824,12 @@ void SexyAppBase::MakeWindow()
 				this);
 #endif
 		}
+
+#ifdef _WIN32
+		// assuming we are on windows 10 or greater
+		BOOL stub = TRUE;
+		DwmSetWindowAttribute( mHWnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &stub, sizeof(stub));
+#endif
 		
 		if (mPreferredX == -1)
 		{				

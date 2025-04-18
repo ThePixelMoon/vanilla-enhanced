@@ -4,3 +4,15 @@
 [submodule "src/ImageLib/zlib"]
 	path = src/ImageLib/zlib
 	url = https://github.com/madler/zlib.git
+[submodule "src/SexyAppFramework/ogg"]
+	path = src/SexyAppFramework/ogg
+	url = https://github.com/xiph/vorbis.git
+[submodule "external/ogg"]
+	path = external/ogg
+	url = https://github.com/xiph/ogg.git
+[submodule "src/ImageLib/jpeg"]
+	path = src/ImageLib/jpeg
+	url = https://github.com/mitsuba-renderer/libjpeg.git
+[submodule "src/ImageLib/png"]
+	path = src/ImageLib/png
+	url = https://github.com/pnggroup/libpng.git

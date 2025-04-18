@@ -259,17 +259,11 @@ int ChallengeScreen::MoreTrophiesNeeded(int theChallengeIndex)
 	if (mApp->IsTrialStageLocked())
 	{
 		if (mPageIndex == CHALLENGE_PAGE_PUZZLE && aDef.mChallengeMode >= GAMEMODE_SCARY_POTTER_4)
-		{
 			return aDef.mChallengeMode == GAMEMODE_SCARY_POTTER_4 ? 1 : 2;
-		}
 		else if (mPageIndex == CHALLENGE_PAGE_CHALLENGE && aDef.mChallengeMode >= GAMEMODE_CHALLENGE_RAINING_SEEDS)
-		{
 			return aDef.mChallengeMode == GAMEMODE_CHALLENGE_RAINING_SEEDS ? 1 : 2;
-		}
 		else if (mPageIndex == CHALLENGE_PAGE_SURVIVAL && aDef.mChallengeMode >= GAMEMODE_SURVIVAL_NORMAL_STAGE_4)
-		{
 			return aDef.mChallengeMode == GAMEMODE_SURVIVAL_NORMAL_STAGE_4 ? 1 : 2;
-		}
 	}
 
 	if (aDef.mPage == CHALLENGE_PAGE_PUZZLE)
@@ -278,73 +272,51 @@ int ChallengeScreen::MoreTrophiesNeeded(int theChallengeIndex)
 		{
 			int aLevelsCompleted = 0;
 			for (ChallengeDefinition& aSPDef : gChallengeDefs)
-			{
 				if (IsScaryPotterLevel(aSPDef.mChallengeMode) && mApp->HasBeatenChallenge(aSPDef.mChallengeMode))
-				{
 					aLevelsCompleted++;
-				}
-			}
 
 			if (aDef.mChallengeMode < GAMEMODE_SCARY_POTTER_4 || mApp->HasFinishedAdventure() || aLevelsCompleted < 3)
-			{
 				return ClampInt(aDef.mChallengeMode - GAMEMODE_SCARY_POTTER_1 - aLevelsCompleted, 0, 9);
-			}
 			else
-			{
 				return aDef.mChallengeMode == GAMEMODE_SCARY_POTTER_4 ? 1 : 2;
-			}
 		}
 		else if (IsIZombieLevel(aDef.mChallengeMode))
 		{
 			int aLevelsCompleted = 0;
 			for (ChallengeDefinition& aIZDef : gChallengeDefs)
-			{
 				if (IsIZombieLevel(aIZDef.mChallengeMode) && mApp->HasBeatenChallenge(aIZDef.mChallengeMode))
-				{
 					aLevelsCompleted++;
-				}
-			}
 
 			if (aDef.mChallengeMode < GAMEMODE_PUZZLE_I_ZOMBIE_4 || mApp->HasFinishedAdventure() || aLevelsCompleted < 3)
-			{
 				return ClampInt(aDef.mChallengeMode - GAMEMODE_PUZZLE_I_ZOMBIE_1 - aLevelsCompleted, 0, 9);
-			}
 			else
-			{
 				return aDef.mChallengeMode == GAMEMODE_PUZZLE_I_ZOMBIE_4 ? 1 : 2;
-			}
 		}
 	}
 	else
 	{
 		int aIdxInPage = aDef.mRow * 5 + aDef.mCol;
 		if ((aDef.mPage == CHALLENGE_PAGE_CHALLENGE || aDef.mPage == CHALLENGE_PAGE_SURVIVAL) && !mApp->HasFinishedAdventure())
-		{
 			return aIdxInPage < 3 ? 0 : aIdxInPage == 3 ? 1 : 2;
-		}
 		else
 		{
 			int aNumTrophies = mApp->GetNumTrophies(aDef.mPage);
 			if (aDef.mPage == CHALLENGE_PAGE_LIMBO)
-			{
 				return 0;
-			}
+
 			if (mApp->IsSurvivalEndless(aDef.mChallengeMode))
-			{
 				return 10 - aNumTrophies;
-			}
+
 			if (aDef.mPage == CHALLENGE_PAGE_SURVIVAL || aDef.mPage == CHALLENGE_PAGE_CHALLENGE)
-			{
 				aNumTrophies += 3;
-			}
 			else
-			{
 				TOD_ASSERT();
-			}
 
 			return aIdxInPage >= aNumTrophies ? aIdxInPage - aNumTrophies + 1 : 0;
 		}
 	}
+
+	return -1;
 }
 
 bool ChallengeScreen::ShowPageButtons()

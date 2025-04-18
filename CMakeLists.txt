@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
+cmake_policy(SET CMP0074 NEW)
 
 set(CMAKE_SYSTEM_VERSION 10.0 CACHE STRING "" FORCE)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(PlantsVsZombies C CXX)
 
@@ -20,6 +24,13 @@ set(CLANG_FORMAT_CMD OFF CACHE BOOL "disable clang-format" FORCE)
 set(ZLIB_BUILD_TESTING OFF CACHE BOOL "Enable Zlib Examples as tests" FORCE)
 set(ZLIB_INSTALL OFF CACHE BOOL "Enable installation of zlib" FORCE)
 
+set(PNG_SHARED ON CACHE BOOL "" FORCE)
+set(PNG_STATIC OFF CACHE BOOL "" FORCE)
+set(PNG_EXECUTABLES OFF CACHE BOOL "" FORCE)
+set(PNG_TESTS OFF CACHE BOOL "" FORCE)
+set(PNG_TOOLS OFF CACHE BOOL "" FORCE)
+set(SKIP_INSTALL_ALL ON CACHE BOOL "" FORCE)
+
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     message(CONFIGURE_LOG "CMAKE_INSTALL_PREFIX not set, using ./out")
     set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "./out" FORCE)
@@ -28,7 +39,19 @@ endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(external/discord-rpc EXCLUDE_FROM_ALL)
+
 add_subdirectory(src/ImageLib/zlib EXCLUDE_FROM_ALL)
+set(ZLIB_ROOT src/ImageLib/zlib)
+set(ZLIB_LIBRARY ZLIB::ZLIB)
+set(ZLIB_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/ImageLib/zlib")
+
+add_subdirectory(src/ImageLib/jpeg EXCLUDE_FROM_ALL)
+add_subdirectory(src/ImageLib/png)
+
+set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries for ogg" FORCE)
+add_subdirectory(external/ogg EXCLUDE_FROM_ALL)
+add_subdirectory(src/SexyAppFramework/ogg EXCLUDE_FROM_ALL)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries for ogg" FORCE)
 
 target_include_directories(discord-rpc
     PRIVATE
@@ -40,3 +63,8 @@ add_subdirectory(src/SexyAppFramework)
 # Moon: installing
 install(TARGETS LawnProject RUNTIME DESTINATION .)
 install(FILES $<TARGET_FILE:ZLIB::ZLIB> DESTINATION .)
+install(FILES $<TARGET_FILE:Vorbis::vorbis> DESTINATION .)
+install(FILES $<TARGET_FILE:Vorbis::vorbisfile> DESTINATION .)
+install(FILES $<TARGET_FILE:ogg> DESTINATION .)
+install(FILES $<TARGET_FILE:jpeg> DESTINATION .)
+install(FILES $<TARGET_FILE:png_shared> DESTINATION .)

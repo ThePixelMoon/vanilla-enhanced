@@ -1,4 +1,9 @@
+#ifndef __TODCOMMON_H__
+#define __TODCOMMON_H__
+#ifdef _WIN32
 #pragma once
+#endif
+
 #include <stdlib.h>
 #include "Lawn/LawnCommon.h"
 #include "SexyAppFramework/Common.h"
@@ -11,7 +16,7 @@ namespace Sexy
 	class SexyMatrix;
 	class SexyVector2;
 };
-using namespace std;
+
 using namespace Sexy;
 
 #define D3DIMAGEFLAG_SANDING 0x1000
@@ -143,3 +148,4 @@ inline void				SetBit(uint& theNum, int theIdx, bool theValue = true)		{ if (the
 inline bool				TestBit(uint theNum, int theIdx)							{ return theNum & (1 << theIdx); }
 //#define SetBit(num, idx, val) { if (val) (num) |= 1 << (idx); else (num) &= ~(1 << (idx)); }
 //#define TestBit(num, idx) ((num) & (1 - (idx)))
+#endif

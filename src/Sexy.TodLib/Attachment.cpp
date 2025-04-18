@@ -760,10 +760,8 @@ Reanimation* FindReanimAttachment(AttachmentID& theAttachmentID)
 {
 	TOD_ASSERT(gEffectSystem);
 	Attachment* aAttachment = gEffectSystem->mAttachmentHolder->mAttachments.DataArrayTryToGet((unsigned int)theAttachmentID);
-	if (aAttachment == nullptr)
-	{
+	if (!aAttachment)
 		return nullptr;
-	}
 
 	for (int i = 0; i < aAttachment->mNumEffects; i++)
 	{
@@ -772,11 +770,11 @@ Reanimation* FindReanimAttachment(AttachmentID& theAttachmentID)
 		{
 			Reanimation* aReanimation = gEffectSystem->mReanimationHolder->mReanimations.DataArrayTryToGet(aAttachEffect->mEffectID);
 			if (aReanimation)
-			{
 				return aReanimation;
-			}
 		}
 	}
+
+	return nullptr;
 }
 
 AttachEffect* FindFirstAttachment(AttachmentID& theAttachmentID)

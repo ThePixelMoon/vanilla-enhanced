@@ -5,7 +5,6 @@
 #include "FilterEffect.h"
 #include "SexyAppFramework/SexyMatrix.h"
 
-using namespace std;
 using namespace Sexy;
 
 class Reanimation;

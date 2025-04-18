@@ -6,7 +6,6 @@
 #include "Sexy.TodLib/DataArray.h"
 #include "SexyAppFramework/Dialog.h"
 
-using namespace std;
 using namespace Sexy;
 
 #define MAX_PAGE_SPOTS 8
@@ -33,7 +32,7 @@ public:
 	NewLawnButton*				mNextButton;                    
     Widget*                     mOverlayWidget;                 
 	int                         mStoreTime;                     
-	string                      mBubbleText;                    
+    std::string                 mBubbleText;
     int                         mBubbleCountDown;               
     bool                        mBubbleClickToContinue;         
     int                         mAmbientSpeechCountDown;        

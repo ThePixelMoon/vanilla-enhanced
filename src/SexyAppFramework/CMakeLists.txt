@@ -20,188 +20,6 @@ set(ImageLib
 )
 source_group("ImageLib" FILES ${ImageLib})
 
-set(ImageLib__JPEG
-    "../ImageLib/jpeg/cderror.h"
-    "../ImageLib/jpeg/cdjpeg.c"
-    "../ImageLib/jpeg/cdjpeg.h"
-    "../ImageLib/jpeg/jcapimin.c"
-    "../ImageLib/jpeg/jcapistd.c"
-    "../ImageLib/jpeg/jccoefct.c"
-    "../ImageLib/jpeg/jccolor.c"
-    "../ImageLib/jpeg/jcdctmgr.c"
-    "../ImageLib/jpeg/jchuff.c"
-    "../ImageLib/jpeg/jchuff.h"
-    "../ImageLib/jpeg/jcinit.c"
-    "../ImageLib/jpeg/jcmainct.c"
-    "../ImageLib/jpeg/jcmarker.c"
-    "../ImageLib/jpeg/jcmaster.c"
-    "../ImageLib/jpeg/jcomapi.c"
-    "../ImageLib/jpeg/jconfig.h"
-    "../ImageLib/jpeg/jcparam.c"
-    "../ImageLib/jpeg/jcphuff.c"
-    "../ImageLib/jpeg/jcprepct.c"
-    "../ImageLib/jpeg/jcsample.c"
-    "../ImageLib/jpeg/jctrans.c"
-    "../ImageLib/jpeg/jdapimin.c"
-    "../ImageLib/jpeg/jdapistd.c"
-    "../ImageLib/jpeg/jdatadst.c"
-    "../ImageLib/jpeg/jdatasrc.c"
-    "../ImageLib/jpeg/jdcoefct.c"
-    "../ImageLib/jpeg/jdcolor.c"
-    "../ImageLib/jpeg/jdct.h"
-    "../ImageLib/jpeg/jddctmgr.c"
-    "../ImageLib/jpeg/jdhuff.c"
-    "../ImageLib/jpeg/jdhuff.h"
-    "../ImageLib/jpeg/jdinput.c"
-    "../ImageLib/jpeg/jdmainct.c"
-    "../ImageLib/jpeg/jdmarker.c"
-    "../ImageLib/jpeg/jdmaster.c"
-    "../ImageLib/jpeg/jdmerge.c"
-    "../ImageLib/jpeg/jdphuff.c"
-    "../ImageLib/jpeg/jdpostct.c"
-    "../ImageLib/jpeg/jdsample.c"
-    "../ImageLib/jpeg/jdtrans.c"
-    "../ImageLib/jpeg/jerror.c"
-    "../ImageLib/jpeg/jerror.h"
-    "../ImageLib/jpeg/jfdctflt.c"
-    "../ImageLib/jpeg/jfdctfst.c"
-    "../ImageLib/jpeg/jfdctint.c"
-    "../ImageLib/jpeg/jidctflt.c"
-    "../ImageLib/jpeg/jidctfst.c"
-    "../ImageLib/jpeg/jidctint.c"
-    "../ImageLib/jpeg/jidctred.c"
-    "../ImageLib/jpeg/jinclude.h"
-    "../ImageLib/jpeg/jmemmgr.c"
-    "../ImageLib/jpeg/jmemnobs.c"
-    "../ImageLib/jpeg/jmemsys.h"
-    "../ImageLib/jpeg/jmorecfg.h"
-    "../ImageLib/jpeg/jpegint.h"
-    "../ImageLib/jpeg/jpeglib.h"
-    "../ImageLib/jpeg/jquant1.c"
-    "../ImageLib/jpeg/jquant2.c"
-    "../ImageLib/jpeg/jutils.c"
-    "../ImageLib/jpeg/jversion.h"
-    "../ImageLib/jpeg/rdbmp.c"
-    "../ImageLib/jpeg/rdcolmap.c"
-    "../ImageLib/jpeg/rdgif.c"
-    "../ImageLib/jpeg/rdppm.c"
-    "../ImageLib/jpeg/rdrle.c"
-    "../ImageLib/jpeg/rdswitch.c"
-    "../ImageLib/jpeg/rdtarga.c"
-    "../ImageLib/jpeg/transupp.c"
-    "../ImageLib/jpeg/transupp.h"
-    "../ImageLib/jpeg/wrbmp.c"
-    "../ImageLib/jpeg/wrgif.c"
-    "../ImageLib/jpeg/wrppm.c"
-    "../ImageLib/jpeg/wrrle.c"
-    "../ImageLib/jpeg/wrtarga.c"
-)
-source_group("ImageLib\\JPEG" FILES ${ImageLib__JPEG})
-
-set(ImageLib__JPEG2000
-#    "../ImageLib/jpeg2000/jas_cm.c"
-#    "../ImageLib/jpeg2000/jas_cm.h"
-#    "../ImageLib/jpeg2000/jas_config.h"
-#    "../ImageLib/jpeg2000/jas_config2.h"
-#    "../ImageLib/jpeg2000/jas_debug.c"
-#    "../ImageLib/jpeg2000/jas_debug.h"
-#    "../ImageLib/jpeg2000/jas_fix.h"
-#    "../ImageLib/jpeg2000/jas_getopt.c"
-#    "../ImageLib/jpeg2000/jas_getopt.h"
-#    "../ImageLib/jpeg2000/jas_icc.c"
-#    "../ImageLib/jpeg2000/jas_icc.h"
-#    "../ImageLib/jpeg2000/jas_iccdata.c"
-#    "../ImageLib/jpeg2000/jas_image.c"
-#    "../ImageLib/jpeg2000/jas_image.h"
-#    "../ImageLib/jpeg2000/jas_init.c"
-#    "../ImageLib/jpeg2000/jas_init.h"
-#    "../ImageLib/jpeg2000/jas_malloc.c"
-#    "../ImageLib/jpeg2000/jas_malloc.h"
-#    "../ImageLib/jpeg2000/jas_math.h"
-#    "../ImageLib/jpeg2000/jas_seq.c"
-#    "../ImageLib/jpeg2000/jas_seq.h"
-#    "../ImageLib/jpeg2000/jas_stream.c"
-#    "../ImageLib/jpeg2000/jas_stream.h"
-#    "../ImageLib/jpeg2000/jas_string.c"
-#    "../ImageLib/jpeg2000/jas_string.h"
-#    "../ImageLib/jpeg2000/jas_tvp.c"
-#    "../ImageLib/jpeg2000/jas_tvp.h"
-#    "../ImageLib/jpeg2000/jas_types.h"
-#    "../ImageLib/jpeg2000/jas_version.c"
-#    "../ImageLib/jpeg2000/jas_version.h"
-#    "../ImageLib/jpeg2000/jasper.h"
-#    "../ImageLib/jpeg2000/jp2_cod.c"
-#    "../ImageLib/jpeg2000/jp2_cod.h"
-#    "../ImageLib/jpeg2000/jp2_dec.c"
-#    "../ImageLib/jpeg2000/jp2_dec.h"
-#    "../ImageLib/jpeg2000/jp2_enc.c"
-#    "../ImageLib/jpeg2000/jpc_bs.c"
-#    "../ImageLib/jpeg2000/jpc_bs.h"
-#    "../ImageLib/jpeg2000/jpc_cod.h"
-#    "../ImageLib/jpeg2000/jpc_cs.c"
-#    "../ImageLib/jpeg2000/jpc_cs.h"
-#    "../ImageLib/jpeg2000/jpc_dec.c"
-#    "../ImageLib/jpeg2000/jpc_dec.h"
-#    "../ImageLib/jpeg2000/jpc_enc.c"
-#    "../ImageLib/jpeg2000/jpc_enc.h"
-#    "../ImageLib/jpeg2000/jpc_fix.h"
-#    "../ImageLib/jpeg2000/jpc_flt.h"
-#    "../ImageLib/jpeg2000/jpc_math.c"
-#    "../ImageLib/jpeg2000/jpc_math.h"
-#    "../ImageLib/jpeg2000/jpc_mct.c"
-#    "../ImageLib/jpeg2000/jpc_mct.h"
-#    "../ImageLib/jpeg2000/jpc_mqcod.c"
-#    "../ImageLib/jpeg2000/jpc_mqcod.h"
-#    "../ImageLib/jpeg2000/jpc_mqdec.c"
-#    "../ImageLib/jpeg2000/jpc_mqdec.h"
-#    "../ImageLib/jpeg2000/jpc_mqenc.c"
-#    "../ImageLib/jpeg2000/jpc_mqenc.h"
-#    "../ImageLib/jpeg2000/jpc_qmfb.c"
-#    "../ImageLib/jpeg2000/jpc_qmfb.h"
-#    "../ImageLib/jpeg2000/jpc_t1cod.c"
-#    "../ImageLib/jpeg2000/jpc_t1cod.h"
-#    "../ImageLib/jpeg2000/jpc_t1dec.c"
-#    "../ImageLib/jpeg2000/jpc_t1dec.h"
-#    "../ImageLib/jpeg2000/jpc_t1enc.c"
-#    "../ImageLib/jpeg2000/jpc_t1enc.h"
-#    "../ImageLib/jpeg2000/jpc_t2cod.c"
-#    "../ImageLib/jpeg2000/jpc_t2cod.h"
-#    "../ImageLib/jpeg2000/jpc_t2dec.c"
-#    "../ImageLib/jpeg2000/jpc_t2dec.h"
-#    "../ImageLib/jpeg2000/jpc_t2enc.c"
-#    "../ImageLib/jpeg2000/jpc_t2enc.h"
-#    "../ImageLib/jpeg2000/jpc_tagtree.c"
-#    "../ImageLib/jpeg2000/jpc_tagtree.h"
-#    "../ImageLib/jpeg2000/jpc_tsfb.c"
-#    "../ImageLib/jpeg2000/jpc_tsfb.h"
-#    "../ImageLib/jpeg2000/jpc_util.c"
-#    "../ImageLib/jpeg2000/jpc_util.h"
-)
-source_group("ImageLib\\JPEG2000" FILES ${ImageLib__JPEG2000})
-
-set(ImageLib__PNG
-    "../ImageLib/png/png.c"
-    "../ImageLib/png/png.h"
-    "../ImageLib/png/pngasmrd.h"
-    "../ImageLib/png/pngconf.h"
-    "../ImageLib/png/pngerror.c"
-    "../ImageLib/png/pngget.c"
-    "../ImageLib/png/pngmem.c"
-    "../ImageLib/png/pngpread.c"
-    "../ImageLib/png/pngread.c"
-    "../ImageLib/png/pngrio.c"
-    "../ImageLib/png/pngrtran.c"
-    "../ImageLib/png/pngrutil.c"
-    "../ImageLib/png/pngset.c"
-    "../ImageLib/png/pngtrans.c"
-    "../ImageLib/png/pngvcrd.c"
-    "../ImageLib/png/pngwio.c"
-    "../ImageLib/png/pngwrite.c"
-    "../ImageLib/png/pngwtran.c"
-    "../ImageLib/png/pngwutil.c"
-)
-source_group("ImageLib\\PNG" FILES ${ImageLib__PNG})
-
 set(Lawn__Board__Board_Include
     "../Lawn/Achievements.h"
     "../Lawn/Board.h"
@@ -447,42 +265,6 @@ set(Sexy__Misc__Misc_Source
 )
 source_group("Sexy\\Misc\\Misc Source" FILES ${Sexy__Misc__Misc_Source})
 
-set(Sexy__Sound__Ogg
-    "ogg/asm_arm.h"
-    "ogg/backends.h"
-    "ogg/bitwise.c"
-    "ogg/block.c"
-    "ogg/codebook.c"
-    "ogg/codebook.h"
-    "ogg/codec_internal.h"
-    "ogg/config_types.h"
-    "ogg/floor0.c"
-    "ogg/floor1.c"
-    "ogg/framing.c"
-    "ogg/info.c"
-    "ogg/ivorbiscodec.h"
-    "ogg/ivorbisfile.h"
-    "ogg/lsp_lookup.h"
-    "ogg/mapping0.c"
-    "ogg/mdct.c"
-    "ogg/mdct.h"
-    "ogg/mdct_lookup.h"
-    "ogg/misc.h"
-    "ogg/ogg.h"
-    "ogg/os.h"
-    "ogg/os_types.h"
-    "ogg/registry.c"
-    "ogg/registry.h"
-    "ogg/res012.c"
-    "ogg/sharedbook.c"
-    "ogg/synthesis.c"
-    "ogg/vorbisfile.c"
-    "ogg/window.c"
-    "ogg/window.h"
-    "ogg/window_lookup.h"
-)
-source_group("Sexy\\Sound\\Ogg" FILES ${Sexy__Sound__Ogg})
-
 set(Sexy__Sound__Sound_Include
     "BassMusicInterface.h"
     "DSoundInstance.h"
@@ -608,9 +390,6 @@ source_group("TodLib\\Effect\\Effect Source" FILES ${TodLib__Effect__Effect_Sour
 set(ALL_FILES
     ${no_group_source_files}
     ${ImageLib}
-    ${ImageLib__JPEG}
-    ${ImageLib__JPEG2000}
-    ${ImageLib__PNG}
     ${Lawn__Board__Board_Include}
     ${Lawn__Board__Board_Source}
     ${Lawn__Common__Common_Include}
@@ -626,7 +405,6 @@ set(ALL_FILES
     ${Sexy__Graphics__Inc_Routines}
     ${Sexy__Misc__Misc_Include}
     ${Sexy__Misc__Misc_Source}
-    ${Sexy__Sound__Ogg}
     ${Sexy__Sound__Sound_Include}
     ${Sexy__Sound__Sound_Source}
     ${Sexy__Widget__Widget_Include}
@@ -645,6 +423,7 @@ add_executable(${PROJECT_NAME} ${ALL_FILES})
 target_include_directories(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/.
+        ${CMAKE_CURRENT_SOURCE_DIR}/ogg/include/
         ${CMAKE_CURRENT_SOURCE_DIR}/../
         ${CMAKE_CURRENT_SOURCE_DIR}/../ImageLib
         ${CMAKE_CURRENT_SOURCE_DIR}/../Lawn
@@ -664,8 +443,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     _LIB
     _WINDOWS
     _VISUALC_
-    _JPEGLIB_
     _MBCS
+    HAVE_BOOLEAN
     NOBASSOVERLOADS
 )
 
@@ -688,5 +467,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     # Moon: discord rpc and other crap
     discord-rpc
     ZLIB::ZLIB
+    Vorbis::vorbisfile
+    Vorbis::vorbis
+    ogg
+    jpeg
+    png_shared
     ${CMAKE_CURRENT_SOURCE_DIR}/../../bass.lib
 )
