@@ -1660,7 +1660,7 @@ LawnMower* Board::GetBottomLawnMower()
 		if (aLawnMower->mMowerState == LawnMowerState::MOWER_TRIGGERED || aLawnMower->mMowerState == LawnMowerState::MOWER_SQUISHED)
 			continue;
 
-		if (aBottomMower == nullptr || aBottomMower->mRow < aLawnMower->mRow)
+		if (!aBottomMower || aBottomMower->mRow < aLawnMower->mRow)
 		{
 			aBottomMower = aLawnMower;
 		}
@@ -3894,7 +3894,7 @@ void Board::MouseDownWithTool(int x, int y, int theClickCount, CursorType theCur
 	}
 
 	Plant* aPlant = ToolHitTest(x, y);
-	if (aPlant == nullptr)
+	if (!aPlant)
 	{
 		mApp->PlayFoley(FoleyType::FOLEY_DROP);
 	}
@@ -3982,7 +3982,7 @@ bool Board::MouseHitTestPlant(int x, int y, HitResult* theHitResult)
 		}
 	}
 
-	if (aPlant == nullptr)
+	if (!aPlant)
 	{
 		return false;
 	}
@@ -4047,7 +4047,7 @@ bool Board::MouseHitTest(int x, int y, HitResult* theHitResult)
 			if (aCoin->MouseHitTest(x, y, &aHitResultCoin))
 			{
 				aCoin = (Coin*)aHitResultCoin.mObject;
-				if (aTopCoin == nullptr || aCoin->mRenderOrder >= aTopCoin->mRenderOrder)
+				if (!aTopCoin || aCoin->mRenderOrder >= aTopCoin->mRenderOrder)
 				{
 					theHitResult->mObjectType = aHitResultCoin.mObjectType;
 					theHitResult->mObject = aCoin;
@@ -4124,8 +4124,8 @@ bool Board::MouseHitTest(int x, int y, HitResult* theHitResult)
 		mCursorObject->mCursorType == CursorType::CURSOR_TYPE_NORMAL &&
 		mChallenge->mChallengeState != ChallengeState::STATECHALLENGE_SCARY_POTTER_MALLETING && 
 		mApp->mGameScene == GameScenes::SCENE_PLAYING &&
-		mApp->GetDialog(Dialogs::DIALOG_GAME_OVER) == nullptr && 
-		mApp->GetDialog(Dialogs::DIALOG_CONTINUE) == nullptr)
+		!mApp->GetDialog(Dialogs::DIALOG_GAME_OVER) && 
+		!mApp->GetDialog(Dialogs::DIALOG_CONTINUE))
 	{
 		GridItem* aScaryPot = GetGridItemAt(GridItemType::GRIDITEM_SCARY_POT, PixelToGridX(x, y), PixelToGridY(x, y));
 		if (aScaryPot)
@@ -4649,10 +4649,8 @@ void Board::SpawnZombiesFromPool()
 
 		ZombieType aZombieType = PickGraveRisingZombieType(aZombiePoints);
 		Zombie* aZombie = AddZombieInRow(aZombieType, aGrid->mY, mCurrentWave);
-		if (aZombie == nullptr)
-		{
+		if (!aZombie)
 			return;
-		}
 
 		aZombie->RiseFromGrave(aGrid->mX, aGrid->mY);
 		aZombiePoints -= GetZombieDefinition(aZombieType).mZombieValue;
@@ -4766,10 +4764,8 @@ void Board::SpawnZombiesFromGraves()
 		
 		ZombieType aZombieType = PickGraveRisingZombieType(aZombiePoints);
 		Zombie* aZombie = AddZombie(aZombieType, mCurrentWave);
-		if (aZombie == nullptr)
-		{
+		if (!aZombie)
 			return;
-		}
 
 		aZombie->RiseFromGrave(aGridItem->mGridX, aGridItem->mGridY);
 		aZombiePoints -= GetZombieDefinition(aZombieType).mZombieValue;
@@ -5691,7 +5687,7 @@ void Board::Update()
 			mY = TodAnimateCurve(12, 0, mShakeCounter, 0, mShakeAmountY, TodCurves::CURVE_BOUNCE);
 		}
 	}
-	if (mCoinBankFadeCount > 0 && mApp->GetDialog(Dialogs::DIALOG_PURCHASE_PACKET_SLOT) == nullptr)
+	if (mCoinBankFadeCount > 0 && !mApp->GetDialog(Dialogs::DIALOG_PURCHASE_PACKET_SLOT))
 	{
 		mCoinBankFadeCount--;
 	}
@@ -7825,7 +7821,7 @@ void Board::KeyChar(SexyChar theChar)
 			Plant* aPlant = nullptr;
 			while (IteratePlants(aPlant))
 			{
-				if (GetZenToolAt(aPlant->mPlantCol, aPlant->mRow) == nullptr && aPlant->mPottedPlantIndex >= 0)
+				if (!GetZenToolAt(aPlant->mPlantCol, aPlant->mRow) && aPlant->mPottedPlantIndex >= 0)
 				{
 					PottedPlant* aPottedPlant = mApp->mZenGarden->PottedPlantFromIndex(aPlant->mPottedPlantIndex);
 					PottedPlantNeed aNeed = mApp->mZenGarden->GetPlantsNeed(aPottedPlant);

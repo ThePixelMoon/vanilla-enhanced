@@ -567,7 +567,7 @@ void Coin::UpdateFall()
         mPosX = FloatRoundToInt(mPosX);
 
 
-        if (mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_LAST_STAND || mBoard == nullptr || 
+        if (mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_LAST_STAND || !mBoard || 
             mBoard->mChallenge->mChallengeState == ChallengeState::STATECHALLENGE_LAST_STAND_ONSLAUGHT)
         {
             if (!IsLevelAward() && !IsPresentWithAdvice())
@@ -1376,7 +1376,7 @@ void Coin::DroppedUsableSeed()
 
 void Coin::MouseDown(int x, int y, int theClickCount)
 {
-    if (mBoard == nullptr || mBoard->mPaused || mApp->mGameScene != GameScenes::SCENE_PLAYING || mDead)
+    if (!mBoard || mBoard->mPaused || mApp->mGameScene != GameScenes::SCENE_PLAYING || mDead)
     {
         return;
     }

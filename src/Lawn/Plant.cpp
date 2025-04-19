@@ -537,7 +537,7 @@ void Plant::SetSleeping(bool theIsAsleep)
     }
 
     Reanimation* aBodyReanim = mApp->ReanimationTryToGet(mBodyReanimID);
-    if (aBodyReanim == nullptr)
+    if (!aBodyReanim)
         return;
 
     if (theIsAsleep)
@@ -709,7 +709,7 @@ TodParticleSystem* Plant::AddAttachedParticle(int thePosX, int thePosY, int theR
 bool Plant::FindTargetAndFire(int theRow, PlantWeapon thePlantWeapon)
 {
     Zombie* aZombie = FindTargetZombie(theRow, thePlantWeapon);
-    if (aZombie == nullptr)
+    if (!aZombie)
         return false;
 
     EndBlink();
@@ -1438,7 +1438,7 @@ Zombie* Plant::FindSquashTarget()
                         if (mBoard->ZombieGetID(aZombie) == mTargetZombieID)
                             return aZombie;  
 
-                        if (aClosestZombie == nullptr || aRange < aClosestRange)
+                        if (!aClosestZombie || aRange < aClosestRange)
                         {
                             aClosestZombie = aZombie;
                             aClosestRange = aRange;
@@ -1703,7 +1703,7 @@ void Plant::UpdateCactus()
     }
     else if (mState == PlantState::STATE_CACTUS_HIGH)
     {
-        if (FindTargetZombie(mRow, PlantWeapon::WEAPON_PRIMARY) == nullptr)
+        if (!FindTargetZombie(mRow, PlantWeapon::WEAPON_PRIMARY))
         {
             mState = PlantState::STATE_CACTUS_LOWERING;
             PlayBodyReanim("anim_lower", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 20, aBodyReanim->mDefinition->mFPS);
@@ -1754,7 +1754,7 @@ void Plant::UpdateChomper()
                 }
             }
             bool doMiss = false;
-            if (aZombie == nullptr)
+            if (!aZombie)
             {
                 doMiss = true;
             }
@@ -2076,7 +2076,7 @@ void Plant::UpdateMagnetShroom()
                 float aDistance = Distance2D(mX, mY, aZombieRect.mX, aZombieRect.mY);
                 aDistance += abs(aDiffY) * 80.0f;
 
-                if (aClosestZombie == nullptr || aDistance < aClosestDistance)
+                if (!aClosestZombie || aDistance < aClosestDistance)
                 {
                     aClosestZombie = aZombie;
                     aClosestDistance = aDistance;
@@ -2106,7 +2106,7 @@ void Plant::UpdateMagnetShroom()
                 if (aSquareDistance <= 2)
                 {
                     float aDistance = aSquareDistance + aDiffY * 0.05f;
-                    if (aClosestLadder == nullptr || aDistance < aClosestLadderDist)
+                    if (!aClosestLadder || aDistance < aClosestLadderDist)
                     {
                         aClosestLadder = aGridItem;
                         aClosestLadderDist = aDistance;
@@ -2145,7 +2145,7 @@ Coin* Plant::FindGoldMagnetTarget()
         if (aCoin->IsMoney() && aCoin->mCoinMotion != CoinMotion::COIN_MOTION_FROM_PRESENT && !aCoin->mIsBeingCollected && aCoin->mCoinAge >= 50)
         {
             float aDistance = Distance2D(mX + mWidth / 2, mY + mHeight / 2, aCoin->mPosX + aCoin->mWidth / 2, aCoin->mPosY + aCoin->mHeight / 2);
-            if (aClosestCoin == nullptr || aDistance < aClosestDistance)
+            if (!aClosestCoin || aDistance < aClosestDistance)
             {
                 aClosestCoin = aCoin;
                 aClosestDistance = aDistance;
@@ -2158,7 +2158,7 @@ Coin* Plant::FindGoldMagnetTarget()
 
 void Plant::GoldMagnetFindTargets()
 {
-    if (GetFreeMagnetItem() == nullptr)
+    if (!GetFreeMagnetItem())
     {
         TOD_ASSERT();
         return;
@@ -2167,11 +2167,11 @@ void Plant::GoldMagnetFindTargets()
     for (;;)
     {
         MagnetItem* aMagnetItem = GetFreeMagnetItem();
-        if (aMagnetItem == nullptr)
+        if (!aMagnetItem)
             break;
 
         Coin* aCoin = FindGoldMagnetTarget();
-        if (aCoin == nullptr)
+        if (!aCoin)
             break;
 
         aMagnetItem->mPosX = aCoin->mPosX + 15.0f;
@@ -2607,7 +2607,7 @@ bool Plant::IsUpgradableTo(SeedType theUpgradedType)
     if (theUpgradedType == SeedType::SEED_CATTAIL && mSeedType == SeedType::SEED_LILYPAD)
     {
         Plant* aPlant = mBoard->GetTopPlantAt(mPlantCol, mRow, PlantPriority::TOPPLANT_ONLY_NORMAL_POSITION);
-        return aPlant == nullptr || aPlant->mSeedType != SeedType::SEED_CATTAIL;
+        return !aPlant || aPlant->mSeedType != SeedType::SEED_CATTAIL;
     }
     return false;
 }
@@ -3546,7 +3546,7 @@ float PlantDrawHeightOffset(Board* theBoard, Plant* thePlant, SeedType theSeedTy
         aHeightOffset += aFloatingHeight;
     }
 
-    if (theBoard && (thePlant == nullptr || !thePlant->mSquished))
+    if (theBoard && (!thePlant || !thePlant->mSquished))
     {
         Plant* aPot = theBoard->GetFlowerPotAt(theCol, theRow);
         if (aPot && !aPot->mSquished && theSeedType != SeedType::SEED_FLOWERPOT)
@@ -3960,7 +3960,7 @@ void Plant::Draw(Graphics* g)
                 {
                     aDrawPumpkinBack = true;
                 }
-                if (aPlantInPumpkin == nullptr && mSeedType == SeedType::SEED_PUMPKINSHELL)
+                if (!aPlantInPumpkin && mSeedType == SeedType::SEED_PUMPKINSHELL)
                 {
                     aDrawPumpkinBack = true;
                 }

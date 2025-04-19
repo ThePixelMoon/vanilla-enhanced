@@ -426,7 +426,7 @@ void GridItem::OpenPortal()
     float aXPos = mGridX * 80.0f - 6.0f;
     float aYPos = mBoard->GridToPixelY(0, mGridY) - 65.0f;
     Reanimation* aPortalReanim = mApp->ReanimationTryToGet(mGridItemReanimID);
-    if (aPortalReanim == nullptr)
+    if (!aPortalReanim)
     {
         ReanimationType aReanimType = ReanimationType::REANIM_PORTAL_CIRCLE;
         if (mGridItemType == GridItemType::GRIDITEM_PORTAL_SQUARE)

@@ -1162,7 +1162,7 @@ void Challenge::MouseDownWhackAZombie(int theX, int theY)
 			Rect aZombieRect = aZombie->GetZombieRect();
 			if (GetCircleRectOverlap(theX, theY - 20, 45, aZombieRect))
 			{
-				if (aTopZombie == nullptr || aZombie->mRenderOrder >= aTopZombie->mRenderOrder)
+				if (!aTopZombie || aZombie->mRenderOrder >= aTopZombie->mRenderOrder)
 				{
 					aTopZombie = aZombie;
 				}
@@ -2242,7 +2242,7 @@ void Challenge::CheckForCompleteArtChallenge(int theGridX, int theGridY)
 			if (aSeedType != SEED_NONE)
 			{
 				Plant* aPlant = mBoard->GetTopPlantAt(aGridX, aGridY, TOPPLANT_ONLY_NORMAL_POSITION);
-				if (aPlant == nullptr || aPlant->mSeedType != aSeedType)
+				if (!aPlant || aPlant->mSeedType != aSeedType)
 				{
 					return;
 				}
@@ -2262,7 +2262,7 @@ void Challenge::DrawArtChallenge(Graphics* g)
 		for (int aCol = 0; aCol < MAX_GRID_SIZE_X; aCol++)
 		{
 			SeedType aSeedType = GetArtChallengeSeed(aCol, aRow);
-			if (aSeedType != SEED_NONE && mBoard->GetTopPlantAt(aCol, aRow, TOPPLANT_ONLY_NORMAL_POSITION) == nullptr)
+			if (aSeedType != SEED_NONE && !mBoard->GetTopPlantAt(aCol, aRow, TOPPLANT_ONLY_NORMAL_POSITION))
 			{
 				Plant::DrawSeedType(g, aSeedType, SEED_NONE, VARIATION_NORMAL, mBoard->GridToPixelX(aCol, aRow), mBoard->GridToPixelY(aCol, aRow));
 			}
@@ -2796,7 +2796,7 @@ void Challenge::WhackAZombieSpawning()
 			if (aGridItem->mGridItemType == GRIDITEM_GRAVESTONE)
 			{
 				Plant* aPlant = mBoard->GetTopPlantAt(aGridItem->mGridX, aGridItem->mGridY, TOPPLANT_ONLY_NORMAL_POSITION);
-				if (aPlant == nullptr || aPlant->mSeedType != SEED_GRAVEBUSTER)
+				if (!aPlant || aPlant->mSeedType != SEED_GRAVEBUSTER)
 				{
 					aGridPicks[aGridPicksCount].mItem = (int)aGridItem;
 					aGridPicks[aGridPicksCount].mWeight = 1;
@@ -2823,7 +2823,7 @@ void Challenge::WhackAZombieSpawning()
 			}
 
 			Zombie* aZombie = mBoard->AddZombie(aZombieType, mBoard->mCurrentWave);
-			if (aZombie == nullptr)
+			if (!aZombie)
 				break;
 
 			aZombie->RiseFromGrave(aGraveStone->mGridX, aGraveStone->mGridY);
@@ -3091,7 +3091,7 @@ void Challenge::PortalStart()
 void Challenge::UpdatePortal(GridItem* thePortal)
 {
 	GridItem* anOtherPortal = GetOtherPortal(thePortal);
-	if (anOtherPortal == nullptr)
+	if (!anOtherPortal)
 		return;
 
 	Zombie* aZombie = nullptr;
@@ -3217,7 +3217,10 @@ void Challenge::MoveAPortal()
 	{
 		for (int aGridY = 0; aGridY < 5; aGridY++)
 		{
-			if (GetPortalAt(aGridX, aGridY) == nullptr && aOtherPortal->mGridX != aGridX && aOtherPortal->mGridY != aGridY)
+			if (!GetPortalAt(aGridX, aGridY) &&
+				aOtherPortal &&
+				aOtherPortal->mGridX != aGridX &&
+				aOtherPortal->mGridY != aGridY)
 			{
 				TOD_ASSERT(aGridArrayCount < MAX_PICK_GRID_SIZE);
 				aGridArray[aGridArrayCount].mX = aGridX;
@@ -3291,7 +3294,7 @@ GridItem* Challenge::GetPortalToLeft(int theGridX, int theGridY)
 	{
 		if (aGridItem->IsOpenPortal() && aGridItem->mGridX < theGridX && aGridItem->mGridY == theGridY)
 		{
-			if (aGridItemRecord == nullptr || aGridItemRecord->mGridX < aGridItem->mGridX)
+			if (!aGridItemRecord || aGridItemRecord->mGridX < aGridItem->mGridX)
 			{
 				aGridItemRecord = aGridItem;
 			}
@@ -3310,7 +3313,7 @@ int Challenge::GetPortalDistanceToMower(int theGridY)
 	while (aDistance < 40)
 	{
 		GridItem* aPortal = GetPortalToLeft(aGridX, aGridY);
-		if (aPortal == nullptr)
+		if (!aPortal)
 		{
 			aDistance += aGridX;
 			break;
@@ -4795,7 +4798,7 @@ void Challenge::IZombieScoreBrain(GridItem* theBrain)
 bool Challenge::IZombieEatBrain(Zombie* theZombie)
 {
 	GridItem* aBrain = IZombieGetBrainTarget(theZombie);
-	if (aBrain == nullptr)
+	if (!aBrain)
 		return false;
 
 	theZombie->StartEating();

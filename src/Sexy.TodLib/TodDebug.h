@@ -41,6 +41,9 @@ void				TodAssertInitForApp();
 
 extern void (*gBetaSubmitFunc)();
 
+// Moon: i hate those warnings
+#pragma warning(disable : 4003)
+
 #ifdef _DEBUG
 #define TOD_ASSERT(condition, ...) { \
     if (!bool(condition)) { \

@@ -317,7 +317,7 @@ TodParticle* TodParticleEmitter::SpawnParticle(int theIndex, int theSpawnCount)
 		return nullptr;
 	}
 
-	register TodParticle* aParticle = aDataArray.DataArrayAlloc();
+	TodParticle* aParticle = aDataArray.DataArrayAlloc();
 	TOD_ASSERT(mEmitterDef->mParticleFieldCount <= MAX_PARTICLE_FIELDS);
 	for (int i = 0; i < mEmitterDef->mParticleFieldCount; i++)
 	{
@@ -815,8 +815,8 @@ float CrossFadeLerp(float theFrom, float theTo, bool theFromIsSet, bool theToIsS
 
 bool TodParticleEmitter::GetRenderParams(TodParticle* theParticle, ParticleRenderParams* theParams)
 {
-	register TodParticleEmitter* aEmitter = theParticle->mParticleEmitter;
-	register TodEmitterDefinition* aDef = aEmitter->mEmitterDef;
+	TodParticleEmitter* aEmitter = theParticle->mParticleEmitter;
+	TodEmitterDefinition* aDef = aEmitter->mEmitterDef;
 
 	theParams->mRedIsSet = false;
 	theParams->mRedIsSet |= FloatTrackIsSet(aDef->mSystemRed);
@@ -908,7 +908,7 @@ bool TodParticleEmitter::GetRenderParams(TodParticle* theParticle, ParticleRende
 void RenderParticle(Graphics* g, TodParticle* theParticle, const Color& theColor, ParticleRenderParams* theParams, TodTriangleGroup* theTriangleGroup)
 {
 	TodParticleEmitter* aEmitter = theParticle->mParticleEmitter;
-	register TodEmitterDefinition* aEmitterDef = aEmitter->mEmitterDef;
+	TodEmitterDefinition* aEmitterDef = aEmitter->mEmitterDef;
 	Image* aImage = aEmitter->mImageOverride != nullptr ? aEmitter->mImageOverride : aEmitterDef->mImage;  
 	if (aImage == nullptr)
 		return;  

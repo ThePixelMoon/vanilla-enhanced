@@ -191,10 +191,8 @@ void MessageWidget::Update()
 	for (int aPos = 0; aPos < aLabelLen; aPos++)
 	{
 		Reanimation* aTextReanim = mApp->ReanimationTryToGet(mTextReanimID[aPos]);
-		if (aTextReanim == nullptr)
-		{
-			break;  
-		}
+		if (!aTextReanim)
+			break;
 
 		int aTextSpeed = mReanimType == ReanimationType::REANIM_TEXT_FADE_ON ? 100 : 1;
 		if (mDuration > mSlideOffTime)
@@ -227,10 +225,8 @@ void MessageWidget::DrawReanimatedText(Graphics* g, Font* theFont, const Color& 
 	for (int aPos = 0; aPos < aLabelLen; aPos++)
 	{
 		Reanimation* aTextReanim = mApp->ReanimationTryToGet(mTextReanimID[aPos]);
-		if (aTextReanim == nullptr)
-		{
-			break;  
-		}
+		if (!aTextReanim)
+			break;
 
 		ReanimatorTransform aTransform;
 		aTextReanim->GetCurrentTransform(2, &aTransform);
