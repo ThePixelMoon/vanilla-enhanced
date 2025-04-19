@@ -114,6 +114,9 @@ NewOptionsDialog::NewOptionsDialog(LawnApp* theApp, bool theFromGameSelector, bo
     mRealHardwareAccelerationCheckbox = MakeNewCheckbox(NewOptionsDialog::NewOptionsDialog_Real_HardwareAcceleration, this, theApp->Is3DAccelerated());
     mRealHardwareAccelerationCheckbox->SetVisible(false);
 
+    mRageModeCheckbox = MakeNewCheckbox(NewOptionsDialog::NewOptionsDialog_RageMode, this, theApp->IsRageMode());
+    mRageModeCheckbox->SetVisible(false);
+
     if (mFromGameSelector)
     {
         mRestartButton->SetVisible(false);
@@ -190,6 +193,7 @@ NewOptionsDialog::~NewOptionsDialog()
     delete mAutoCollectCoinsBox;
     delete mZombieHealthbarsBox;
     delete mRealHardwareAccelerationCheckbox;
+    delete mRageModeCheckbox;
 }
 
 int NewOptionsDialog::GetPreferredHeight(int theWidth)
@@ -222,6 +226,7 @@ void NewOptionsDialog::AddedToManager(Sexy::WidgetManager* theWidgetManager)
     AddWidget(mZombieHealthbarsBox);
     AddWidget(mPlantHealthbarsBox);
     AddWidget(mRealHardwareAccelerationCheckbox);
+    AddWidget(mRageModeCheckbox);
 }
 
 void NewOptionsDialog::RemovedFromManager(Sexy::WidgetManager* theWidgetManager)
@@ -249,6 +254,7 @@ void NewOptionsDialog::RemovedFromManager(Sexy::WidgetManager* theWidgetManager)
     RemoveWidget(mZombieHealthbarsBox);
     RemoveWidget(mPlantHealthbarsBox);
     RemoveWidget(mRealHardwareAccelerationCheckbox);
+    RemoveWidget(mRageModeCheckbox);
 }
 
 void NewOptionsDialog::Resize(int theX, int theY, int theWidth, int theHeight)
@@ -276,6 +282,7 @@ void NewOptionsDialog::Resize(int theX, int theY, int theWidth, int theHeight)
     mSpeedEditWidget->Resize(ADVANCED_SPEED_X + 9, ADVANCED_SPEED_Y - 4, IMAGE_OPTIONS_CHECKBOX0->mWidth, IMAGE_OPTIONS_CHECKBOX0->mHeight + 4);
     mGameAdvancedButton->Resize(mWidth - Sexy::IMAGE_BUTTON_SMALL->mWidth - 9, mRestartButton->mY, Sexy::IMAGE_BUTTON_SMALL->mWidth, Sexy::IMAGE_BUTTON_SMALL->mHeight);
     mRealHardwareAccelerationCheckbox->Resize(310, 148, 46, 45);
+    mRageModeCheckbox->Resize(310, 222, 46, 45);
 
     if ((!mRestartButton->mVisible || !mAlmanacButton->mVisible) && !mFromGameSelector && !mAdvancedMode)
     {
@@ -357,6 +364,7 @@ void NewOptionsDialog::Draw(Sexy::Graphics* g)
         else if (mAdvancedPage == 3)
         {
             TodDrawString(g, _S("Actual 3D Acceleration"), mRealHardwareAccelerationCheckbox->mX - 6, mRealHardwareAccelerationCheckbox->mY + 22, FONT_DWARVENTODCRAFT18, aTextColor, DrawStringJustification::DS_ALIGN_RIGHT);
+            TodDrawString(g, _S("Rage Mode"), mRageModeCheckbox->mX - 6, mRageModeCheckbox->mY + 22, FONT_DWARVENTODCRAFT18, aTextColor, DrawStringJustification::DS_ALIGN_RIGHT);
         }
         TodDrawString(g, StrFormat(_S("Page %d"), mAdvancedPage), mWidth / 2, ADVANCED_PAGE_Y, FONT_DWARVENTODCRAFT18GREENINSET, Color::White, DrawStringJustification::DS_ALIGN_CENTER);
     }
@@ -485,6 +493,7 @@ void NewOptionsDialog::UpdateAdvancedPage()
     mZombieHealthbarsBox->SetVisible(false);
     mPlantHealthbarsBox->SetVisible(false);
     mRealHardwareAccelerationCheckbox->SetVisible(false);
+    mRageModeCheckbox->SetVisible(false);
 
     switch (mAdvancedPage)
     {
@@ -503,6 +512,7 @@ void NewOptionsDialog::UpdateAdvancedPage()
             break;
         case 3:
             mRealHardwareAccelerationCheckbox->SetVisible(true);
+            mRageModeCheckbox->SetVisible(true);
             break;
         break;
     }

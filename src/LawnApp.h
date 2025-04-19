@@ -116,7 +116,8 @@ public:
 	int								mPlayTimeActiveSession;							
 	int								mPlayTimeInactiveSession;						
 	BoardResult						mBoardResult;									
-	bool							mSawYeti;										
+	bool							mSawYeti;						
+	bool							mIsRageMode;
 	TypingCheck*					mKonamiCheck;									
 	TypingCheck*					mMustacheCheck;									
 	TypingCheck*					mMoustacheCheck;								
@@ -264,6 +265,7 @@ public:
 	void							RemoveParticle(ParticleSystemID theParticleID);
 	StoreScreen*					ShowStoreScreen();
 	void							KillStoreScreen();
+	bool							IsRageMode();
 	bool							HasSeedType(SeedType theSeedType);
 	/*inline*/ bool					SeedTypeAvailable(SeedType theSeedType);
 	bool							HasAllUpgrades();

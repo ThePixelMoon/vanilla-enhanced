@@ -724,16 +724,16 @@ void Music::GameMusicPause(bool thePause)
 			auto anItr = aBass->mMusicMap.find(mCurMusicFileMain);
 			TOD_ASSERT(anItr != aBass->mMusicMap.end());
 			BassMusicInfo* aMusicInfo = &anItr->second;
-			
+
 			if (aMusicInfo->mHStream)
 			{
-				mPauseOffset = BASS_ChannelGetPosition(aMusicInfo->mHStream, -1);
+				mPauseOffset = BASS_ChannelGetPosition(aMusicInfo->mHStream, BASS_POS_BYTE);
 				mMusicInterface->StopMusic(mCurMusicFileMain);
 			}
 			else
 			{
 				int aOrderMain = GetMusicOrder(mCurMusicFileMain);
-				mPauseOffset = MAKELONG(LOWORD(aOrderMain), HIWORD(aOrderMain) / 4);
+				mPauseOffset = MAKELONG(LOWORD(aOrderMain), HIWORD(aOrderMain));
 				mMusicInterface->StopMusic(mCurMusicFileMain);
 
 				if (mCurMusicTune == MusicTune::MUSIC_TUNE_DAY_GRASSWALK || mCurMusicTune == MusicTune::MUSIC_TUNE_POOL_WATERYGRAVES ||
@@ -745,7 +745,7 @@ void Music::GameMusicPause(bool thePause)
 				else if (mCurMusicTune == MusicTune::MUSIC_TUNE_NIGHT_MOONGRAINS)
 				{
 					int aOrderDrum = GetMusicOrder(mCurMusicFileDrums);
-					mPauseOffsetDrums = MAKELONG(LOWORD(aOrderDrum), HIWORD(aOrderDrum) / 4);
+					mPauseOffsetDrums = MAKELONG(LOWORD(aOrderDrum), HIWORD(aOrderDrum));
 					mMusicInterface->StopMusic(mCurMusicFileDrums);
 				}
 			}

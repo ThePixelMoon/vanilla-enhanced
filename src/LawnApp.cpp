@@ -1212,6 +1212,7 @@ bool LawnApp::KillNewOptionsDialog()
 		mAutoCollectCoins = aNewOptionsDialog->mAutoCollectCoinsBox->IsChecked();
 		mZombieHealthbars = aNewOptionsDialog->mZombieHealthbarsBox->IsChecked();
 		mPlantHealthbars = aNewOptionsDialog->mPlantHealthbarsBox->IsChecked();
+		mIsRageMode = aNewOptionsDialog->mRageModeCheckbox->IsChecked();
 		ToggleDebugMode();
 		bool wantWindowed = !aNewOptionsDialog->mFullscreenCheckbox->IsChecked();
 		SwitchScreenMode(wantWindowed, want3D, false);
@@ -3727,6 +3728,11 @@ void LawnApp::ToggleDebugMode()
 bool LawnApp::Is3dAccel()
 {
 	return mIs3dAccel;
+}
+
+bool LawnApp::IsRageMode()
+{
+	return mIsRageMode;
 }
 
 void LawnApp::SetCursorMode(CursorMode theCursorMode)

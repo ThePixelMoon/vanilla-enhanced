@@ -711,6 +711,9 @@ void Board::PickZombieWaves()
 			}
 		}
 
+		if (mApp->IsRageMode())
+			aZombiePoints *= 50;
+
 		if (mLevel == 50 && aIsFinalWave)
 		{
 			PutZombieInWave(ZombieType::ZOMBIE_GARGANTUAR, aWave, &aZombiePicker);
@@ -2331,6 +2334,9 @@ Projectile* Board::AddProjectile(int theX, int theY, int theRenderOrder, int the
 
 bool Board::CanZombieSpawnOnLevel(ZombieType theZombieType, int theLevel)
 {
+	if (gLawnApp->IsRageMode())
+		return true;
+
 	const ZombieDefinition& aZombieDef = GetZombieDefinition(theZombieType);
 	if (theZombieType == ZombieType::ZOMBIE_YETI)
 	{
