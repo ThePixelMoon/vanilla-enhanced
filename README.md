@@ -1,7 +1,7 @@
 # PvZ: Vanilla Enhanced
 [![Build Status](https://github.com/ThePixelMoon/vanilla-enhanced/actions/workflows/build.yml/badge.svg)](https://github.com/ThePixelMoon/vanilla-enhanced/actions/workflows/build.yml) ![Repo size](https://img.shields.io/github/repo-size/ThePixelMoon/vanilla-enhanced) ![Last commit](https://img.shields.io/github/last-commit/ThePixelMoon/vanilla-enhanced)
 
-An edit of PvZ:QOTL, which aims to add features useful for both player, and for coders trying to mod the game.
+An edit of PvZ:QOTL, which aims to add features useful for both players, and for coders trying to mod the game.
 
 Precompiled builds are made using GitHub Actions.
 

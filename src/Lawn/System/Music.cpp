@@ -93,15 +93,19 @@ bool Music::TodLoadMusic(MusicFile theMusicFile, const std::wstring& theFileName
 		std::vector<char> aData(aSize);
 		file.read(aData.data(), aSize);
 
-		aStream = BASS_StreamCreateFile(TRUE, aData.data(), 0, aSize, BASS_STREAM_AUTOFREE);
+		char* dataCopy = new char[aSize];
+		std::memcpy(dataCopy, aData.data(), aSize);
+
+		aStream = BASS_StreamCreateFile(TRUE, dataCopy, 0, aSize, 0);
         if (!aStream)
         {
-			TodTraceAndLog( "error code: %d", BASS_ErrorGetCode() );
+			TodTraceAndLog("error code: %d", BASS_ErrorGetCode());
+			delete[] dataCopy;
             return false;
         }
 
         TOD_ASSERT(gMusicFileData[theMusicFile].mFileData == nullptr);
-		gMusicFileData[theMusicFile].mFileData = reinterpret_cast<unsigned int *>(aData.data());
+		gMusicFileData[theMusicFile].mFileData = reinterpret_cast<unsigned int*>(dataCopy);
 	}
 
     BassMusicInfo aMusicInfo;
@@ -181,7 +185,7 @@ void Music::LoadSong(MusicFile theMusicFile, const std::wstring& theFileName)
 	}
 	else
 	{
-//		BASS_ChannelSetAttribute(GetBassMusicHandle(theMusicFile), BASS_ATTRIB_MUSIC_PSCALER, 4);
+		BASS_ChannelSetAttribute(GetBassMusicHandle(theMusicFile), BASS_ATTRIB_MUSIC_PSCALER, 4);
 		TodTrace("song '%s'", utf8FileName.c_str());
 	}
 }
@@ -202,22 +206,13 @@ void Music::MusicInit()
 	mApp->mCompletedLoadingThreadTasks += 3500;
 	LoadSong(MusicFile::MUSIC_FILE_HIHATS, L"sounds\\mainmusic_hihats.mo3");
 	mApp->mCompletedLoadingThreadTasks += 3500;
-
-#ifdef _DEBUG
-	LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, L"sounds\\ZombiesOnYourLawn.ogg");
-	mApp->mCompletedLoadingThreadTasks += 3500;
-	if (mApp->mCompletedLoadingThreadTasks != aNumLoadingTasks)
-		TodTrace("Didn't calculate loading task count correctly!!!!");
-#endif
 }
 
 void Music::MusicCreditScreenInit()
 {
-#ifndef _DEBUG
 	BassMusicInterface* aBass = (BassMusicInterface*)mApp->mMusicInterface;
-	if (aBass->mMusicMap.find((int)MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN) == aBass->mMusicMap.end())  
+	if (aBass->mMusicMap.find((int)MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN) == aBass->mMusicMap.end())
 		LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, L"sounds\\ZombiesOnYourLawn.ogg");
-#endif
 }
 
 void Music::StopAllMusic()

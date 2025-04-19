@@ -1,10 +1,11 @@
-//======= Copyright PopCap, All rights reserved =======//
+﻿//======= Copyright PopCap, All rights reserved =======//
 //
 //======================2009===========================//
 
 #include "BassMusicInterface.h"
 #include "BassLoader.h"
 #include "PakLib\PakInterface.h"
+#include "Sexy.TodLib\TodDebug.h"
 
 using namespace Sexy;
 
@@ -140,22 +141,34 @@ void BassMusicInterface::PlayMusic(int theSongId, int theOffset, bool noLoop)
 		aMusicInfo->mVolume = aMusicInfo->mVolumeCap;
 		aMusicInfo->mVolumeAdd = 0.0;
 		aMusicInfo->mStopOnFade = noLoop;
-		BASS_ChannelSetAttribute(aMusicInfo->GetHandle(), BASS_ATTRIB_VOL, (int)(aMusicInfo->mVolume));
-
+		BASS_ChannelSetAttribute(aMusicInfo->GetHandle(), BASS_ATTRIB_VOL, aMusicInfo->mVolume);
 		BASS_ChannelStop(aMusicInfo->GetHandle());
+
 		if (aMusicInfo->mHMusic)
 		{
 			BASS_ChannelPlay(aMusicInfo->mHMusic, TRUE);
 			BASS_ChannelSetPosition(aMusicInfo->mHMusic, theOffset, BASS_POS_MUSIC_ORDER );
 			BASS_ChannelFlags(aMusicInfo->mHMusic, noLoop ? 0 : BASS_MUSIC_LOOP, NULL);
 		}
-		else
+		else if (aMusicInfo->mHStream)
 		{
-			BOOL flush = theOffset == -1 ? FALSE : TRUE;
-			BASS_ChannelPlay(aMusicInfo->mHStream, flush);
-			BASS_ChannelFlags(aMusicInfo->mHStream, noLoop ? 0 : BASS_MUSIC_LOOP, NULL);
+			BOOL flush = (theOffset != -1);
+			if (!BASS_ChannelPlay(aMusicInfo->mHStream, flush))
+				TodTrace("unable to start stream, error code: %d\n", BASS_ErrorGetCode());
+
+			DWORD loopFlag = noLoop ? 0 : BASS_SAMPLE_LOOP;
+			BASS_ChannelFlags(aMusicInfo->mHStream,
+							  loopFlag,
+							  BASS_SAMPLE_LOOP);
+
+			// position (convert ms -> bytes):
 			if (theOffset > 0)
-				BASS_ChannelSetPosition(aMusicInfo->mHStream, theOffset, BASS_POS_BYTE);
+			{
+				QWORD bytePos = BASS_ChannelSeconds2Bytes(aMusicInfo->mHStream, theOffset / 1000.0);
+				BASS_ChannelSetPosition(aMusicInfo->mHStream,
+										bytePos,
+										BASS_POS_BYTE);
+			}
 		}
 	}
 }
