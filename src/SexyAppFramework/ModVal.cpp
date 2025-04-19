@@ -131,6 +131,7 @@ static bool FindModValsInMemoryHelper(const char *theMem, DWORD theLength)
 
 static void FindModValsInMemory()
 {
+	/*
 	MEMORY_BASIC_INFORMATION mbi; 
 	PVOID      pvAddress = 0; 
 
@@ -173,6 +174,7 @@ static void FindModValsInMemory()
 		if (FindModValsInMemoryHelper(aMem,aMemLength))
 			aFound++;
 	}
+	*/
 }
 
 static ModStorage* CreateFileModsHelper(const char* theFileName)
@@ -180,12 +182,14 @@ static ModStorage* CreateFileModsHelper(const char* theFileName)
 	ModStorage *aModStorage = new ModStorage;
 	aModStorage->mChanged = false;
 
+	/*
 	// Change this thinggie
 	DWORD anOldProtect;
 	VirtualProtect((LPVOID) theFileName, 5, PAGE_READWRITE, &anOldProtect);
 	*((char*) theFileName) = 0;
 	*((ModStorage**) (theFileName+1)) = aModStorage;
 	VirtualProtect((LPVOID) theFileName, 5, anOldProtect, &anOldProtect);
+	*/
 	
 	return aModStorage;	
 }
@@ -435,6 +439,7 @@ static bool ModStringToString(const char* theString, std::string &theStrVal)
 
 bool Sexy::ReparseModValues()
 {
+	/*
 	if (gLastFileTime == 0)
 	{
 		char anEXEName[256];
@@ -672,4 +677,6 @@ bool Sexy::ReparseModValues()
 	}
 
 	return true;
+	*/
+	return false;
 }

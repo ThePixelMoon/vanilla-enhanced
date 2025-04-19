@@ -7,13 +7,13 @@
 
 #define POLYNOMIAL 0x04c11db7L
 
-static BOOL 	     bCrcTableGenerated = FALSE;
+static bool 	     bCrcTableGenerated = false;
 static unsigned long crc_table[256];
 
 using namespace Sexy;
 using namespace std;
 
-static char* gWebEncodeMap = ".-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+static char* gWebEncodeMap = (char *)".-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 static int gWebDecodeMap[256] = 
 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -35,7 +35,7 @@ static int gWebDecodeMap[256] =
 //----------------------------------------------------------------------------
 static void GenerateCRCTable(void)
 {
-	bCrcTableGenerated = TRUE;
+	bCrcTableGenerated = true;
 
 	register int i, j;
 	register unsigned long crc_accum;

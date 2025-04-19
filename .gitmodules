@@ -16,3 +16,9 @@
 [submodule "src/ImageLib/png"]
 	path = src/ImageLib/png
 	url = https://github.com/pnggroup/libpng.git
+[submodule "external/SDL"]
+	path = external/SDL
+	url = https://github.com/libsdl-org/SDL.git
+[submodule "external/SDL_ttf"]
+	path = external/SDL_ttf
+	url = https://github.com/libsdl-org/SDL_ttf.git

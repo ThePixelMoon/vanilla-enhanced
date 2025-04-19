@@ -11,9 +11,8 @@
 #include "TodParticle.h"
 #include "EffectSystem.h"
 #include "GameConstants.h"
-#include "SexyAppFramework/DDImage.h"
-#include "SexyAppFramework/DDInterface.h"
-#include "SexyAppFramework/D3DInterface.h"
+#include "SexyAppFramework/SDLImage.h"
+#include "SexyAppFramework/SDLInterface.h"
 
 EffectSystem* gEffectSystem = nullptr;  
 
@@ -386,11 +385,11 @@ void TodTriangleGroup::DrawGroup(Graphics* g)
 			gTodTriangleDrawAdditive = true;
 		TodSandImageIfNeeded(mImage);
 
-		if (DDImage::Check3D(g->mDestImage))
+		if (SDLImage::Check3D(g->mDestImage))
 		{
-			DDImage* anImage = (DDImage*)g->mDestImage;
+			SDLImage* anImage = (SDLImage*)g->mDestImage;
 			mImage->mDrawn = true;
-			anImage->mDDInterface->mD3DInterface->DrawTrianglesTex(mVertArray, mTriangleCount, Color::White, mDrawMode, mImage, 0.0f, 0.0f, g->mLinearBlend);
+			anImage->mInterface->DrawTrianglesTex(mVertArray, mTriangleCount, Color::White, mDrawMode, mImage, 0.0f, 0.0f, g->mLinearBlend);
 		}
 		else
 		{

@@ -12,13 +12,12 @@
 #include "GameConstants.h"
 #include "SexyAppFramework/Font.h"
 #include "SexyAppFramework/Debug.h"
-#include "SexyAppFramework/DDImage.h"
+#include "SexyAppFramework/SDLImage.h"
+#include "SexyAppFramework/SDLInterface.h"
 #include "SexyAppFramework/Graphics.h"
 #include "SexyAppFramework/ImageFont.h"
 #include "SexyAppFramework/PerfTimer.h"
 #include "SexyAppFramework/SexyMatrix.h"
-#include "SexyAppFramework/DDInterface.h"
-#include "SexyAppFramework/D3DInterface.h"
 
 void Tod_SWTri_AddAllDrawTriFuncs()
 {
@@ -702,10 +701,10 @@ void TodBltMatrix(Graphics* g, Image* theImage, const SexyMatrix3& theTransform,
 	{
 		g->mDestImage->BltMatrix(theImage, aOffsetX, aOffsetY, theTransform, theClipRect, theColor, theDrawMode, theSrcRect, g->mLinearBlend);
 	}
-	else if (DDImage::Check3D(g->mDestImage))
+	else if (SDLImage::Check3D(g->mDestImage))
 	{
 		theImage->mDrawn = true;
-		D3DInterface* aInterface = ((DDImage*)g->mDestImage)->mDDInterface->mD3DInterface;
+		SDLInterface* aInterface = ((SDLImage*)g->mDestImage)->mInterface;
 		aInterface->BltTransformed(theImage, nullptr, theColor, theDrawMode, theSrcRect, theTransform, g->mLinearBlend, aOffsetX, aOffsetY, true);
 	}
 	else
@@ -1089,7 +1088,7 @@ bool TodResourceManager::TodLoadNextResource()
 		case ResType_Image:
 		{
 			ImageRes* anImageRes = (ImageRes*)aRes;
-			if ((DDImage*)anImageRes->mImage != nullptr)
+			if ((SDLImage*)anImageRes->mImage != nullptr)
 			{
 				mCurResGroupListItr++;
 				continue;

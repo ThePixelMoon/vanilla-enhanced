@@ -24,6 +24,8 @@ set(CLANG_FORMAT_CMD OFF CACHE BOOL "disable clang-format" FORCE)
 set(ZLIB_BUILD_TESTING OFF CACHE BOOL "Enable Zlib Examples as tests" FORCE)
 set(ZLIB_INSTALL OFF CACHE BOOL "Enable installation of zlib" FORCE)
 
+set(SDLTTF_HARFBUZZ OFF CACHE BOOL "Use harfbuzz to improve text shaping" FORCE)
+
 set(PNG_SHARED ON CACHE BOOL "" FORCE)
 set(PNG_STATIC OFF CACHE BOOL "" FORCE)
 set(PNG_EXECUTABLES OFF CACHE BOOL "" FORCE)
@@ -39,8 +41,10 @@ endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(external/discord-rpc EXCLUDE_FROM_ALL)
-
+add_subdirectory(external/SDL EXCLUDE_FROM_ALL)
+add_subdirectory(external/SDL_ttf EXCLUDE_FROM_ALL)
 add_subdirectory(src/ImageLib/zlib EXCLUDE_FROM_ALL)
+
 set(ZLIB_ROOT src/ImageLib/zlib)
 set(ZLIB_LIBRARY ZLIB::ZLIB)
 set(ZLIB_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/ImageLib/zlib")
@@ -71,3 +75,5 @@ install(FILES $<TARGET_FILE:Vorbis::vorbisfile> DESTINATION .)
 install(FILES $<TARGET_FILE:ogg> DESTINATION .)
 install(FILES $<TARGET_FILE:jpeg> DESTINATION .)
 install(FILES $<TARGET_FILE:png_shared> DESTINATION .)
+install(FILES $<TARGET_FILE:SDL3::SDL3> DESTINATION .)
+install(FILES $<TARGET_FILE:SDL3_ttf::SDL3_ttf> DESTINATION .)

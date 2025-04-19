@@ -25,7 +25,7 @@ namespace Sexy
 class Image;
 class FlashSink;
 class MemoryImage;
-class DDImage;
+class SDLImage;
 class ControlSite;
 
 class FlashListener
@@ -65,7 +65,7 @@ public:
 	IOleInPlaceObjectWindowless* mWindowlessObject;
 
 	int						mCOMCount;
-	DDImage*				mImage;	
+	SDLImage*				mImage;
 	int						mPauseCount;
 	bool					mHasLostFocus;
 

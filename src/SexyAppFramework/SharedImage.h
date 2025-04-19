@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __SHARED_IMAGE_H__
 #define __SHARED_IMAGE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Common.h"
 
@@ -7,13 +14,13 @@ namespace Sexy
 {
 
 class Image;
-class DDImage;
+class SDLImage;
 class MemoryImage;
 
 class SharedImage
 {
 public:
-	DDImage*				mImage;
+	SDLImage*				mImage;
 	int						mRefCount;		
 
 	SharedImage();
@@ -42,7 +49,7 @@ public:
 	MemoryImage*			operator->();
 	operator Image*();
 	operator MemoryImage*();
-	operator DDImage*();
+	operator SDLImage*();
 };
 
 }

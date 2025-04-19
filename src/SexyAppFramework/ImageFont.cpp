@@ -7,6 +7,7 @@
 #include "Image.h"
 #include "SexyAppBase.h"
 #include "MemoryImage.h"
+#include "SDLImage.h"
 #include "SexyAppFramework\AutoCrit.h"
 
 using namespace Sexy;

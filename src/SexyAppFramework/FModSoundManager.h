@@ -28,7 +28,6 @@ public:
 	virtual bool			Initialized();
 
 	virtual bool			LoadSound(unsigned int theSfxID, const std::string& theFilename);
-	virtual bool			LoadSound(const std::string& theFilename);
 	virtual void			SetVolume(double theVolume);
 
 	virtual SoundInstance*	GetSoundInstance(unsigned int theSfxID);

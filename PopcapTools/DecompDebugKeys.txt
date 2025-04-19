@@ -11,7 +11,7 @@ Zen Garden
 Tree Of Wisdom
 	f = Auto Fertilize
 	g = Grow
-	b = Not sure
+	b = Random Wisdom
 	0 = Reset Growth
 	1 = 9 Growth
 	2 = 19 Growth

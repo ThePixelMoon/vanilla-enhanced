@@ -61,22 +61,6 @@ bool FModSoundManager::LoadSound(unsigned int theSfxID, const std::string& theFi
 	return true;
 }
 
-bool FModSoundManager::LoadSound(const std::string& theFilename)
-{
-	for (int i = MAX_SOURCE_SOUNDS-1; i >= 0; i--)
-	{
-		if (mSourceStreams[i] == NULL)
-		{
-			if (!LoadSound(i, theFilename))
-				return -1;
-			else
-				return i;
-		}
-	}
-
-	return -1;
-}
-
 void FModSoundManager::SetVolume(double theVolume)
 {
 }
@@ -86,6 +70,26 @@ SoundInstance* FModSoundManager::GetSoundInstance(unsigned int theSfxID)
 	FModSoundInstance* aSoundInstance = new FModSoundInstance;
 	aSoundInstance->mStream = mSourceStreams[theSfxID];
 	return aSoundInstance;
+}
+
+void FModSoundInstance::SetBaseVolume( double volume )
+{
+	// TODO: Implement volume control logic
+}
+
+void FModSoundInstance::SetBasePan( int pan )
+{
+	// TODO: Implement stereo panning logic
+}
+
+void FModSoundInstance::AdjustPitch( double pitch )
+{
+	// TODO: Implement pitch adjustment logic
+}
+
+double FModSoundInstance::GetVolume()
+{
+	return 1.0;
 }
 
 void FModSoundManager::ReleaseSounds()

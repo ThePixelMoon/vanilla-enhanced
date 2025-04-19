@@ -5,6 +5,7 @@
 #include "SexyMatrix.h"
 
 #include <math.h>
+#include <cmath>
 
 using namespace Sexy;
 
@@ -321,7 +322,7 @@ Sexy::SexyTransform2D Sexy::SexyTransform2D::Inverse() const
 	SexyTransform2D aRetTrans(true);
 	double det = GetDeterminant();
 
-	if ( abs(det) < 1e-2 )
+	if ( fabs(det) < 1e-2 )
 		return aRetTrans;
 
 	double oneOverDeterminant = 1.0 / det;

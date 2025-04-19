@@ -163,10 +163,6 @@ source_group("Sexy" FILES ${Sexy})
 
 set(Sexy__Graphics__Graphics_Include
     "Color.h"
-    "D3DInterface.h"
-    "D3DTester.h"
-    "DDImage.h"
-    "DDInterface.h"
     "Font.h"
     "Graphics.h"
     "Image.h"
@@ -175,26 +171,24 @@ set(Sexy__Graphics__Graphics_Include
     "NativeDisplay.h"
     "Quantize.h"
     "SWTri.h"
+    "SharedImage.h"
     "SysFont.h"
 )
 source_group("Sexy\\Graphics\\Graphics Include" FILES ${Sexy__Graphics__Graphics_Include})
 
 set(Sexy__Graphics__Graphics_Source
-#    "Color.cpp"
-#    "D3DInterface.cpp"
-#    "D3DTester.cpp"
-#    "DDImage.cpp"
-#    "DDInterface.cpp"
-#    "Font.cpp"
-#    "Graphics.cpp"
-    "GraphicsBuild.cpp"
-#    "Image.cpp"
-#    "ImageFont.cpp"
-#    "MemoryImage.cpp"
-#    "NativeDisplay.cpp"
-#    "Quantize.cpp"
+    "Color.cpp"
+    "Font.cpp"
+    "Graphics.cpp"
+#   "GraphicsBuild.cpp"
+    "Image.cpp"
+    "ImageFont.cpp"
+    "MemoryImage.cpp"
+    "NativeDisplay.cpp"
+    "Quantize.cpp"
     "SWTri.cpp"
-#    "SysFont.cpp"
+    "SharedImage.cpp"
+    "SysFont.cpp"
 )
 source_group("Sexy\\Graphics\\Graphics Source" FILES ${Sexy__Graphics__Graphics_Source})
 
@@ -237,31 +231,41 @@ set(Sexy__Misc__Misc_Include
     "Rect.h"
     "ResourceManager.h"
     "SEHCatcher.h"
+    "SDLImage.h"
+    "TTFFont.h"
+    "SDLInterface.h"
     "SexyMatrix.h"
     "SexyVector.h"
     "SmartPtr.h"
     "XMLParser.h"
+    "DescParser.h"
+    "Ratio.h"
 )
 source_group("Sexy\\Misc\\Misc Include" FILES ${Sexy__Misc__Misc_Include})
 
 set(Sexy__Misc__Misc_Source
-#    "Buffer.cpp"
-#    "Common.cpp"
-#    "CritSect.cpp"
-#    "Debug.cpp"
-#    "DirectXErrorString.cpp"
-#    "Flags.cpp"
-#    "HTTPTransfer.cpp"
-#    "KeyCodes.cpp"
-    "MiscBuildBase.cpp"
-#    "ModVal.cpp"
-#    "MTRand.cpp"
-#    "PerfTimer.cpp"
-#    "PropertiesParser.cpp"
-#    "ResourceManager.cpp"
-#    "SEHCatcher.cpp"
-#    "SexyMatrix.cpp"
-#    "XMLParser.cpp"
+    "Buffer.cpp"
+    "Common.cpp"
+    "CritSect.cpp"
+    "Debug.cpp"
+    "DirectXErrorString.cpp"
+    "Flags.cpp"
+    "HTTPTransfer.cpp"
+    "KeyCodes.cpp"
+#   "MiscBuildBase.cpp"
+    "SDLImage.cpp"
+    "SDLInterface.cpp"
+    "TTFFont.cpp"
+    "ModVal.cpp"
+    "MTRand.cpp"
+    "PerfTimer.cpp"
+    "PropertiesParser.cpp"
+    "ResourceManager.cpp"
+    "DescParser.cpp"
+    "SEHCatcher.cpp"
+    "SexyMatrix.cpp"
+    "XMLParser.cpp"
+    "Ratio.cpp"
 )
 source_group("Sexy\\Misc\\Misc Source" FILES ${Sexy__Misc__Misc_Source})
 
@@ -280,18 +284,18 @@ set(Sexy__Sound__Sound_Include
 source_group("Sexy\\Sound\\Sound Include" FILES ${Sexy__Sound__Sound_Include})
 
 set(Sexy__Sound__Sound_Source
-#    "BassLoader.cpp"
+    "BassLoader.cpp"
     "BassLoader.h"
-#    "BassMusicInterface.cpp"
-#    "DSoundInstance.cpp"
-#    "DSoundManager.cpp"
-#    "FModLoader.cpp"
-#    "FModMusicInterface.cpp"
-#    "FModSoundInstance.cpp"
-#    "FModSoundManager.cpp"
-#    "Insets.cpp"
-#    "MusicInterface.cpp"
-    "SoundBuild.cpp"
+    "BassMusicInterface.cpp"
+    "DSoundInstance.cpp"
+    "DSoundManager.cpp"
+    "FModLoader.cpp"
+    "FModMusicInterface.cpp"
+    "FModSoundInstance.cpp"
+    "FModSoundManager.cpp"
+    "Insets.cpp"
+    "MusicInterface.cpp"
+#   "SoundBuild.cpp"
 )
 source_group("Sexy\\Sound\\Sound Source" FILES ${Sexy__Sound__Sound_Source})
 
@@ -324,23 +328,23 @@ set(Sexy__Widget__Widget_Include
 source_group("Sexy\\Widget\\Widget Include" FILES ${Sexy__Widget__Widget_Include})
 
 set(Sexy__Widget__Widget_Source
-#    "ButtonWidget.cpp"
-#    "Checkbox.cpp"
+    "ButtonWidget.cpp"
+    "Checkbox.cpp"
     "CursorWidget.cpp"
-#    "Dialog.cpp"
-#    "DialogButton.cpp"
-#    "EditWidget.cpp"
-#    "FlashWidget.cpp"
-#    "HyperlinkWidget.cpp"
-#    "ListWidget.cpp"
-#    "ScrollbarWidget.cpp"
-#    "ScrollbuttonWidget.cpp"
-#    "Slider.cpp"
-#    "TextWidget.cpp"
-#    "Widget.cpp"
-    "WidgetBuildBase.cpp"
-#    "WidgetContainer.cpp"
-#    "WidgetManager.cpp"
+    "Dialog.cpp"
+    "DialogButton.cpp"
+    "EditWidget.cpp"
+    "FlashWidget.cpp"
+    "HyperlinkWidget.cpp"
+    "ListWidget.cpp"
+    "ScrollbarWidget.cpp"
+    "ScrollbuttonWidget.cpp"
+    "Slider.cpp"
+    "TextWidget.cpp"
+    "Widget.cpp"
+#   "WidgetBuildBase.cpp"
+    "WidgetContainer.cpp"
+    "WidgetManager.cpp"
 )
 source_group("Sexy\\Widget\\Widget Source" FILES ${Sexy__Widget__Widget_Source})
 
@@ -472,5 +476,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ogg
     jpeg
     png_shared
+    SDL3::SDL3
+    SDL3_ttf::SDL3_ttf
     ${CMAKE_CURRENT_SOURCE_DIR}/../../bass.lib
 )

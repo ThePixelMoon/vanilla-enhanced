@@ -3,7 +3,7 @@
 //======================2009===========================//
 
 #include "FlashWidget.h"
-#include "DDImage.h"
+#include "SDLImage.h"
 #include "SexyAppBase.h"
 #include "WidgetManager.h"
 #include "Debug.h"
@@ -1047,7 +1047,7 @@ void FlashWidget::RebuildImages()
 {
 	CleanupImages();
 
-	mImage = new DDImage(gSexyAppBase->mDDInterface);
+	mImage = new SDLImage(gSexyAppBase->mSDLInterface);
 	mImage->Create(mWidth, mHeight);
 	mImage->SetImageMode(false, false);	
 }
@@ -1280,6 +1280,7 @@ void FlashWidget::Resize(int theX, int theY, int theWidth, int theHeight)
 
 void FlashWidget::Draw(Graphics* g)
 {	
+	/*
 	if (mFlashDirty)
 	{
 		Graphics anImageG(mImage);	
@@ -1318,7 +1319,8 @@ void FlashWidget::Draw(Graphics* g)
 
 		mFlashDirty = false;
 	}
-	
+	*/
+
 	g->DrawImage(mImage, 0, 0);
 }
 

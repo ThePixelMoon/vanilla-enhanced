@@ -7,10 +7,9 @@
 #include "Resources.h"
 #include "GameConstants.h"
 #include "Sexy.TodLib/TodDebug.h"
-#include "SexyAppFramework/DDImage.h"
+#include "SexyAppFramework/SDLImage.h"
 #include "SexyAppFramework/Graphics.h"
-#include "SexyAppFramework/DDInterface.h"
-#include "SexyAppFramework/D3DInterface.h"
+#include "SexyAppFramework/SDLInterface.h"
 
 void PoolEffect::PoolEffectInitialize()
 {
@@ -227,12 +226,12 @@ void PoolEffect::PoolEffectDraw(Sexy::Graphics* g, bool theIsNight)
     }
 
     UpdateWaterEffect(g);
-    D3DInterface* anInterface = ((DDImage*)g->mDestImage)->mDDInterface->mD3DInterface;
-    anInterface->CheckDXError(anInterface->mD3DDevice->SetTextureStageState(0, D3DTEXTURESTAGESTATETYPE::D3DTSS_ADDRESSU, D3DTEXTUREADDRESS::D3DTADDRESS_WRAP), "DrawPool");
-    anInterface->CheckDXError(anInterface->mD3DDevice->SetTextureStageState(0, D3DTEXTURESTAGESTATETYPE::D3DTSS_ADDRESSV, D3DTEXTUREADDRESS::D3DTADDRESS_WRAP), "DrawPool");
+    SDLInterface* anInterface = ((SDLImage*)g->mDestImage)->mInterface;
+    //anInterface->CheckDXError(anInterface->mD3DDevice->SetTextureStageState(0, D3DTEXTURESTAGESTATETYPE::D3DTSS_ADDRESSU, D3DTEXTUREADDRESS::D3DTADDRESS_WRAP), "DrawPool");
+    //anInterface->CheckDXError(anInterface->mD3DDevice->SetTextureStageState(0, D3DTEXTURESTAGESTATETYPE::D3DTSS_ADDRESSV, D3DTEXTUREADDRESS::D3DTADDRESS_WRAP), "DrawPool");
     g->DrawTrianglesTex(mCausticImage, aVertArray[2], 150);
-    anInterface->CheckDXError(anInterface->mD3DDevice->SetTextureStageState(0, D3DTEXTURESTAGESTATETYPE::D3DTSS_ADDRESSU, D3DTEXTUREADDRESS::D3DTADDRESS_CLAMP), "DrawPool");
-    anInterface->CheckDXError(anInterface->mD3DDevice->SetTextureStageState(0, D3DTEXTURESTAGESTATETYPE::D3DTSS_ADDRESSV, D3DTEXTUREADDRESS::D3DTADDRESS_CLAMP), "DrawPool");
+    //anInterface->CheckDXError(anInterface->mD3DDevice->SetTextureStageState(0, D3DTEXTURESTAGESTATETYPE::D3DTSS_ADDRESSU, D3DTEXTUREADDRESS::D3DTADDRESS_CLAMP), "DrawPool");
+    //anInterface->CheckDXError(anInterface->mD3DDevice->SetTextureStageState(0, D3DTEXTURESTAGESTATETYPE::D3DTSS_ADDRESSV, D3DTEXTUREADDRESS::D3DTADDRESS_CLAMP), "DrawPool");
 }
 
 void PoolEffect::PoolEffectUpdate()

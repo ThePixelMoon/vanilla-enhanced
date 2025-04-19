@@ -14,7 +14,7 @@
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <Windows.h>
 #endif
 
 class PakCollection;
@@ -35,9 +35,13 @@ typedef std::map<std::string, PakRecord> PakRecordMap;
 class PakCollection
 {
 public:
-	HANDLE					mFileHandle;
-	HANDLE					mMappingHandle;
-	void*					mDataPtr;				
+//	HANDLE					mFileHandle;
+//	HANDLE					mMappingHandle;
+	void* mDataPtr;
+ 
+ 	explicit PakCollection(size_t size) { mDataPtr = malloc(size); }
+ 
+ 	~PakCollection() { free(mDataPtr); }
 };
 
 typedef std::list<PakCollection> PakCollectionList;
