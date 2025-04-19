@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "LawnApp.h"
 #include "Resources.h"
 #include "Sexy.TodLib/TodStringFile.h"
@@ -8,7 +12,7 @@ bool (*gAppCloseRequest)();
 bool (*gAppHasUsedCheatKeys)();			
 SexyString (*gGetCurrentLevelName)();
 
-int main( int argc, char *argv[] )
+int main(int argc, char *argv[])
 {
 #ifdef _WIN32
 	HWND hwnd = GetConsoleWindow();

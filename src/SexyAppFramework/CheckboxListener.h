@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __CHECKBOX_LISTENER__
 #define __CHECKBOX_LISTENER__
+#ifdef _WIN32
+#pragma once
+#endif
 
 namespace Sexy
 {

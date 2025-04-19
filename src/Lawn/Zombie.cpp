@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "Plant.h"
 #include "Board.h"
 #include "Zombie.h"

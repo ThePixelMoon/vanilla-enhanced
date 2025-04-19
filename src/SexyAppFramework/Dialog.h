@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __DIALOG_H__
 #define __DIALOG_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Widget.h"
 #include "ButtonListener.h"

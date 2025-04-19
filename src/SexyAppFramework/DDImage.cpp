@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "DDImage.h"
 #include <Math.h>
 #include "DDInterface.h"

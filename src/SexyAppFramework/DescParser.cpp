@@ -1,5 +1,9 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "DescParser.h"
-#include "..\PakLib\PakInterface.h"
+#include "PakLib\PakInterface.h"
 
 using namespace Sexy;
 

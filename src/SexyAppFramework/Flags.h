@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __FLAGS_H__
 #define __FLAGS_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 namespace Sexy
 {

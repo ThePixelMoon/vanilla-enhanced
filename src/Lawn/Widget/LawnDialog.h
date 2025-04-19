@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __LAWNDIALOG_H__
 #define __LAWNDIALOG_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Sexy.TodLib/TodCommon.h"
 #include "SexyAppFramework/Dialog.h"

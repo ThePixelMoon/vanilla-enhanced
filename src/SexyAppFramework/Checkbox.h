@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __CHECKBOX_H__
 #define __CHECKBOX_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Widget.h"
 

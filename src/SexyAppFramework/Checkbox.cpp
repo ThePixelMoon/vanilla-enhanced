@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "Checkbox.h"
 #include "CheckboxListener.h"
 #include "Graphics.h"

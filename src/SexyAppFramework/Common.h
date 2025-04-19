@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __SEXYAPPFRAMEWORK_COMMON_H__
 #define __SEXYAPPFRAMEWORK_COMMON_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #pragma warning(disable:4786)
 #pragma warning(disable:4503)

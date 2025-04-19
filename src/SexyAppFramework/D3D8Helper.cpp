@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 // This has to be its own file because d3d8.h and d3d.h conflict
 #undef DIRECT3D_VERSION
 #include <windows.h>

@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "DataSync.h"
 #include "PlayerInfo.h"
 #include "LawnCommon.h"
@@ -171,8 +175,8 @@ void PlayerInfo::AddCoins(int theAmount)
 		mCoins = 99999;
 	else if (mCoins < 0)
 		mCoins = 0;
-	else
-		mCoins = 0;
+//	else
+//		mCoins = 0;
 }
 
 void PlayerInfo::ResetChallengeRecord(GameMode theGameMode)

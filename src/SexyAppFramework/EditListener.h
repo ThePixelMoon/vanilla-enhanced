@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __EDITLISTENER_H__
 #define __EDITLISTENER_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Common.h"
 #include "KeyCodes.h"

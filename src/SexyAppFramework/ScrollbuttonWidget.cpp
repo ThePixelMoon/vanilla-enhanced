@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "ScrollbuttonWidget.h"
 #include "ButtonListener.h"
 #include "Graphics.h"

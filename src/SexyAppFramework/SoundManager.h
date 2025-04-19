@@ -1,7 +1,15 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __SOUNDMANAGER_H__
 #define __SOUNDMANAGER_H__
+#ifdef _WIN32
+#pragma once
 
-#include <windows.h>
+#include <Windows.h>
+#endif
+
 #include "Common.h"
 
 namespace Sexy

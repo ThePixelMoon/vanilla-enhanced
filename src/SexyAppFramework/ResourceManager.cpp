@@ -1,3 +1,6 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
 
 #include "ResourceManager.h"
 #include "XMLParser.h"

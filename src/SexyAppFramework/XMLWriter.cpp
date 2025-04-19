@@ -1,6 +1,6 @@
-// XMLWriter.cpp: implementation of the XMLWriter class.
+//======= Copyright PopCap, All rights reserved =======//
 //
-//////////////////////////////////////////////////////////////////////
+//======================2009===========================//
 
 #include "XMLWriter.h"
 

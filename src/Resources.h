@@ -1,5 +1,12 @@
-#ifndef __Resources_H__
-#define __Resources_H__
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#ifndef __RESOURCES_H__
+#define __RESOURCES_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 namespace Sexy
 {

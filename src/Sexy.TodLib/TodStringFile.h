@@ -1,7 +1,15 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TODSTRINGFILE_H__
 #define __TODSTRINGFILE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "SexyAppFramework/Graphics.h"
+
 using namespace Sexy;
 
 enum DrawStringJustification;

@@ -1,4 +1,8 @@
-﻿#include "Lawn/Board.h"
+﻿//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#include "Lawn/Board.h"
 #include "GameButton.h"
 #include "Cutscene.h"
 #include "AlmanacDialog.h"

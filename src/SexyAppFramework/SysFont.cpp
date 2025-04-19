@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "SysFont.h"
 #include "DDImage.h"
 #include "SexyAppBase.h"

@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "ButtonWidget.h"
 #include "Image.h"
 #include "SysFont.h"

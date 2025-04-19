@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __HYPERLINKWIDGET_H__
 #define __HYPERLINKWIDGET_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "ButtonWidget.h"
 

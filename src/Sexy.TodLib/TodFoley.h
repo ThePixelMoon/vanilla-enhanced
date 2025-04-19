@@ -1,8 +1,16 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TODFOLEY_H__
 #define __TODFOLEY_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Resources.h"
 #include "SexyAppFramework/DSoundInstance.h"
+
 using namespace Sexy;
 
 #define MAX_FOLEY_TYPES 110

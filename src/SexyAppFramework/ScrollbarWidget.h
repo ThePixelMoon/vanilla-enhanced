@@ -1,9 +1,12 @@
-// ScrollbarWidget.h: interface for the ScrollbarWidget class.
+//======= Copyright PopCap, All rights reserved =======//
 //
-//////////////////////////////////////////////////////////////////////
+//======================2009===========================//
 
 #ifndef __SCROLLBARWIDGET_H__
 #define __SCROLLBARWIDGET_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Widget.h"
 #include "ButtonListener.h"

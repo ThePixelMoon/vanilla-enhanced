@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __GAMESELECTOR_H__
 #define __GAMESELECTOR_H__
 

@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TODLIST_H__
 #define __TODLIST_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #define MAX_GLOBAL_ALLOCATORS 128
 

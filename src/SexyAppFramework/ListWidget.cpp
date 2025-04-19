@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "ListWidget.h"
 #include "Font.h"
 #include "WidgetManager.h"

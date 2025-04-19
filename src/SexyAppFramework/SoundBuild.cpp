@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "DSoundManager.cpp" // build first because this defines DIRECTSOUND_VERSION to 0x0600
 
 #include "DSoundInstance.cpp"

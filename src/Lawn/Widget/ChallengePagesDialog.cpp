@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "ChallengePagesDialog.h"
 #include "LawnApp.h"
 #include "ChallengeScreen.h"

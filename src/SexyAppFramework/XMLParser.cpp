@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "XMLParser.h"
 #include "Debug.h"
 #include "..\PakLib\PakInterface.h"

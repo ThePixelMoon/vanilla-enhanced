@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __SEXYAPP_H__
 #define __SEXYAPP_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "SexyAppBase.h"
 

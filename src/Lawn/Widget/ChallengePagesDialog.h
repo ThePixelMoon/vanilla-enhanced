@@ -1,11 +1,16 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __CHALLENGEPAGESDIALOG_H__
 #define __CHALLENGEPAGESDIALOG_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "LawnDialog.h"
 #include "SexyAppFramework/SliderListener.h"
 #include "SexyAppFramework/Slider.h"
-
-//Made by BULLETBOT
 
 class ChallengePagesDialog : public LawnDialog, public Sexy::SliderListener
 {
@@ -35,4 +40,4 @@ public:
 	virtual void				KeyDown(KeyCode theKey);
 };
 
-#endif
+#endif // Made by BULLETBOT

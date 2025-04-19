@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "DDInterface.cpp" // build first because this defines INITGUID at the top
 
 #include "Color.cpp"

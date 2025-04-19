@@ -1,13 +1,22 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __REANIMATORCACHE_H__
 #define __REANIMATORCACHE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "ConstEnums.h"
 #include "Sexy.TodLib/TodList.h"
+
 namespace Sexy
 {
     class Graphics;
     class MemoryImage;
 };
+
 using namespace Sexy;
 
 class LawnApp;

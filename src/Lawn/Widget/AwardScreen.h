@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __AWARDSCREEN_H__
 #define __AWARDSCREEN_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "ConstEnums.h"
 #include "SexyAppFramework/Widget.h"

@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TYPINGCHECK_H__
 #define __TYPINGCHECK_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include <string>
 #include "SexyAppFramework/KeyCodes.h"

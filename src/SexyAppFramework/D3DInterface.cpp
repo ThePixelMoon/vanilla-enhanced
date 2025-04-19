@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "D3DInterface.h"
 #include "DDInterface.h"
 #include "Graphics.h"

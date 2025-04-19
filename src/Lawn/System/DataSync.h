@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __DATASYNC_H__
 #define __DATASYNC_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "SexyAppFramework/Common.h"
 

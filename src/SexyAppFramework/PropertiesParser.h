@@ -1,6 +1,13 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __SEXYAPPFRAMEWORK_NO_PROPERTIES_PARSER__
 #ifndef __PROPERTIESPARSER_H__
 #define __PROPERTIESPARSER_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "SexyAppBase.h"
 

@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "CheatDialog.h"
 #include "LawnApp.h"
 #include "LawnCommon.h"

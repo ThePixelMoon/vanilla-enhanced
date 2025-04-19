@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "PropertiesParser.h"
 #include "XMLParser.h"
 #include <stdlib.h>

@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __BOARD_H__
 #define __BOARD_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "ConstEnums.h"
 #include "Sexy.TodLib/DataArray.h"

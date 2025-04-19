@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "D3D8Helper.h"
 #include "D3DTester.h"
 #include "DirectXErrorString.h"

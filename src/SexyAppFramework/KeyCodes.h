@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __KEYCODES_INCLUDED__
 #define __KEYCODES_INCLUDED__
 #ifdef _WIN32

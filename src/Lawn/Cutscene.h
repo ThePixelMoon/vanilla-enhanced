@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __CUTSCENE_H__
 #define __CUTSCENE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 using namespace Sexy;
 class LawnApp;

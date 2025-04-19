@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "WidgetContainer.h"
 #include "WidgetManager.h"
 #include "Widget.h"

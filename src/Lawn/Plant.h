@@ -1,4 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#ifndef __PLANT_H__
+#define __PLANT_H__
+#ifdef _WIN32
 #pragma once
+#endif
 
 #include <string>
 #include "GameObject.h"
@@ -314,3 +322,5 @@ public:
 extern PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES];
 
 /*inline*/ PlantDefinition& GetPlantDefinition(SeedType theSeedType);
+
+#endif

@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "Slider.h"
 #include "Graphics.h"
 #include "Image.h"

@@ -1,12 +1,21 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __PAKINTERFACE_H__
 #define __PAKINTERFACE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include <map>
 #include <list>
 #include <string>
 
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#endif
 
 class PakCollection;
 

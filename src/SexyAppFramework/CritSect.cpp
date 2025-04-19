@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #pragma warning( disable : 4786 )
 
 #include "CritSect.h"

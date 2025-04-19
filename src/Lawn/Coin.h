@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __COIN_H__
 #define __COIN_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "GameObject.h"
 #include "System/PlayerInfo.h"

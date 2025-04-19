@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "TodFoley.h"
 #include "TodDebug.h"
 #include "TodCommon.h"

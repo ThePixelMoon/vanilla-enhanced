@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __ATTACHMENT_H__
 #define __ATTACHMENT_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "DataArray.h"
 #include "ConstEnums.h"

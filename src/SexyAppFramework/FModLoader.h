@@ -1,8 +1,15 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __FMODLOADER_H__
 #define __FMODLOADER_H__
+#ifdef _WIN32
+#pragma once
 
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <Windows.h>
+#endif
 #include <stdio.h>
 
 #include "fmod.h"

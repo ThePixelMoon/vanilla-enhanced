@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TITLESCREEN_H__
 #define __TITLESCREEN_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "SexyAppFramework/Widget.h"
 #include "SexyAppFramework/ButtonListener.h"

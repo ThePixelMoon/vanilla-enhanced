@@ -1,8 +1,16 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __BASSLOADER_H__
 #define __BASSLOADER_H__
+#ifdef _WIN32
+#pragma once
 
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <Windows.h>
+#endif
+
 #include <stdio.h>
 
 #include "bass.h"

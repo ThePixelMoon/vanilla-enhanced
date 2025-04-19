@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "EditWidget.h"
 #include "SysFont.h"
 #include "WidgetManager.h"

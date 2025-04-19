@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TODPARTICLE_H__
 #define __TODPARTICLE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "TodList.h"
 #include "DataArray.h"

@@ -1,4 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#ifndef __GAMEOBJECT_H__
+#define __GAMEOBJECT_H__
+#ifdef _WIN32
 #pragma once
+#endif
 
 #include "ConstEnums.h"
 #include "SexyAppFramework/Graphics.h"
@@ -27,3 +35,5 @@ public:
     /*inline*/ void                 EndDraw(Graphics* g);
     /*inline*/ void                 MakeParentGraphicsFrame(Graphics* g);
 };
+
+#endif

@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "Trail.h"
 #include "TodDebug.h"
 #include "Attachment.h"

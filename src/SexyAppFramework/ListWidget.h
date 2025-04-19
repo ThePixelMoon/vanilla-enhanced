@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __LISTWIDGET_H__
 #define __LISTWIDGET_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "ScrollListener.h"
 #include "Widget.h"

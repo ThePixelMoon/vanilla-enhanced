@@ -1,5 +1,12 @@
-#ifndef _H_CritSect
-#define _H_CritSect
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#ifndef __H_CRITSECT_H__
+#define __H_CRITSECT_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Common.h"
 

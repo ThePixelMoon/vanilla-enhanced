@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __CURSOROBJECT_H__
 #define __CURSOROBJECT_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "GameObject.h"
 

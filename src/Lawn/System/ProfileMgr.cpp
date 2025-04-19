@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "DataSync.h"
 #include "ProfileMgr.h"
 #include "PlayerInfo.h"

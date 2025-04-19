@@ -1,7 +1,14 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TODDEBUG_H__
 #define __TODDEBUG_H__
+#ifdef _WIN32
+#pragma once
 
 #include <Windows.h>
+#endif
 
 class TodHesitationBracket
 {

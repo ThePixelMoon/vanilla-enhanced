@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "Coin.h"
 #include "Plant.h"
 #include "Board.h"

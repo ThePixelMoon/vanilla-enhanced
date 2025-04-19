@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "NewUserDialog.h"
 #include "LawnApp.h"
 #include "Resources.h"

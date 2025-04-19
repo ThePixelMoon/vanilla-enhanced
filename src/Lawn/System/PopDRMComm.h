@@ -1,7 +1,15 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __POPDRMCOMM_H__
 #define __POPDRMCOMM_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "SexyAppFramework/CritSect.h"
+
 using namespace Sexy;
 
 class PopDRMComm

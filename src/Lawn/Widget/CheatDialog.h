@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __CHEATDIALOG_H__
 #define __CHEATDIALOG_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "LawnDialog.h"
 #include "SexyAppFramework/EditListener.h"

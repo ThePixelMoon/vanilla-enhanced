@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "TitleScreen.h"
 #include "SexyAppFramework/HyperlinkWidget.h"
 #include "SexyAppFramework/WidgetManager.h"

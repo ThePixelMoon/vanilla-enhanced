@@ -1,3 +1,13 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#ifndef __BOARDINCLUDE_H__
+#define __BOARDINCLUDE_H__
+#ifdef _WIN32
+#pragma once
+#endif
+
 #include "Coin.h"
 #include "Board.h"
 #include "Plant.h"
@@ -17,3 +27,5 @@
 #include "Widget/GameButton.h"
 #include "SexyAppFramework/Debug.h"
 #include "SexyAppFramework/Graphics.h"
+
+#endif

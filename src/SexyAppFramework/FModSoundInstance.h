@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __FMODSOUNDINSTANCE_H__
 #define __FMODSOUNDINSTANCE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "SoundInstance.h"
 #include "fmod.h"

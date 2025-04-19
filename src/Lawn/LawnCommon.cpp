@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include <time.h>
 #include "Board.h"
 #include "Plant.h"

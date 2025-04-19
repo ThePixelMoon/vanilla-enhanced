@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "Lawn/Plant.h"
 #include "Lawn/Zombie.h"
 #include "LawnApp.h"

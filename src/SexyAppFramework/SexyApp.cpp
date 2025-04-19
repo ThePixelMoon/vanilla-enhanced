@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "SexyApp.h"
 
 //#include "..\Crypt\RegKey.h"

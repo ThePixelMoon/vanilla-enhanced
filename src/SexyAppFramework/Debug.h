@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __DEBUG_INCLUDED__
 #define __DEBUG_INCLUDED__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Common.h"
 #include <cassert>

@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __BASSMUSICINTERFACE_H__
 #define __BASSMUSICINTERFACE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "MusicInterface.h"
 #include "bass.h"

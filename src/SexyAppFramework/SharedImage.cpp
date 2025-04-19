@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "SharedImage.h"
 #include "DDImage.h"
 #include "SexyAppBase.h"

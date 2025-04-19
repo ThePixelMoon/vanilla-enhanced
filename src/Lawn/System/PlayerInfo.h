@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __PLAYERINFO_H__
 #define __PLAYERINFO_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #define MAX_POTTED_PLANTS 200
 #define PURCHASE_COUNT_OFFSET 1000

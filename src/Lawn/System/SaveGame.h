@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __SAVEGAMECONTEXT_H__
 #define __SAVEGAMECONTEXT_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include <string>
 #include "Sexy.TodLib/TodList.h"

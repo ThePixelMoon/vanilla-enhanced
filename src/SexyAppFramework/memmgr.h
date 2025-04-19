@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __SEXYMEMMGR_H__
 #define __SEXYMEMMGR_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 //////////////////////////////////////////////////////////////////////////
 //						HOW TO USE THIS FILE

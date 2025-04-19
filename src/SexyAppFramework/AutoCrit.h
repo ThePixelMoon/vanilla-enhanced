@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __AUTOCRIT_INCLUDED__
 #define __AUTOCRIT_INCLUDED__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Common.h"
 #include "CritSect.h"

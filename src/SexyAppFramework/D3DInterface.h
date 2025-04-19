@@ -1,11 +1,17 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __D3DINTERFACE_H__
 #define __D3DINTERFACE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Common.h"
 #include "MemoryImage.h"
 #include "SexyMatrix.h"
 #include <d3d.h>
-
 
 namespace Sexy
 {

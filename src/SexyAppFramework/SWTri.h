@@ -1,4 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#ifndef __SWTRI_H__
+#define __SWTRI_H__
+#ifdef _WIN32
 #pragma once
+#endif
 
 #include "Color.h"
 #include "MemoryImage.h"
@@ -182,3 +190,4 @@ extern void DrawTriangle_0555_TEX1_TALPHA1_MOD1_GLOB1_BLEND1(SWHelper::SWVertex 
 
 } // namespace Sexy
 
+#endif

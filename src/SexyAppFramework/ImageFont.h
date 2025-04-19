@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __IMAGEFONT_H__
 #define __IMAGEFONT_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Font.h"
 #include "DescParser.h"

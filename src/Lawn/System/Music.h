@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __MUSIC_H__
 #define __MUSIC_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include <string>
 #include "SexyAppFramework/bass.h"

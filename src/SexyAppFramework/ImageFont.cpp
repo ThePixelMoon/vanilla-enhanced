@@ -1,9 +1,13 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "ImageFont.h"
 #include "Graphics.h"
 #include "Image.h"
 #include "SexyAppBase.h"
 #include "MemoryImage.h"
-#include "..\SexyAppFramework\AutoCrit.h"
+#include "SexyAppFramework\AutoCrit.h"
 
 using namespace Sexy;
 

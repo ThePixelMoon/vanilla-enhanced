@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TODCOMMON_H__
 #define __TODCOMMON_H__
 #ifdef _WIN32

@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "HTTPTransfer.h"
 #include "SexyAppBase.h"
 #include <process.h>

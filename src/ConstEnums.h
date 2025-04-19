@@ -1,4 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#ifndef __CONSTENUMS_H__
+#define __CONSTENUMS_H__
+#ifdef _WIN32
 #pragma once
+#endif
 
 #define ENUM_VALUE(name, value) name = value,
 #define ENUM_AUTO_VALUE(name) name,
@@ -1400,3 +1408,5 @@ enum ParticleSystemID { PARTICLESYSTEMID_NULL };
 enum PlantID { PLANTID_NULL };
 enum ReanimationID { REANIMATIONID_NULL };
 enum ZombieID { ZOMBIEID_NULL };
+
+#endif

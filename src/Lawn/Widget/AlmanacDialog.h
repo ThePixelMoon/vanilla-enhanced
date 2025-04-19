@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __ALMANACDIALOG_H__
 #define __ALMANACDIALOG_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "LawnDialog.h"
 #include "ConstEnums.h"

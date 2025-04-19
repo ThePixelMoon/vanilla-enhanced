@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "Common.h"
 #include "Dialog.h"
 #include "DialogButton.h"

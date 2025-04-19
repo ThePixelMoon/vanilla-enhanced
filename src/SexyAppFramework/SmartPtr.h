@@ -1,5 +1,13 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __SEXY_SMARTPTR_H__
 #define __SEXY_SMARTPTR_H__
+#ifdef _WIN32
+#pragma once
+#endif
+
 #include "Common.h"
 
 #pragma pack(push,8) // need 8 byte alignment for InterlockedIncrement

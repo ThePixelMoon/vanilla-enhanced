@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include <time.h>
 #include "Lawn/Coin.h"
 #include "Lawn/Board.h"

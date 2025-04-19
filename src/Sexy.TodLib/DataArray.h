@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __DATAARRAY_H__
 #define __DATAARRAY_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include <new.h>
 #include <string.h>

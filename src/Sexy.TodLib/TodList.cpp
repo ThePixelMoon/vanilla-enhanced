@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "TodList.h"
 #include "TodDebug.h"
 #include "TodCommon.h"

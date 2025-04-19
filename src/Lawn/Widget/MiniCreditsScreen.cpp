@@ -1,4 +1,8 @@
-﻿#include "GameButton.h"
+﻿//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#include "GameButton.h"
 #include "LawnApp.h"
 #include "System/Music.h"
 #include "MiniCreditsScreen.h"

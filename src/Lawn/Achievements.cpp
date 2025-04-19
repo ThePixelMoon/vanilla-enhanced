@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "LawnApp.h"
 #include "Achievements.h"
 #include "Board.h"

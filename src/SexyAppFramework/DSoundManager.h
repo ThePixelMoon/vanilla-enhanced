@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __DSOUNDMANAGER_H__
 #define __DSOUNDMANAGER_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "dsoundversion.h"
 #include "SoundManager.h"

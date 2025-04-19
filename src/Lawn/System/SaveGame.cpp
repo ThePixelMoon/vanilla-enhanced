@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "Music.h"
 #include "SaveGame.h"
 #include "Lawn/Board.h"

@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __TOOLTIPWIDGET_H__ 
 #define __TOOLTIPWIDGET_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "SexyAppFramework/Common.h"
 namespace Sexy

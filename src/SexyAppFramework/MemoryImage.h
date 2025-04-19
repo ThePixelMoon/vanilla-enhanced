@@ -1,5 +1,12 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __MEMORYIMAGE_H__
 #define __MEMORYIMAGE_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Image.h"
 

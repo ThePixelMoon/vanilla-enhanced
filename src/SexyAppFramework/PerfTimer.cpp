@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include "PerfTimer.h"
 #include <map>
 #ifdef _WIN64

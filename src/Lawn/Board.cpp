@@ -1,3 +1,7 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #include <time.h>
 #include "ZenGarden.h"
 #include "BoardInclude.h"

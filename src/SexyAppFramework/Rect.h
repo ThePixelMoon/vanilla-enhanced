@@ -1,5 +1,12 @@
-#ifndef __TRectANGLE_H__
-#define __TRectANGLE_H__
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
+#ifndef __RECT_H__
+#define __RECT_H__
+#ifdef _WIN32
+#pragma once
+#endif
 
 #include "Common.h"
 #include "Point.h"

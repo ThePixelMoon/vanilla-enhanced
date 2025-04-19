@@ -1,5 +1,13 @@
+//======= Copyright PopCap, All rights reserved =======//
+//
+//======================2009===========================//
+
 #ifndef __D3DTESTER_H__
 #define __D3DTESTER_H__
+#ifdef _WIN32
+#pragma once
+#endif
+
 #include <d3d.h>
 #include <exception>
 #include <string>
