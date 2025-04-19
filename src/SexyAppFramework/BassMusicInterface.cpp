@@ -146,9 +146,21 @@ void BassMusicInterface::PlayMusic(int theSongId, int theOffset, bool noLoop)
 
 		if (aMusicInfo->mHMusic)
 		{
-			BASS_ChannelPlay(aMusicInfo->mHMusic, TRUE);
-			BASS_ChannelSetPosition(aMusicInfo->mHMusic, theOffset, BASS_POS_MUSIC_ORDER );
-			BASS_ChannelFlags(aMusicInfo->mHMusic, noLoop ? 0 : BASS_MUSIC_LOOP, NULL);
+			BASS_ChannelStop(aMusicInfo->mHMusic);
+
+			BASS_ChannelSetPosition(
+				aMusicInfo->mHMusic,
+				theOffset,
+				BASS_POS_MUSIC_ORDER
+			);
+
+			BASS_ChannelFlags(
+			  aMusicInfo->mHMusic,
+			  (noLoop ? 0 : BASS_MUSIC_LOOP) | BASS_MUSIC_RAMP,
+			  -1
+			);
+
+			BASS_ChannelPlay(aMusicInfo->mHMusic, FALSE);
 		}
 		else if (aMusicInfo->mHStream)
 		{

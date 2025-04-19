@@ -230,9 +230,9 @@ Image* GetGIFImage(const std::string& theFileName)
 		opacity,
 		status;
 
-	register int i;
+	int i;
 
-	register unsigned char *p;
+	unsigned char *p;
 
 	unsigned char
 		background,
@@ -524,10 +524,10 @@ Image* GetGIFImage(const std::string& theFileName)
 			pass,
 			y;
 
-		register int
+		int
 			x;
 
-		register unsigned int
+		unsigned int
 			datum;
 
 		short
@@ -579,7 +579,7 @@ Image* GetGIFImage(const std::string& theFileName)
 
 		unsigned long* aBits = new unsigned long[width*height];
 
-		register unsigned char *c = NULL;
+		unsigned char *c = NULL;
 
 		for (y=0; y < (int) height; y++)
 		{

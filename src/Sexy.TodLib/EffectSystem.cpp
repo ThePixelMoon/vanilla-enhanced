@@ -406,8 +406,12 @@ void TodTriangleGroup::AddTriangle(Graphics* g, Image* theImage, const SexyMatri
 {
 	TOD_ASSERT(theImage != nullptr);
 
+	if (!theImage)
+		return;
+
 	if (mTriangleCount > 0 && (mDrawMode != theDrawMode || mImage != theImage))
 		DrawGroup(g);
+
 	mImage = theImage;
 	mDrawMode = theDrawMode;
 
@@ -443,7 +447,7 @@ void TodTriangleGroup::AddTriangle(Graphics* g, Image* theImage, const SexyMatri
 
 	bool aNoClipping = false;
 	TriVertex aVertBuffer[2][3];
-	register TriVertex (*aTriRef)[3] = aVertBuffer;
+	TriVertex (*aTriRef)[3] = aVertBuffer;
 	if (mTriangleCount + 2 <= MAX_TRIANGLES)
 	{
 		if ((
