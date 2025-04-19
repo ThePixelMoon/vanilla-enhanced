@@ -1,4 +1,4 @@
-//======= Copyright PopCap, All rights reserved =======//
+﻿//======= Copyright PopCap, All rights reserved =======//
 //
 //======================2009===========================//
 
@@ -2211,4 +2211,3 @@ void D3DInterface::Flush()
 		mErrorString.erase();
 	}
 }
-

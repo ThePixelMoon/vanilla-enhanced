@@ -4765,9 +4765,8 @@ void SexyAppBase::MakeWindow()
 		RECT aDesktopRect;
 		::SystemParametersInfo(SPI_GETWORKAREA, NULL, &aDesktopRect, NULL);
 
-		int aPlaceX = 64;
-		int aPlaceY = 64;
-		
+		int aPlaceX, aPlaceY;
+
 		if (mPreferredX != -1)
 		{
 			aPlaceX = mPreferredX;
@@ -4783,9 +4782,14 @@ void SexyAppBase::MakeWindow()
 
 			if (aPlaceX + aWidth >= aDesktopRect.right - aSpacing)
 				aPlaceX = aDesktopRect.right - aWidth - aSpacing;
-			
+
 			if (aPlaceY + aHeight >= aDesktopRect.bottom - aSpacing)
 				aPlaceY = aDesktopRect.bottom - aHeight;
+		}
+		else
+		{
+			aPlaceX = aDesktopRect.left + ((aDesktopRect.right - aDesktopRect.left - aWidth) / 2);
+			aPlaceY = aDesktopRect.top + (int)(((aDesktopRect.bottom - aDesktopRect.top - aHeight) * 0.382));
 		}
 
 		if (CheckFor98Mill())
@@ -4835,14 +4839,6 @@ void SexyAppBase::MakeWindow()
 		DwmSetWindowAttribute( mHWnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &stub, sizeof(stub));
 #endif
 		
-		if (mPreferredX == -1)
-		{				
-			::MoveWindow(mHWnd, 
-				aDesktopRect.left + ((aDesktopRect.right - aDesktopRect.left) - aWidth)/2, 
-				aDesktopRect.top + (int) (((aDesktopRect.bottom - aDesktopRect.top) - aHeight)*0.382), 
-				aWidth, aHeight, FALSE);
-		}
-
 		mIsPhysWindowed = true;
 	}
 	else
@@ -4991,6 +4987,41 @@ void SexyAppBase::MakeWindow()
 	mWidgetManager->MarkAllDirty();
 
 	SetTimer(mHWnd, 100, mFrameTime, NULL);
+}
+
+void SexyAppBase::setRSize()
+{
+#ifdef _WIN32
+	const struct { int width, height; } sizes[] = {
+		{ 640, 480 },
+		{ 800, 600 },
+		{ 1024, 768 }
+	};
+
+	currentSizeIndex = (currentSizeIndex + 1) % (sizeof(sizes) / sizeof(sizes[0]));
+
+	mWidth = sizes[currentSizeIndex].width;
+	mHeight = sizes[currentSizeIndex].height;
+
+	int sw = GetSystemMetrics(SM_CXSCREEN);
+	int sh = GetSystemMetrics(SM_CYSCREEN);
+	int x = (sw - mWidth) / 2;
+	int y = (sh - mHeight) / 2;
+
+	SetWindowPos(mDDInterface->mHWnd, HWND_TOP, x, y, mWidth, mHeight, SWP_NOZORDER);
+
+	mDDInterface->mWidth = mWidth;
+	mDDInterface->mHeight = mHeight;
+	mDDInterface->mDesktopWidth = mWidth;
+	mDDInterface->mDesktopHeight = mHeight;
+	mDDInterface->mDisplayWidth = mWidth;
+	mDDInterface->mDisplayHeight = mHeight;
+
+//	mDDInterface->Cleanup();
+//	InitDDInterface();
+
+    InvalidateRect(mDDInterface->mHWnd, nullptr, TRUE);
+#endif
 }
 
 void SexyAppBase::DeleteNativeImageData()

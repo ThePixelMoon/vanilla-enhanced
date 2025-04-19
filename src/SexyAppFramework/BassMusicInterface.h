@@ -45,7 +45,7 @@ public:
 	BassMusicInterface(HWND theHWnd);
 	virtual ~BassMusicInterface();
 	
-	virtual bool			LoadMusic(int theSongId, const std::string& theFileName);
+	virtual bool			LoadMusic(int theSongId, const std::wstring& theFileName);
 	virtual void			PlayMusic(int theSongId, int theOffset = 0, bool noLoop = false);
 	virtual void			StopMusic(int theSongId);
 	virtual void			StopAllMusic();		

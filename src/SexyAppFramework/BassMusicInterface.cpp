@@ -7,6 +7,10 @@
 #include "PakLib\PakInterface.h"
 #include "Sexy.TodLib\TodDebug.h"
 
+#include <codecvt>
+#include <vector>
+#include <fstream>
+
 using namespace Sexy;
 
 #define BASS2_MUSIC_RAMP			BASS_MUSIC_RAMP	// normal ramping
@@ -81,7 +85,7 @@ BassMusicInterface::BassMusicInterface(HWND theHWnd)
 
 	mMaxMusicVolume = 40;
 
-	mMusicLoadFlags = true ? BASS_MUSIC_LOOP | BASS2_MUSIC_RAMP : BASS_MUSIC_LOOP;
+	mMusicLoadFlags = BASS_MUSIC_LOOP | BASS2_MUSIC_RAMP;
 }
 
 BassMusicInterface::~BassMusicInterface()
@@ -90,38 +94,37 @@ BassMusicInterface::~BassMusicInterface()
 	BASS_Free();
 }
 
-bool BassMusicInterface::LoadMusic(int theSongId, const std::string& theFileName)
+bool BassMusicInterface::LoadMusic(int theSongId, const std::wstring& theFileName)
 {
 	HMUSIC aHMusic = NULL;
 	HSTREAM aStream = NULL;
 	
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+	std::string utf8FileName = conv.to_bytes(theFileName);
 	std::string anExt;
-	int aDotPos = theFileName.find_last_of('.');
-	if (aDotPos!=std::string::npos)
-		anExt = StringToLower(theFileName.substr(aDotPos+1));
+
+	auto aDotPos = utf8FileName.find_last_of('.');
+	if (aDotPos != std::string::npos)
+		anExt = utf8FileName.substr(aDotPos + 1);
 
 	if (anExt=="wav" || anExt=="ogg" || anExt=="mp3")
-		aStream = BASS_StreamCreateFile(FALSE, (void*) theFileName.c_str(), 0, 0, 0);
+		aStream = BASS_StreamCreateFile(FALSE, (void*)theFileName.c_str(), 0, 0, 0);
 	else
 	{
-		PFILE* aFP = p_fopen(theFileName.c_str(), "rb");
-		if (aFP == NULL)
+		std::ifstream file(utf8FileName, std::ios::binary | std::ios::ate);
+		if (!file)
 			return false;
 
-		p_fseek(aFP, 0, SEEK_END);
-		int aSize = p_ftell(aFP);
-		p_fseek(aFP, 0, SEEK_SET);
+		int aSize = static_cast<int>(file.tellg());
+		file.seekg(0, std::ios::beg);
 
-		uchar* aData = new uchar[aSize];
-		p_fread(aData, 1, aSize, aFP);
-		p_fclose(aFP);
+		std::vector<char> aData(aSize);
+		file.read(aData.data(), aSize);
 
-		aHMusic = BASS_MusicLoad(FALSE, (void*) theFileName.c_str(), 0, 0, BASS_MUSIC_LOOP | BASS2_MUSIC_RAMP, 0);
-
-		delete[] aData;
+		aHMusic = BASS_MusicLoad(TRUE, aData.data(), 0, aSize, mMusicLoadFlags, 0);
 	}
 
-	if (aHMusic==NULL && aStream==NULL)
+	if (!aHMusic && !aStream)
 		return false;
 	
 	BassMusicInfo aMusicInfo;	
@@ -141,46 +144,24 @@ void BassMusicInterface::PlayMusic(int theSongId, int theOffset, bool noLoop)
 		aMusicInfo->mVolume = aMusicInfo->mVolumeCap;
 		aMusicInfo->mVolumeAdd = 0.0;
 		aMusicInfo->mStopOnFade = noLoop;
+
 		BASS_ChannelSetAttribute(aMusicInfo->GetHandle(), BASS_ATTRIB_VOL, aMusicInfo->mVolume);
 		BASS_ChannelStop(aMusicInfo->GetHandle());
 
 		if (aMusicInfo->mHMusic)
 		{
-			BASS_ChannelStop(aMusicInfo->mHMusic);
-
-			BASS_ChannelSetPosition(
-				aMusicInfo->mHMusic,
-				theOffset,
-				BASS_POS_MUSIC_ORDER
-			);
-
-			BASS_ChannelFlags(
-			  aMusicInfo->mHMusic,
-			  (noLoop ? 0 : BASS_MUSIC_LOOP) | BASS_MUSIC_RAMP,
-			  -1
-			);
-
-			BASS_ChannelPlay(aMusicInfo->mHMusic, FALSE);
+			BASS_ChannelPlay(aMusicInfo->mHMusic, TRUE);
+			BASS_ChannelSetPosition(aMusicInfo->mHMusic, theOffset, BASS_POS_MUSIC_ORDER);
+			BASS_ChannelFlags(aMusicInfo->mHMusic, BASS_MUSIC_POSRESET | BASS2_MUSIC_RAMP | (noLoop ? 0 : BASS_MUSIC_LOOP), 0);
 		}
-		else if (aMusicInfo->mHStream)
+		else
 		{
-			BOOL flush = (theOffset != -1);
-			if (!BASS_ChannelPlay(aMusicInfo->mHStream, flush))
-				TodTrace("unable to start stream, error code: %d\n", BASS_ErrorGetCode());
+			BOOL flush = theOffset == -1 ? FALSE : TRUE;
+			BASS_ChannelPlay(aMusicInfo->mHStream, flush);
+			BASS_ChannelFlags(aMusicInfo->mHStream, noLoop ? 0 : BASS_MUSIC_LOOP, 0);
 
-			DWORD loopFlag = noLoop ? 0 : BASS_SAMPLE_LOOP;
-			BASS_ChannelFlags(aMusicInfo->mHStream,
-							  loopFlag,
-							  BASS_SAMPLE_LOOP);
-
-			// position (convert ms -> bytes):
 			if (theOffset > 0)
-			{
-				QWORD bytePos = BASS_ChannelSeconds2Bytes(aMusicInfo->mHStream, theOffset / 1000.0);
-				BASS_ChannelSetPosition(aMusicInfo->mHStream,
-										bytePos,
-										BASS_POS_BYTE);
-			}
+				BASS_ChannelSetPosition(aMusicInfo->mHStream, theOffset, BASS_POS_BYTE);
 		}
 	}
 }
@@ -347,10 +328,10 @@ void BassMusicInterface::FadeOutAll(bool stopSong, double theSpeed)
 
 void BassMusicInterface::SetVolume(double theVolume)
 {
-	int aVolume = (int) (theVolume * mMaxMusicVolume);
+	int aVolume = theVolume * mMaxMusicVolume;
 	
-	BASS_SetConfig(/*BASS_CONFIG_GVOL_MUSIC*/6, (int) (theVolume * 100));
-	BASS_SetConfig(/*BASS_CONFIG_GVOL_STREAM*/5, (int) (theVolume * 100));
+	BASS_SetConfig(BASS_CONFIG_GVOL_MUSIC, theVolume * 100);
+	BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, theVolume * 100);
 }
 
 void BassMusicInterface::SetSongVolume(int theSongId, double theVolume)
@@ -396,7 +377,7 @@ void BassMusicInterface::SetMusicAmplify(int theSongId, double theAmp)
 	if (anItr != mMusicMap.end())
 	{		
 		BassMusicInfo* aMusicInfo = &anItr->second;		
-		BASS_ChannelSetAttribute(aMusicInfo->GetHandle(), BASS_ATTRIB_MUSIC_AMPLIFY, (int)(theAmp * 100));
+		BASS_ChannelSetAttribute(aMusicInfo->GetHandle(), BASS_ATTRIB_MUSIC_AMPLIFY, theAmp * 100);
 	}
 }
 
@@ -410,7 +391,7 @@ void BassMusicInterface::Update()
 		if (aMusicInfo->mVolumeAdd != 0.0)
 		{
 			aMusicInfo->mVolume += aMusicInfo->mVolumeAdd;
-			
+
 			if (aMusicInfo->mVolume > aMusicInfo->mVolumeCap)
 			{
 				aMusicInfo->mVolume = aMusicInfo->mVolumeCap;
@@ -425,11 +406,11 @@ void BassMusicInterface::Update()
 					BASS_ChannelStop(aMusicInfo->GetHandle());
 			}
 
-			BASS_ChannelSetAttribute(aMusicInfo->GetHandle(), BASS_ATTRIB_VOL, (int)(aMusicInfo->mVolume/100));
+			BASS_ChannelSetAttribute(aMusicInfo->GetHandle(), BASS_ATTRIB_VOL, aMusicInfo->mVolume);
 		}
 
 		++anItr;
-	}	
+	}
 }
 
 ////////////////////////////////////////////////////////////////////

@@ -60,8 +60,8 @@ bool Music::TodLoadMusic(MusicFile theMusicFile, const std::wstring& theFileName
 
     if (anExt != "wav" && anExt != "ogg" && anExt != "mp3")
     {
-		std::ifstream file( utf8FileName, std::ios::binary | std::ios::ate );
-		if ( !file )
+		std::ifstream file(utf8FileName, std::ios::binary | std::ios::ate);
+		if (!file)
 			return false;
 
 		int aSize = static_cast<int>(file.tellg());
@@ -70,7 +70,7 @@ bool Music::TodLoadMusic(MusicFile theMusicFile, const std::wstring& theFileName
 		std::vector<char> aData(aSize);
 		file.read(aData.data(), aSize);
 
-		aHMusic = BASS_MusicLoad(TRUE, aData.data(), 0, aSize, BASS_MUSIC_RAMP, 0);
+		aHMusic = BASS_MusicLoad(TRUE, aData.data(), 0, aSize, BASS_MUSIC_RAMP | BASS_SAMPLE_LOOP, 0);
 
         if (!aHMusic)
         {
@@ -407,7 +407,7 @@ void Music::PlayMusic(MusicTune theMusicTune, int theOffset, int theDrumsOffset)
 	}
 
 	if (mCurMusicFileHihats != MusicFile::MUSIC_FILE_NONE)
-        mMusicInterface->PlayMusic(mCurMusicFileHihats, theOffset, false);
+        PlayFromOffset(mCurMusicFileHihats, theOffset, /*volume=*/0.0);
 
     if (aRestartingSong)
     {
@@ -488,162 +488,163 @@ void Music::FadeOut(int theFadeOutDuration)
 
 void Music::UpdateMusicBurst()
 {
-	if (mApp->mBoard == nullptr)
-		return;
+    if (mApp->mBoard == nullptr)
+        return;
 
-	int aBurstScheme;
-	if (mCurMusicTune == MusicTune::MUSIC_TUNE_DAY_GRASSWALK || mCurMusicTune == MusicTune::MUSIC_TUNE_POOL_WATERYGRAVES ||
-		mCurMusicTune == MusicTune::MUSIC_TUNE_FOG_RIGORMORMIST || mCurMusicTune == MusicTune::MUSIC_TUNE_ROOF_GRAZETHEROOF)
-		aBurstScheme = 1;
-	else if (mCurMusicTune == MusicTune::MUSIC_TUNE_NIGHT_MOONGRAINS)
-		aBurstScheme = 2;
-	else
-		return;
+    int aBurstScheme;
+    if (mCurMusicTune == MusicTune::MUSIC_TUNE_DAY_GRASSWALK || mCurMusicTune == MusicTune::MUSIC_TUNE_POOL_WATERYGRAVES ||
+        mCurMusicTune == MusicTune::MUSIC_TUNE_FOG_RIGORMORMIST || mCurMusicTune == MusicTune::MUSIC_TUNE_ROOF_GRAZETHEROOF)
+        aBurstScheme = 1;
+    else if (mCurMusicTune == MusicTune::MUSIC_TUNE_NIGHT_MOONGRAINS)
+        aBurstScheme = 2;
+    else
+        return;
 
-	int aPackedOrderMain = GetMusicOrder(mCurMusicFileMain);
-	if (mBurstStateCounter > 0)
-		mBurstStateCounter--;
-	if (mDrumsStateCounter > 0)
-		mDrumsStateCounter--;
+    int aPackedOrderMain = GetMusicOrder(mCurMusicFileMain);
+    if (mBurstStateCounter > 0)
+        mBurstStateCounter--;
+    if (mDrumsStateCounter > 0)
+        mDrumsStateCounter--;
 
-	float aFadeTrackVolume = 0.0f;
-	float aDrumsVolume = 0.0f;
-	float aMainTrackVolume = 1.0f;
-	switch (mMusicBurstState)
-	{
-		case MusicBurstState::MUSIC_BURST_OFF:
-			if (mApp->mBoard->CountZombiesOnScreen() >= 10 || mBurstOverride == 1)
-				StartBurst();
-			break;
-		case MusicBurstState::MUSIC_BURST_STARTING:
-			if (aBurstScheme == 1)
-			{
-				aFadeTrackVolume = TodAnimateCurveFloat(400, 0, mBurstStateCounter, 0.0f, 1.0f, TodCurves::CURVE_LINEAR);
-				if (mBurstStateCounter == 100)
-				{
-					mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_ON_QUEUED;
-					mQueuedDrumTrackPackedOrder = aPackedOrderMain;
-				}
-				else if (mBurstStateCounter == 0)
-				{
-					mMusicBurstState = MusicBurstState::MUSIC_BURST_ON;
-					mBurstStateCounter = 800;
-				}
-			}
-			else if (aBurstScheme == 2)
-			{
-				if (mMusicDrumsState == MusicDrumsState::MUSIC_DRUMS_OFF)
-				{
-					mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_ON_QUEUED;
-					mQueuedDrumTrackPackedOrder = aPackedOrderMain;
-					mBurstStateCounter = 400;
-				}
-				else if (mMusicDrumsState == MusicDrumsState::MUSIC_DRUMS_ON_QUEUED)
-					mBurstStateCounter = 400;
-				else
-				{
-					aMainTrackVolume = TodAnimateCurveFloat(400, 0, mBurstStateCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
-					if (mBurstStateCounter == 0)
-					{
-						mMusicBurstState = MusicBurstState::MUSIC_BURST_ON;
-						mBurstStateCounter = 800;
-					}
-				}
-			}
-			break;
-		case MusicBurstState::MUSIC_BURST_ON:
-			aFadeTrackVolume = 1.0f;
-			if (aBurstScheme == 2)
-				aMainTrackVolume = 0.0f;
-			if (mBurstStateCounter == 0 && ((mApp->mBoard->CountZombiesOnScreen() < 4 && mBurstOverride == -1) || mBurstOverride == 2))
-			{
-				if (aBurstScheme == 1)
-				{
-					mMusicBurstState = MusicBurstState::MUSIC_BURST_FINISHING;
-					mBurstStateCounter = 800;
-					mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_OFF_QUEUED;
-					mQueuedDrumTrackPackedOrder = aPackedOrderMain;
-				}
-				else if (aBurstScheme == 2)
-				{
-					mMusicBurstState = MusicBurstState::MUSIC_BURST_FINISHING;
-					mBurstStateCounter = 1100;
-					mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_FADING;
-					mDrumsStateCounter = 800;
-				}
-			}
-			break;
-		case MusicBurstState::MUSIC_BURST_FINISHING:
-			if (aBurstScheme == 1)
-				aFadeTrackVolume = TodAnimateCurveFloat(800, 0, mBurstStateCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
-			else
-				aMainTrackVolume = TodAnimateCurveFloat(400, 0, mBurstStateCounter, 0.0f, 1.0f, TodCurves::CURVE_LINEAR);
-			if (mBurstStateCounter == 0 && mMusicDrumsState == MusicDrumsState::MUSIC_DRUMS_OFF)
-				mMusicBurstState = MusicBurstState::MUSIC_BURST_OFF;
-			break;
-	}
+    float aFadeTrackVolume = 0.0f;
+    float aDrumsVolume = 0.0f;
+    float aMainTrackVolume = 1.0f;
+    switch (mMusicBurstState)
+    {
+        case MusicBurstState::MUSIC_BURST_OFF:
+            if (mApp->mBoard->CountZombiesOnScreen() >= 10 || mBurstOverride == 1)
+                StartBurst();
+            break;
+        case MusicBurstState::MUSIC_BURST_STARTING:
+            if (aBurstScheme == 1)
+            {
+                aFadeTrackVolume = TodAnimateCurveFloat(400, 0, mBurstStateCounter, 0.0f, 1.0f, TodCurves::CURVE_LINEAR);
+                if (mBurstStateCounter == 100)
+                {
+                    mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_ON_QUEUED;
+                    mQueuedDrumTrackPackedOrder = aPackedOrderMain;
+                }
+                else if (mBurstStateCounter == 0)
+                {
+                    mMusicBurstState = MusicBurstState::MUSIC_BURST_ON;
+                    mBurstStateCounter = 800;
+                }
+            }
+            else if (aBurstScheme == 2)
+            {
+                if (mMusicDrumsState == MusicDrumsState::MUSIC_DRUMS_OFF)
+                {
+                    mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_ON_QUEUED;
+                    mQueuedDrumTrackPackedOrder = aPackedOrderMain;
+                    mBurstStateCounter = 400;
+                }
+                else if (mMusicDrumsState == MusicDrumsState::MUSIC_DRUMS_ON_QUEUED)
+                    mBurstStateCounter = 400;
+                else
+                {
+                    aMainTrackVolume = TodAnimateCurveFloat(400, 0, mBurstStateCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
+                    if (mBurstStateCounter == 0)
+                    {
+                        mMusicBurstState = MusicBurstState::MUSIC_BURST_ON;
+                        mBurstStateCounter = 800;
+                    }
+                }
+            }
+            break;
+        case MusicBurstState::MUSIC_BURST_ON:
+            aFadeTrackVolume = 1.0f;
+            if (aBurstScheme == 2)
+                aMainTrackVolume = 0.0f;
+            if (mBurstStateCounter == 0 && ((mApp->mBoard->CountZombiesOnScreen() < 4 && mBurstOverride == -1) || mBurstOverride == 2))
+            {
+                if (aBurstScheme == 1)
+                {
+                    mMusicBurstState = MusicBurstState::MUSIC_BURST_FINISHING;
+                    mBurstStateCounter = 800;
+                    mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_OFF_QUEUED;
+                    mQueuedDrumTrackPackedOrder = aPackedOrderMain;
+                }
+                else if (aBurstScheme == 2)
+                {
+                    mMusicBurstState = MusicBurstState::MUSIC_BURST_FINISHING;
+                    mBurstStateCounter = 1100;
+                    mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_FADING;
+                    mDrumsStateCounter = 800;
+                }
+            }
+            break;
+        case MusicBurstState::MUSIC_BURST_FINISHING:
+            if (aBurstScheme == 1)
+                aFadeTrackVolume = TodAnimateCurveFloat(800, 0, mBurstStateCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
+            else
+                aMainTrackVolume = TodAnimateCurveFloat(400, 0, mBurstStateCounter, 0.0f, 1.0f, TodCurves::CURVE_LINEAR);
+            if (mBurstStateCounter == 0 && mMusicDrumsState == MusicDrumsState::MUSIC_DRUMS_OFF)
+                mMusicBurstState = MusicBurstState::MUSIC_BURST_OFF;
+            break;
+    }
 
-	int aDrumsJumpOrder = -1;
-	int aOrderMain = 0, aOrderDrum = 0;
-	if (aBurstScheme == 1)
-	{
-		aOrderMain = HIWORD(aPackedOrderMain) / 128;
-		aOrderDrum = HIWORD(mQueuedDrumTrackPackedOrder) / 128;
-	}
-	else if (aBurstScheme == 2)
-	{
-		aOrderMain = LOWORD(aPackedOrderMain);
-		aOrderDrum = LOWORD(mQueuedDrumTrackPackedOrder);
-		if (HIWORD(aPackedOrderMain) > 252)
-			aOrderMain++;
-		if (HIWORD(mQueuedDrumTrackPackedOrder) > 252)
-			aOrderDrum++;
-	}
+    int aDrumsJumpOrder = -1;
+    int aOrderMain = 0, aOrderDrum = 0;
+    if (aBurstScheme == 1)
+    {
+        aOrderMain = HIWORD(aPackedOrderMain) / 128;
+        aOrderDrum = HIWORD(mQueuedDrumTrackPackedOrder) / 128;
+    }
+    else if (aBurstScheme == 2)
+    {
+        aOrderMain = LOWORD(aPackedOrderMain);
+        aOrderDrum = LOWORD(mQueuedDrumTrackPackedOrder);
+        if (HIWORD(aPackedOrderMain) > 252)
+            aOrderMain++;
+        if (HIWORD(mQueuedDrumTrackPackedOrder) > 252)
+            aOrderDrum++;
+    }
 
-	switch (mMusicDrumsState)
-	{
-		case MusicDrumsState::MUSIC_DRUMS_ON_QUEUED:
-			if (aOrderMain != aOrderDrum)
-			{
-				aDrumsVolume = 1.0f;
-				mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_ON;
-				if (aBurstScheme == 2)
-					aDrumsJumpOrder = (aOrderMain % 2 == 0) ? 76 : 77;
-			}
-			break;
-		case MusicDrumsState::MUSIC_DRUMS_ON:
-			aDrumsVolume = 1.0f;
-			break;
-		case MusicDrumsState::MUSIC_DRUMS_OFF_QUEUED:
-			aDrumsVolume = 1.0f;
-			if (aOrderMain != aOrderDrum && aBurstScheme == 1)
-			{
-				mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_FADING;
-				mDrumsStateCounter = 50;
-			}
-			break;
-		case MusicDrumsState::MUSIC_DRUMS_FADING:
-			if (aBurstScheme == 2)
-				aDrumsVolume = TodAnimateCurveFloat(800, 0, mDrumsStateCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
-			else
-				aDrumsVolume = TodAnimateCurveFloat(50, 0, mDrumsStateCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
-			if (mDrumsStateCounter == 0)
-				mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_OFF;
-			break;
-	}
+    switch (mMusicDrumsState)
+    {
+        case MusicDrumsState::MUSIC_DRUMS_ON_QUEUED:
+            if (aOrderMain != aOrderDrum)
+            {
+                aDrumsVolume = 1.0f;
+                mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_ON;
+                BASS_ChannelSetAttribute(GetBassMusicHandle(mCurMusicFileDrums), BASS_ATTRIB_VOL, aDrumsVolume);
+                if (aBurstScheme == 2)
+                    aDrumsJumpOrder = (aOrderMain % 2 == 0) ? 76 : 77;
+            }
+            break;
+        case MusicDrumsState::MUSIC_DRUMS_ON:
+            aDrumsVolume = 1.0f;
+            break;
+        case MusicDrumsState::MUSIC_DRUMS_OFF_QUEUED:
+            aDrumsVolume = 1.0f;
+            if (aOrderMain != aOrderDrum && aBurstScheme == 1)
+            {
+                mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_FADING;
+                mDrumsStateCounter = 50;
+            }
+            break;
+        case MusicDrumsState::MUSIC_DRUMS_FADING:
+            if (aBurstScheme == 2)
+                aDrumsVolume = TodAnimateCurveFloat(800, 0, mDrumsStateCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
+            else
+                aDrumsVolume = TodAnimateCurveFloat(50, 0, mDrumsStateCounter, 1.0f, 0.0f, TodCurves::CURVE_LINEAR);
+            if (mDrumsStateCounter == 0)
+                mMusicDrumsState = MusicDrumsState::MUSIC_DRUMS_OFF;
+            break;
+    }
 
-	if (aBurstScheme == 1)
-	{
-		mMusicInterface->SetSongVolume(mCurMusicFileHihats, aFadeTrackVolume);
-		mMusicInterface->SetSongVolume(mCurMusicFileDrums, aDrumsVolume);
-	}
-	else if (aBurstScheme == 2)
-	{
-		mMusicInterface->SetSongVolume(mCurMusicFileMain, aMainTrackVolume);
-		mMusicInterface->SetSongVolume(mCurMusicFileDrums, aDrumsVolume);
-		if (aDrumsJumpOrder != -1)
-			BASS_ChannelSetPosition(GetBassMusicHandle(mCurMusicFileDrums), LOWORD(aDrumsJumpOrder) | 0x80000000, -1);
-	}
+    if (aBurstScheme == 1)
+    {
+        mMusicInterface->SetSongVolume(mCurMusicFileHihats, aFadeTrackVolume);
+        mMusicInterface->SetSongVolume(mCurMusicFileDrums, aDrumsVolume);
+    }
+    else if (aBurstScheme == 2)
+    {
+        mMusicInterface->SetSongVolume(mCurMusicFileMain, aMainTrackVolume);
+        mMusicInterface->SetSongVolume(mCurMusicFileDrums, aDrumsVolume);
+        if (aDrumsJumpOrder != -1)
+            BASS_ChannelSetPosition(GetBassMusicHandle(mCurMusicFileDrums), LOWORD(aDrumsJumpOrder) | 0x80000000, -1);
+    }
 }
 
 void Music::MusicUpdate()
@@ -710,49 +711,61 @@ void Music::StartGameMusic()
 
 void Music::GameMusicPause(bool thePause)
 {
-	if (thePause)
-	{
-		if (!mPaused && mCurMusicTune != MusicTune::MUSIC_TUNE_NONE)
-		{
-			BassMusicInterface* aBass = (BassMusicInterface*)mMusicInterface;
-			auto anItr = aBass->mMusicMap.find(mCurMusicFileMain);
-			TOD_ASSERT(anItr != aBass->mMusicMap.end());
-			BassMusicInfo* aMusicInfo = &anItr->second;
+    if (thePause)
+    {
+        if (!mPaused && mCurMusicTune != MusicTune::MUSIC_TUNE_NONE)
+        {
+            BassMusicInterface* aBass = static_cast<BassMusicInterface*>(mMusicInterface);
+            auto anItr = aBass->mMusicMap.find(mCurMusicFileMain);
+            TOD_ASSERT(anItr != aBass->mMusicMap.end());
+            BassMusicInfo* aMusicInfo = &anItr->second;
 
-			if (aMusicInfo->mHStream)
-			{
-				mPauseOffset = BASS_ChannelGetPosition(aMusicInfo->mHStream, BASS_POS_BYTE);
-				mMusicInterface->StopMusic(mCurMusicFileMain);
-			}
-			else
-			{
-				int aOrderMain = GetMusicOrder(mCurMusicFileMain);
-				mPauseOffset = MAKELONG(LOWORD(aOrderMain), HIWORD(aOrderMain) / 4);
-				mMusicInterface->StopMusic(mCurMusicFileMain);
+            if (aMusicInfo->mHStream)
+            {
+                mPauseOffset = BASS_ChannelGetPosition(aMusicInfo->mHStream, BASS_POS_BYTE);
+                mMusicInterface->StopMusic(mCurMusicFileMain);
+            }
+            else
+            {
+                const DWORD order = static_cast<DWORD>(GetMusicOrder(mCurMusicFileMain));
+                const DWORD lowPart  = order & 0xFFFF;           // LOWORD(order)
+                const DWORD highRaw  = (order >> 16) & 0xFFFF;   // HIWORD(order)
+                const DWORD highPart = highRaw / 4;              // divide the high word by 4
 
-				if (mCurMusicTune == MusicTune::MUSIC_TUNE_DAY_GRASSWALK || mCurMusicTune == MusicTune::MUSIC_TUNE_POOL_WATERYGRAVES ||
-					mCurMusicTune == MusicTune::MUSIC_TUNE_FOG_RIGORMORMIST || mCurMusicTune == MusicTune::MUSIC_TUNE_ROOF_GRAZETHEROOF)
-				{
-					mMusicInterface->StopMusic(mCurMusicFileDrums);
-					mMusicInterface->StopMusic(mCurMusicFileHihats);
-				}
-				else if (mCurMusicTune == MusicTune::MUSIC_TUNE_NIGHT_MOONGRAINS)
-				{
-					int aOrderDrum = GetMusicOrder(mCurMusicFileDrums);
-					mPauseOffsetDrums = MAKELONG(LOWORD(aOrderDrum), HIWORD(aOrderDrum) / 4);
-					mMusicInterface->StopMusic(mCurMusicFileDrums);
-				}
-			}
-			mPaused = true;
-		}
-	}
-	else if (mPaused)
-	{
-		if (mCurMusicTune != MusicTune::MUSIC_TUNE_NONE)
-			PlayMusic(mCurMusicTune, mPauseOffset, mPauseOffsetDrums);
+                // combine into a 32-bit offset: low in bits 0–15, high in bits 16–31
+                mPauseOffset = lowPart | (highPart << 16);
 
-		mPaused = false;
-	}
+                mMusicInterface->StopMusic(mCurMusicFileMain);
+
+                if (mCurMusicTune == MusicTune::MUSIC_TUNE_DAY_GRASSWALK ||
+                    mCurMusicTune == MusicTune::MUSIC_TUNE_POOL_WATERYGRAVES ||
+                    mCurMusicTune == MusicTune::MUSIC_TUNE_FOG_RIGORMORMIST ||
+                    mCurMusicTune == MusicTune::MUSIC_TUNE_ROOF_GRAZETHEROOF)
+                {
+                    mMusicInterface->StopMusic(mCurMusicFileDrums);
+                    mMusicInterface->StopMusic(mCurMusicFileHihats);
+                }
+                else if (mCurMusicTune == MusicTune::MUSIC_TUNE_NIGHT_MOONGRAINS)
+                {
+                    const DWORD drumOrder = static_cast<DWORD>(GetMusicOrder(mCurMusicFileDrums));
+                    const DWORD drumLow   = drumOrder & 0xFFFF;
+                    const DWORD drumHigh  = ((drumOrder >> 16) & 0xFFFF) / 4;
+                    mPauseOffsetDrums = drumLow | (drumHigh << 16);
+
+                    mMusicInterface->StopMusic(mCurMusicFileDrums);
+                }
+            }
+
+            mPaused = true;
+        }
+    }
+    else if (mPaused)
+    {
+        if (mCurMusicTune != MusicTune::MUSIC_TUNE_NONE)
+            PlayMusic(mCurMusicTune, mPauseOffset, mPauseOffsetDrums);
+
+        mPaused = false;
+    }
 }
 
 int Music::GetNumLoadingTasks()

@@ -130,7 +130,6 @@ typedef std::map<HANDLE, int> HandleToIntMap;
 class SexyAppBase : public ButtonListener, public DialogListener
 {
 public:
-	
 	ulong					mRandSeed;
 		
 	std::string				mCompanyName;
@@ -235,6 +234,9 @@ public:
 	DWORD					mLastDrawTick;
 	DWORD					mNextDrawTick;
 	int						mStepMode;  // 0 = off, 1 = step, 2 = waiting for step
+	int						currentSizeIndex;
+
+	void					setRSize();
 
 	int						mCursorNum;
 	SoundManager*			mSoundManager;

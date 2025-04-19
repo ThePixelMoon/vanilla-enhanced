@@ -1193,5 +1193,3 @@ void D3DTester::TestD3D(HWND theHWND, LPDIRECTDRAW7 theDDraw)
 	gSexyAppBase->DemoSyncString(&mWarning);
 	gSexyAppBase->DemoSyncBool(&mResultsChanged);
 }
-
-

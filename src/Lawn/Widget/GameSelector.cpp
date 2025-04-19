@@ -1229,6 +1229,10 @@ void GameSelector::KeyChar(char theChar)
 		mApp->EraseFile(GetSavedGameName(GameMode::GAMEMODE_ADVENTURE, mApp->mPlayerInfo->mId));
 	}
 
+	// Moon: what if..
+	if (theChar == '*')
+		gSexyApp->setRSize();
+
 	if (mApp->mDebugKeysEnabled)
 	{
 		TodTraceAndLog(_S("Selector cheat key '%c'"), theChar);
