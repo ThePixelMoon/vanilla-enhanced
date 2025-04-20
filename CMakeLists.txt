@@ -61,6 +61,8 @@ target_include_directories(discord-rpc
         ${CMAKE_SOURCE_DIR}/external/discord-rpc/thirdparty/rapidjson-1.1.0/include
 )
 
+add_subdirectory(src/ImageLib EXCLUDE_FROM_ALL)
+add_subdirectory(src/PakLib EXCLUDE_FROM_ALL)
 add_subdirectory(src/SexyAppFramework)
 
 # Moon: installing

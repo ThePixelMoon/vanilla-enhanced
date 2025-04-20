@@ -21,6 +21,7 @@ Currently there's no way to build this on Linux.
 
 ## Features
 - CMake support
+- Updated BASS, libpng, libjpeg, ogg and Vorbis
 
 ## Tasks
 - 64 bit support

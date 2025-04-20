@@ -1,5 +1,5 @@
 # CMakeLists.txt
-set(PROJECT_NAME LawnProject)
+project(LawnProject)
 
 ################################################################################
 # Source groups
@@ -13,12 +13,6 @@ set(no_group_source_files
     "resource.h"
 )
 source_group("" FILES ${no_group_source_files})
-
-set(ImageLib
-    "../ImageLib/ImageLib.cpp"
-    "../ImageLib/ImageLib.h"
-)
-source_group("ImageLib" FILES ${ImageLib})
 
 set(Lawn__Board__Board_Include
     "../Lawn/Achievements.h"
@@ -146,12 +140,6 @@ set(Lawn__Widget__Widget_Source
     "../Lawn/Widget/UserDialog.cpp"
 )
 source_group("Lawn\\Widget\\Widget Source" FILES ${Lawn__Widget__Widget_Source})
-
-set(PakLib
-    "../PakLib/PakInterface.cpp"
-    "../PakLib/PakInterface.h"
-)
-source_group("PakLib" FILES ${PakLib})
 
 set(Sexy
     "SexyApp.cpp"
@@ -389,7 +377,6 @@ source_group("TodLib\\Effect\\Effect Source" FILES ${TodLib__Effect__Effect_Sour
 
 set(ALL_FILES
     ${no_group_source_files}
-    ${ImageLib}
     ${Lawn__Board__Board_Include}
     ${Lawn__Board__Board_Source}
     ${Lawn__Common__Common_Include}
@@ -398,7 +385,6 @@ set(ALL_FILES
     ${Lawn__System__System_Source}
     ${Lawn__Widget__Widget_Include}
     ${Lawn__Widget__Widget_Source}
-    ${PakLib}
     ${Sexy}
     ${Sexy__Graphics__Graphics_Include}
     ${Sexy__Graphics__Graphics_Source}
@@ -444,7 +430,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     _WINDOWS
     _VISUALC_
     _MBCS
-    HAVE_BOOLEAN
     NOBASSOVERLOADS
 )
 
@@ -470,7 +455,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Vorbis::vorbisfile
     Vorbis::vorbis
     ogg
-    jpeg
-    png_shared
+    ImageLib
+    PakLib
     ${CMAKE_CURRENT_SOURCE_DIR}/../../bass.lib
 )

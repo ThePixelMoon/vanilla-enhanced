@@ -2,20 +2,19 @@
 //
 //======================2009===========================//
 
-#define XMD_H
-
+#ifdef _WIN32
 #include <Windows.h>
-#include "ImageLib.h"
-#include "png\png.h"
-#include <math.h>
 #include <tchar.h>
+#endif
+
+#include "ImageLib.h"
 #include "PakInterface.h"
 
-extern "C"
-{
 #include "jpeg\jpeglib.h"
 #include "jpeg\jerror.h"
-}
+#include "png\png.h"
+
+#include <cmath>
 
 using namespace ImageLib;
 

@@ -8,6 +8,10 @@
 #pragma once
 #endif
 
+#ifndef XMD_H
+#define XMD_H
+#endif
+
 #include <string>
 
 namespace ImageLib
