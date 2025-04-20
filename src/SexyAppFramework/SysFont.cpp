@@ -14,6 +14,27 @@
 
 using namespace Sexy;
 
+static std::string getDefaultFontPath()
+{
+#ifdef _WIN32
+	return "C:\\Windows\\Fonts\\arial.ttf";
+#elif __APPLE__
+	return "/System/Library/Fonts/Arial.ttf";
+#elif __linux__
+	return "/usr/share/fonts/truetype/msttcorefonts/Arial.ttf"; 
+#else
+	return "arial.ttf";
+#endif
+}
+
+SDL_Surface* renderCharToSurface(TTF_Font* font, char c, SDL_Color color) {
+    return TTF_RenderGlyph_Blended(font, c, color);
+}
+
+SDL_Texture* createTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface) {
+    return SDL_CreateTextureFromSurface(renderer, surface);
+}
+
 SysFont::SysFont(const std::string& theFace, int thePointSize, bool bold, bool italics, bool underline)
 {
 	Init(gSexyAppBase,theFace,thePointSize,ANSI_CHARSET,bold,italics,underline,false);
@@ -28,7 +49,7 @@ void SysFont::Init(SexyAppBase* theApp, const std::string& theFace, int thePoint
 {
 	mApp = theApp;
 
-	mTTFFont = TTF_OpenFont("tahoma.ttf", thePointSize);
+	mTTFFont = TTF_OpenFont(getDefaultFontPath().c_str(), thePointSize);
 	if (!mTTFFont) {
 		mApp->mSDLInterface->MakeSimpleMessageBox("Error", SDL_GetError(), SDL_MESSAGEBOX_ERROR);
 	}
@@ -60,96 +81,68 @@ SysFont::~SysFont()
 
 ImageFont* SysFont::CreateImageFont()
 {
-	/*
-	int i;
-	MemoryImage*			anImage;
-	int anImageCharWidth, anImageXOff, anImageYOff;
+	const int numChars = 256;
+	const int charSpacing = 2;
+	SDL_Color color = {255, 255, 255, 255};
 
-	////////////////////////////////////////////////////
-	// Step 1: Create image 
-	anImageCharWidth = CharWidth('W')*2;
-	anImageXOff = anImageCharWidth/4;
-	anImageYOff = mHeight/2;
-	int aWidth = 257*anImageCharWidth;
-	int aHeight = mHeight*2;
+	int maxCharWidth = 0;
+	int totalWidth = 0;
 
-	BITMAPINFO aBitmapInfo;
-	memset(&aBitmapInfo,0,sizeof(aBitmapInfo));
-	BITMAPINFOHEADER &aHeader = aBitmapInfo.bmiHeader;
-	aHeader.biSize = sizeof(aHeader);
-	aHeader.biWidth = aWidth;
-	aHeader.biHeight = -aHeight;
-	aHeader.biPlanes = 1;
-	aHeader.biBitCount = 32;
-	aHeader.biCompression = BI_RGB;
-
-	HDC aDC = CreateCompatibleDC(NULL);
-
-	DWORD *aBits = NULL;
-	HBITMAP aBitmap = CreateDIBSection(aDC,&aBitmapInfo,DIB_RGB_COLORS,(void**)&aBits,NULL,0);
-
-	HBITMAP anOldBitmap = (HBITMAP)SelectObject(aDC,aBitmap);
-	HFONT anOldFont = (HFONT)SelectObject(aDC,mHFont);
-
-	HBRUSH anOldBrush = (HBRUSH)SelectObject(aDC,GetStockObject(BLACK_BRUSH));
-	Rectangle(aDC,0,0,aWidth,aHeight);
-
-	SetBkMode(aDC, TRANSPARENT); 	
-	SetTextColor(aDC, RGB(255,255,255));
-				
-	int xpos = anImageXOff;
-	int ypos = anImageYOff;
-	for (i=0; i<256; i++)
-	{
-		char aChar = i;
-		TextOutA(aDC,xpos,ypos,&aChar,1);
-		xpos += anImageCharWidth;
-	}
-	GdiFlush();
-
-
-	SelectObject(aDC,anOldBrush);
-	SelectObject(aDC,anOldBitmap);
-	SelectObject(aDC,anOldFont);
-
-	int aSize = aWidth*aHeight;
-	anImage = new MemoryImage(mApp);
-	anImage->Create(aWidth,aHeight);
-	DWORD *src = aBits;
-	DWORD *dst = anImage->GetBits();
-	for (i=0; i<aSize; i++)
-	{
-		DWORD anAlpha = ((*src++)&0xff)<<24;
-		*dst++ = anAlpha | 0xFFFFFF;
-	}
-	anImage->BitsChanged();
-	DeleteObject(aBitmap);
-
-
-	////////////////////////////////////////////////////
-	// Step 2: Create image font
-
-	ImageFont *aFont = new ImageFont(anImage);
-	FontLayer *aFontLayer = &aFont->mFontData->mFontLayerList.back();
-
-	aFontLayer->mAscent = mAscent;
-	aFontLayer->mHeight = mHeight;
-
-	for (i=0; i<256; i++)
-	{
-		char aChar = i;
-
-		aFontLayer->mCharData[(uchar) aChar].mImageRect = Rect(aChar*anImageCharWidth,0,anImageCharWidth,anImage->mHeight);
-		aFontLayer->mCharData[(uchar) aChar].mWidth = CharWidth(aChar);
-		aFontLayer->mCharData[(uchar) aChar].mOffset = Point(-anImageXOff,-anImageYOff);
+	for (int i = 0; i < numChars; i++) {
+		char c = static_cast<char>(i);
+		int w = 0;
+		int h = 0;
+		if (TTF_GetGlyphMetrics(mTTFFont, c, nullptr, nullptr, nullptr, nullptr, &w) == 0) {
+			maxCharWidth = max(maxCharWidth, w);
+			totalWidth += w + charSpacing;
+		}
 	}
 
-	aFont->GenerateActiveFontLayers();
-	aFont->mActiveListValid = true;
+	int height = mHeight;
+	SDL_Surface* fontSurface = SDL_CreateSurface(totalWidth, height, SDL_PIXELFORMAT_RGBA32);
+	Uint32 colorKey = SDL_MapRGBA((SDL_PixelFormatDetails*)fontSurface->format, NULL, 0, 0, 0, 0);
+	SDL_FillSurfaceRect(fontSurface, nullptr, colorKey);
 
-	return aFont;
-	*/
-	return nullptr; //TODO: implement
+	std::vector<CharData> charData(256);
+	int x = 0;
+
+	for (int i = 0; i < numChars; i++) {
+		char c = static_cast<char>(i);
+		SDL_Surface* charSurface = TTF_RenderGlyph_Blended(mTTFFont, c, color);
+		if (!charSurface) continue;
+
+		SDL_Rect dstRect = { x, 0, charSurface->w, charSurface->h };
+		SDL_BlitSurface(charSurface, nullptr, fontSurface, &dstRect);
+
+		charData[i].mImageRect = Rect(x, 0, charSurface->w, charSurface->h);
+		charData[i].mWidth = charSurface->w;
+		charData[i].mOffset = Point(0, 0);
+
+		x += charSurface->w + charSpacing;
+		SDL_DestroySurface(charSurface);
+	}
+
+	MemoryImage* image = new MemoryImage(mApp);
+	image->Create(fontSurface->w, fontSurface->h);
+	SDL_LockSurface(fontSurface);
+	memcpy(image->GetBits(), fontSurface->pixels, fontSurface->h * fontSurface->pitch);
+	SDL_UnlockSurface(fontSurface);
+	SDL_DestroySurface(fontSurface);
+
+	ImageFont* imageFont = new ImageFont(image);
+    FontLayer* fontLayer = &imageFont->mFontData->mFontLayerList.back();
+
+    fontLayer->mAscent = mAscent;
+    fontLayer->mHeight = mHeight;
+
+    for (int i = 0; i < numChars; ++i) {
+        fontLayer->mCharData[i] = charData[i];
+    }
+
+    imageFont->GenerateActiveFontLayers();
+    imageFont->mActiveListValid = true;
+
+    return imageFont;
 }
 
 int	SysFont::StringWidth(const SexyString& theString)
@@ -165,18 +158,16 @@ void SysFont::DrawString(Graphics* g, int theX, int theY, const SexyString& theS
 	SDL_Renderer* renderer = mApp->mSDLInterface->mRenderer;
 	SDL_Color aColor = { theColor.mRed, theColor.mGreen, theColor.mBlue , theColor.mAlpha };
 	SDL_Surface* textSurface = TTF_RenderText_Blended(mTTFFont, theString.c_str(), NULL, aColor);
-	if (!textSurface) {
-		//throw std::runtime_error("Failed to render text: " + std::string(TTF_GetError()));
-	}
+	if ( !textSurface )
+		return;
 
 	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 	SDL_FRect dstRect = { theX, theY - mAscent, textSurface->w, textSurface->h };
 	SDL_FRect srcRect = { 0, 0, dstRect.w, dstRect.h };
 	SDL_DestroySurface(textSurface);
 
-	if (!textTexture) {
-		//throw std::runtime_error("Failed to create texture from surface: " + std::string(SDL_GetError()));
-	}
+	if (!textTexture)
+		return;
 
 	if (mDrawShadow) {
 		SDL_FRect shadowRect = { theX + 1, theY - mAscent + 1, dstRect.w, dstRect.h };
