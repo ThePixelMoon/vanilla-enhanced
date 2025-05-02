@@ -46,11 +46,6 @@ set(ZLIB_LIBRARY ZLIB::ZLIB)
 set(ZLIB_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/ImageLib/zlib")
 
 set(BUILD_SHARED_LIBS ON CACHE BOOL "Build as DLL" FORCE)
-set(BUILD_EXECUTABLES OFF CACHE BOOL "Build executables" FORCE)
-set(BUILD_STATIC_LIBS OFF CACHE BOOL "Build static libraries" FORCE)
-set(BUILD_TESTS "Build test executables" OFF CACHE BOOL "BUILD_SHARED_LIBS OR BUILD_STATIC_LIBS;BUILD_EXECUTABLES" FORCE)
-add_subdirectory(src/ImageLib/jpeg)
-add_subdirectory(src/ImageLib/png)
 add_subdirectory(external/ogg EXCLUDE_FROM_ALL)
 add_subdirectory(src/SexyAppFramework/ogg EXCLUDE_FROM_ALL)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build as DLL" FORCE)
@@ -60,8 +55,8 @@ target_include_directories(discord-rpc
         ${CMAKE_SOURCE_DIR}/external/discord-rpc/thirdparty/rapidjson-1.1.0/include
 )
 
-add_subdirectory(src/ImageLib EXCLUDE_FROM_ALL)
-add_subdirectory(src/PakLib EXCLUDE_FROM_ALL)
+add_subdirectory(src/ImageLib)
+add_subdirectory(src/PakLib)
 add_subdirectory(src/SexyAppFramework)
 
 # Moon: installing
