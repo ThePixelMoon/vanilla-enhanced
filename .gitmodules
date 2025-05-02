@@ -13,3 +13,6 @@
 [submodule "src/ImageLib/png"]
 	path = src/ImageLib/png
 	url = https://github.com/pnggroup/libpng.git
+[submodule "src/ImageLib/jpeg"]
+	path = src/ImageLib/jpeg
+	url = https://github.com/csparker247/jpeg-cmake
