@@ -33,14 +33,11 @@ jobs:
 
       - name: Build all projects
         run: |
-          devenv.com build\PlantsVsZombies.sln \
-            /Build "Release|Win32"
+          msbuild build\PlantsVsZombies.sln /m /p:Configuration=Release /p:Platform=Win32
 
       - name: Run INSTALL target
         run: |
-          devenv.com build\PlantsVsZombies.sln \
-            /Project INSTALL \
-            /Build "Release|Win32"
+          msbuild build\PlantsVsZombies.sln /m /t:INSTALL /p:Configuration=Release /p:Platform=Win32
 
       - name: Create artifact
         run: |
