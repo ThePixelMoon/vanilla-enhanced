@@ -10,8 +10,8 @@
 #include "ImageLib.h"
 #include "PakInterface.h"
 
-#include "jpeg\jpeglib.h"
-#include "jpeg\jerror.h"
+#include "jpeg\libjpeg\jpeglib.h"
+#include "jpeg\libjpeg\jerror.h"
 #include "png\png.h"
 
 #include <cmath>
