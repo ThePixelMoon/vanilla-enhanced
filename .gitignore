@@ -25,3 +25,6 @@ LawnProject.exe
 
 savefiles/
 crash.txt
+out/share/
+out/bin/
+out/lib/

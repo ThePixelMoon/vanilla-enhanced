@@ -10,12 +10,6 @@
 #include "ImageFont.h"
 #include "SysFont.h"
 #include "ImageLib/ImageLib.h"
-#include "Sexy.TodLib\TodDebug.h"
-
-#include <filesystem>
-#include <string>
-
-namespace fs = std::filesystem;
 
 //#define SEXY_PERF_ENABLED
 #include "PerfTimer.h"
