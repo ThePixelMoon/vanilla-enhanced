@@ -22,10 +22,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 source_group("Source Files" FILES ${SOURCES})
 source_group("Header Files" FILES ${HEADERS})
 
-# HACK!!
-link_directories(${CMAKE_BINARY_DIR}/src/ImageLib/jpeg/libjpeg/Release)
-link_directories(${CMAKE_BINARY_DIR}/src/ImageLib/jpeg/libjpeg/Debug)
-
 # dependencies
 target_link_libraries(${PROJECT_NAME} PRIVATE
     jpeg

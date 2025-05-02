@@ -442,11 +442,6 @@ set(JPEG_BINARY_DIR "${CMAKE_BINARY_DIR}/src/ImageLib/jpeg")
 set(PNG_BINARY_DIR "${CMAKE_BINARY_DIR}/src/ImageLib/png")
 add_subdirectory(../ImageLib/jpeg ${JPEG_BINARY_DIR})
 add_subdirectory(../ImageLib/png ${PNG_BINARY_DIR})
-
-# HACK!!
-link_directories(${CMAKE_BINARY_DIR}/src/ImageLib/jpeg/libjpeg/Release)
-link_directories(${CMAKE_BINARY_DIR}/src/ImageLib/jpeg/libjpeg/Debug)
-
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build as DLL" FORCE)
 
 # dependencies

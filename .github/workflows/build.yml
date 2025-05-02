@@ -27,11 +27,16 @@ jobs:
         run: |
             cmake -S . -B build -DCMAKE_INSTALL_PREFIX="./out" -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -A Win32
 
-      - name: Build project
-        run: cmake --build build --config Release
+      - name: Build all projects (including ALL_BUILD)
+        run: |
+          devenv.com build\PlantsVsZombies.sln \
+            /Build "Release|Win32"
 
-      - name: Install project
-        run: cmake --install build --prefix out
+      - name: Run INSTALL target to install into out/
+        run: |
+          devenv.com build\PlantsVsZombies.sln \
+            /Project INSTALL \
+            /Build "Release|Win32"
 
       - name: Create artifact
         run: |
